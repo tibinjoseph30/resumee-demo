@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-primary-color: 57 109 229;
+  --app-body-color: 34 34 34;
+  --app-border-color: 229 231 235;
+  --app-primary-font: "Inter", sans-serif;
+}

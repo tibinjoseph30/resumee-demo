@@ -1,3 +1,4 @@
+import { HiOutlineInformationCircle } from "react-icons/hi2"
 
 const UserType = () => {
 
@@ -25,9 +26,11 @@ const UserType = () => {
                         id="user_experienced"
                     />
                     <label htmlFor="user_experienced" className="border-2 rounded-lg h-full">
-                        <span className="text-lg font-semibold title">I am an Expert <span className="bg-green-300/20 text-green-600 text-sm font-normal px-3 py-1 rounded-md ms-2">Most preffered</span></span>
+                        <span className="text-lg font-semibold title">I am an Expert <span className="bg-pink-300/20 text-pink-900 text-sm font-normal px-3 py-1 rounded-md ms-2">Most preffered</span></span>
                         <div className="mt-4 text-slate-500">If you have some experience in a field or looking for an upgrade! go with this</div>
-                        <div className="text-sm mt-2">(Recommended for employees)</div>
+                        <div className="text-sm text-yellow-700 mt-2">
+                            <div className="inline-flex items-center gap-1"><HiOutlineInformationCircle size={18} />What does expected?</div>
+                        </div>
                     </label>
                 </div>
             </div>

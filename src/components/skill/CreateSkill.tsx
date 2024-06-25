@@ -1,6 +1,10 @@
 import Select from 'react-select';
 
-const Skills = () => {
+type SkillCreateProps = {
+    onCancel: () => void;
+};
+
+const CreateSkill: React.FC<SkillCreateProps> = ({ onCancel }) => {
 
     const options = [
         { value: 'chocolate', label: 'Chocolate' },
@@ -11,7 +15,7 @@ const Skills = () => {
     return (
         <div>
             <div className="mb-8">
-                <div className="text-2xl font-semibold">Skills.</div>
+                <div className="text-2xl font-semibold">Create new skill</div>
                 <div className="text-slate-400 mt-1">Add your skills here</div>
             </div>
             <div className="grid grid-cols-2 gap-7">
@@ -34,8 +38,12 @@ const Skills = () => {
                     />
                 </div>
             </div>
+            <div className="flex justify-end gap-3 mt-10">
+                <button type="button" className="bg-gray-400 text-white p-3 rounded-md min-w-32 font-medium hover:opacity-90" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="bg-primary p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90">Save</button>
+            </div>
         </div>
     )
 }
 
-export default Skills
+export default CreateSkill

@@ -4,12 +4,12 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const FormLayout: React.FC<LayoutProps> = ({ children }) => {
+const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className='pt-12 pb-32 lg:w-3/4 mx-auto'>
+    <div className='pt-12 pb-32 lg:w-1/3 mx-auto'>
       {children}
     </div>
   )
 }
 
-export default FormLayout
+export default AuthLayout

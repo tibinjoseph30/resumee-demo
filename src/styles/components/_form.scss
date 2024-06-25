@@ -87,7 +87,63 @@
     border-color: rgb($primaryColor);
 }
 
+.control-check {
+    input {
+        padding: 0;
+        height: initial;
+        width: initial;
+        margin-bottom: 0;
+        display: none;
+        cursor: pointer;
 
+        &:checked {
+            &+label {
+                &::before {
+                    border-color: rgb($primaryColor);
+                    background-color: rgb($primaryColor);
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 2px;
+                    left: 8px;
+                    width: 6px;
+                    height: 12px;
+                    border: solid #fff;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+
+    label {
+        position: relative;
+        cursor: pointer;
+        &:hover {
+            &::before {
+                border-color: #ccc;
+            }
+        }
+
+        &::before {
+            content: '';
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: 2px solid rgb($borderColor);
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            position: relative;
+            vertical-align: middle;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            @include border-radius(0.25rem);
+        }
+    }
+}
 
 .react-select__control {
     &.control-select {
@@ -143,6 +199,77 @@
                     }
                 }
             }
+        }
+    }
+}
+
+.react-tel-input {
+    &.phone-input-container {
+        .form-control {
+            font-size: initial;
+            padding: 1rem;
+            border-width: 2px;
+            border-radius: 0.375rem;
+            border-color: rgb($borderColor);
+            width: 100%;
+            height: auto;
+            line-height: unset;
+            padding-left: 52px;
+
+            &:focus {
+                border-color: rgb($primaryColor);
+            }
+        }
+
+        .flag-dropdown {
+            background-color: transparent !important;
+            border: none;
+            border-radius: unset;
+
+            .selected-flag {
+                padding-left: 1.25rem;
+                min-width: 52px;
+                background-color: transparent !important;
+            }
+        }
+    }
+}
+
+.react-datepicker__portal {
+    .react-datepicker {
+        font-family: $primaryFont;
+
+        .react-datepicker__navigation {
+            top: 0.75rem;
+        }
+
+        .react-datepicker__navigation-icon {
+            top: unset;
+            font-size: unset;
+            width: auto;
+
+            &::before {
+                border-width: 2px 2px 0 0;
+            }
+        }
+
+        .react-datepicker__header {
+            background-color: #fff;
+            border: none;
+            font-weight: 600;
+            padding-top: 1rem;
+        }
+
+        .react-datepicker__day--selected {
+            background-color: rgb($primaryColor);
+        }
+
+        .react-datepicker__day--outside-month {
+            opacity: 0.5;
+        }
+
+        .react-datepicker__day--keyboard-selected {
+            background-color: rgb($primaryColor/10%);
         }
     }
 }

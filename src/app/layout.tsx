@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/style.scss"
+import 'react-phone-input-2/lib/style.css'
+import "react-datepicker/dist/react-datepicker.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",

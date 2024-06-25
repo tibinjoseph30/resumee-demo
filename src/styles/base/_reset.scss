@@ -15,7 +15,8 @@ body {
     padding: 0 1rem;
 }
 
-input {
+input,
+textarea {
     &:focus {
         outline: none;
     }

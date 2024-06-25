@@ -1,8 +1,12 @@
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+
 type EducationCreateProps = {
     onCancel: () => void;
 };
 
 const CreateEducation: React.FC<EducationCreateProps> = ({ onCancel }) => {
+    const [startDate, setStartDate] = useState<Date | null>(new Date());
     return (
         <div>
             <div className="mb-8">
@@ -32,7 +36,15 @@ const CreateEducation: React.FC<EducationCreateProps> = ({ onCancel }) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="" className="control-label">Start date</label>
-                    <input type="text" className="control border-2 p-4 rounded-md" />
+                    <DatePicker
+                        className="control border-2 p-4 rounded-md"
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        dateFormat="dd/MM/yyyy"
+                        showYearDropdown
+                        dropdownMode="select"
+                        withPortal
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="" className="control-label">End date</label>

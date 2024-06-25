@@ -1,7 +1,6 @@
 import Select from 'react-select';
-import 'react-phone-number-input/style.css'
 import { useState } from 'react';
-import PhoneInput from 'react-phone-number-input/input';
+import PhoneInput from 'react-phone-input-2';
 
 const PersonalInfo = () => {
 
@@ -35,12 +34,11 @@ const PersonalInfo = () => {
                 <div className="form-group">
                     <label htmlFor="" className="control-label">Mobile number</label>
                     <PhoneInput
-                        placeholder="eg: +91 xxxxxxxx"
-                        value="+91"
-                        className="border-2 p-4 rounded-md control"
+                        country={'us'}
+                        value=""
+                        containerClass="phone-input-container"
                         onChange={() => setValue}
                     />
-                    {/* <input type="text" className="control border-2 p-4 rounded-md" /> */}
                 </div>
                 <div className="form-group col-span-2">
                     <label htmlFor="" className="control-label">Email</label>
@@ -61,7 +59,7 @@ const PersonalInfo = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="" className="control-label">City</label>
-                    <input type="text" placeholder="" className="control border-2 p-4 rounded-md" />
+                    <input type="text" placeholder="eg: tokyo" className="control border-2 p-4 rounded-md" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="" className="control-label">State</label>
@@ -74,8 +72,18 @@ const PersonalInfo = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="" className="control-label">Pin code</label>
-                    <input type="text" className="control border-2 p-4 rounded-md" />
+                    <label htmlFor="" className="control-label">Country</label>
+                    <Select
+                        options={options}
+                        classNames={{
+                            control: () => 'control-select'
+                        }}
+                        classNamePrefix="react-select"
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="" className="control-label">Pin / Zip</label>
+                    <input type="text" placeholder='eg: 065632' className="control border-2 p-4 rounded-md" />
                 </div>
             </div>
         </div>

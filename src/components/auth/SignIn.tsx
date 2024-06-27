@@ -1,46 +1,34 @@
 "use client"
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth, firestore } from '../../../firebase.config';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../../../firebase.config';
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { signUpValidationSchema } from "@/constants/validationSchema";
-import { SignUpForm, FirebaseError } from "@/interfaces/formInterfaces";
-import { doc, setDoc } from "firebase/firestore";
-import { signUpInitialValues } from "@/constants/initialFormValues";
+import { signInValidationSchema } from "@/constants/validationSchema";
+import { SignInForm, FirebaseError } from "@/interfaces/formInterfaces";
+import { signInInitialValues } from "@/constants/initialFormValues";
 import { useRouter } from 'next/navigation';
 import { handleFirebaseError } from "@/constants/firebaseErrors";
 
-const SignUp = () => {
-    
+const SignIn = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    
-    const handleSubmit = async (values: SignUpForm) => {
+
+    const handleSubmit = async (values: SignInForm) => {
+        console.log('Form submitted with values:', values);
         setLoading(true);
         setError(null);
-
         try {
-            const { firstName, lastName, email, password } = values;
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            console.log(user)
-
-            if (user) {
-                await setDoc(doc(firestore, 'users', user.uid), {
-                    firstName,
-                    lastName,
-                    email,
-                });
-            }
-            console.log("user registered successfully")
+            const { email, password } = values;
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('User signed in:', userCredential.user);
+            console.log("user logged in successfully")
 
             setLoading(false);
             setError(null);
 
             router.push('/resume/new');
-
         } catch (error) {
             const errorMessage = handleFirebaseError(error as FirebaseError)
             console.log(errorMessage)
@@ -52,37 +40,15 @@ const SignUp = () => {
     return (
         <div>
             <div className="mb-8">
-                <div className="text-2xl font-semibold">Sign Up</div>
+                <div className="text-2xl font-semibold">Sign In</div>
                 <div className="text-slate-400 mt-1">Fill up the details below</div>
             </div>
             <Formik
-                initialValues={signUpInitialValues}
-                validationSchema={signUpValidationSchema}
+                initialValues={signInInitialValues}
+                validationSchema={signInValidationSchema}
                 onSubmit={handleSubmit}
             >
                 <Form className="grid gap-7">
-                    <div className="form-group">
-                        <label htmlFor="firstName" className="control-label">First name</label>
-                        <Field
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            placeholder="eg: john"
-                            className="control border-2 p-4 rounded-md"
-                        />
-                        <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm mt-1" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="lastName" className="control-label">Last name</label>
-                        <Field
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            placeholder="eg: doe"
-                            className="control border-2 p-4 rounded-md"
-                        />
-                        <ErrorMessage name="lastName" component="div" className="text-red-500 text-sm mt-1" />
-                    </div>
                     <div className="form-group">
                         <label htmlFor="email" className="control-label">Email</label>
                         <Field
@@ -106,7 +72,7 @@ const SignUp = () => {
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     <button type="submit" className="flex items-center justify-center bg-primary p-4 text-white font-medium rounded-md hover:opacity-90">
-                        Create Account
+                        Sign in
                         {loading && (
                             <svg className="animate-spin h-5 w-5 ms-3 text-white" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -117,8 +83,9 @@ const SignUp = () => {
                 </Form>
             </Formik>
             {error && <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
+            {/* <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">Invalid credentials. Please check your email and password and try again.</div> */}
         </div>
     )
 }
 
-export default SignUp;
+export default SignIn;

@@ -129,7 +129,6 @@
 
         &::before {
             content: '';
-            -webkit-appearance: none;
             background-color: transparent;
             border: 2px solid rgb($borderColor);
             display: inline-block;

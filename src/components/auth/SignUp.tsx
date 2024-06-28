@@ -10,6 +10,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { signUpInitialValues } from "@/constants/initialFormValues";
 import { useRouter } from 'next/navigation';
 import { handleFirebaseError } from "@/constants/firebaseErrors";
+import Link from "next/link";
 
 const SignUp = () => {
     
@@ -106,16 +107,16 @@ const SignUp = () => {
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
                     <button type="submit" className="flex items-center justify-center bg-primary p-4 text-white font-medium rounded-md hover:opacity-90">
-                        Create Account
-                        {loading && (
-                            <svg className="animate-spin h-5 w-5 ms-3 text-white" fill="none" viewBox="0 0 24 24">
+                        {loading ? (
+                            <>Creating account<svg className="animate-spin h-5 w-5 ms-3 text-white" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                            </svg>
-                        )}
+                            </svg></>
+                        ) : <>Create account</>}
                     </button>
                 </Form>
             </Formik>
+            <div className="mt-4 text-center text-slate-500">Have an account? <Link href="/sign-in">Sign in</Link></div>
             {error && <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
         </div>
     )

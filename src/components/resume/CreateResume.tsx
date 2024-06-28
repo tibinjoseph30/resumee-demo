@@ -2,7 +2,7 @@
 
 import PersonalInfo from '@/components/personal/PersonalInfo';
 import UserType from '@/components/user/UserType';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Education from '@/components/education/Education';
 import Course from '@/components/course/Course';
 import Skill from '@/components/skill/Skill';
@@ -11,6 +11,7 @@ import Project from '@/components/project/Project';
 import Account from '@/components/account/Account';
 import StepperLayout from '../shared/StepperLayout';
 import styles from './styles.module.scss'
+import AuthGuard from '@/utils/authGuard';
 
 const CreateResume = () => {
 
@@ -52,40 +53,42 @@ const CreateResume = () => {
     const progressBar = ((currentStep + 1) / steps) * 100 + '%'
     console.log(currentStep)
 
-    return(
+    return (
         <div>
-            <StepperLayout>
-                {getStepContent(currentStep)}
-            </StepperLayout>
-            <div className='fixed w-full bg-white flex bottom-0 left-0 h-20 border-t-1 border z-10'>
-                <div className={`${styles.progress} bg-primary`} style={{ width: progressBar }}></div>
-                <div className="container mx-auto flex justify-between items-center">
-                    <div className='flex gap-4 items-center'>
-                        <button
-                            disabled={currentStep === 0}
-                            onClick={handleBack}
-                            className='border border-slate-300 p-3 rounded-md min-w-28 font-medium'
-                        >
-                            Back
-                        </button>
-                        <div>{currentStep + 1}/{steps}</div>
-                    </div>
-                    <div className='flex gap-4 items-center'>
-                        <button
-                            className='bg-gray-400 text-white p-3 rounded-md min-w-28 font-medium hover:opacity-90'
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            disabled={currentStep === steps - 1}
-                            onClick={handleNext}
-                            className='bg-green-600 p-3 rounded-md text-white min-w-48 font-medium hover:opacity-90'
-                        >
-                            Save & Continue
-                        </button>
+            <AuthGuard>
+                <StepperLayout>
+                    {getStepContent(currentStep)}
+                </StepperLayout>
+                <div className='fixed w-full bg-white flex bottom-0 left-0 h-20 border-t-1 border z-10'>
+                    <div className={`${styles.progress} bg-primary`} style={{ width: progressBar }}></div>
+                    <div className="container mx-auto flex justify-between items-center">
+                        <div className='flex gap-4 items-center'>
+                            <button
+                                disabled={currentStep === 0}
+                                onClick={handleBack}
+                                className='border border-slate-300 p-3 rounded-md min-w-28 font-medium'
+                            >
+                                Back
+                            </button>
+                            <div>{currentStep + 1}/{steps}</div>
+                        </div>
+                        <div className='flex gap-4 items-center'>
+                            <button
+                                className='bg-gray-400 text-white p-3 rounded-md min-w-28 font-medium hover:opacity-90'
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                disabled={currentStep === steps - 1}
+                                onClick={handleNext}
+                                className='bg-green-600 p-3 rounded-md text-white min-w-48 font-medium hover:opacity-90'
+                            >
+                                Save & Continue
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </AuthGuard>
         </div>
     )
 }

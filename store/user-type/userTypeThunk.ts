@@ -1,28 +1,31 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { app } from "../../services/firebase.config";
-import { FirebaseError, UserTypeForm } from "../../interfaces/formInterfaces";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, firestore } from "../../services/firebase.config";
+import { UserTypeForm } from "../../interfaces/formInterfaces";
 import { userTypeInitialValues } from "../../constants/initialFormValues";
-import { handleFirebaseError } from "../../constants/firebaseErrors";
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
-const auth = getAuth(app);
-const firestore = getFirestore(app);
+interface FetchUserDataPayload {
+    data: UserTypeForm;
+    fromFirestore: boolean;
+}
 
-export const fetchUserData = createAsyncThunk(
+export const fetchUserData = createAsyncThunk<FetchUserDataPayload, void, { rejectValue: string }>(
     'userType/fetchUserData',
     async (_, { rejectWithValue }) => {
         try {
             const user = auth.currentUser;
             if (!user) throw new Error('No authenticated user found');
 
-            const docRef = doc(firestore, 'users', user.uid);
+            const docRef = doc(firestore, 'userType', user.uid);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                return docSnap.data() as UserTypeForm;
+                console.log('Data fetched from Firestore');
+                return { data: docSnap.data() as UserTypeForm, fromFirestore: true };
             } else {
-                return userTypeInitialValues;
+                console.log('No data found in Firestore, using default values');
+                return { data: userTypeInitialValues, fromFirestore: false };
             }
         } catch (error) {
             return rejectWithValue(handleFirebaseError(error as FirebaseError));
@@ -37,7 +40,7 @@ export const submitUserData = createAsyncThunk(
             const user = auth.currentUser;
             if (!user) throw new Error('No authenticated user found');
 
-            const docRef = doc(firestore, 'users', user.uid);
+            const docRef = doc(firestore, 'userType', user.uid);
             await setDoc(docRef, { user_type: values.user_type });
 
             return values;

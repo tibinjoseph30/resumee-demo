@@ -9,10 +9,19 @@ export interface SignInForm {
     password: string;
 }
 export interface UserTypeForm {
-    user_type: string
+    user_type: string;
 }
 
-export interface FirebaseError {
-    code: any;
-    message: string;
+export interface PersonalInfoForm {
+    firstName: string;
+    lastName: string;
+    designation: string;
+    mobileNumber: number;
+    email: string;
+    house: string;
+    street: string;
+    country: string;
+    state: string;
+    city: string;
+    zipCode: string;
 }

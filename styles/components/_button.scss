@@ -1,0 +1,8 @@
+button {
+    &:disabled {
+        opacity: 0.75;
+        &:hover {
+            opacity: 0.75 !important;
+        }
+    }
+}

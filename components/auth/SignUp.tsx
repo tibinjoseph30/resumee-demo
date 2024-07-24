@@ -5,19 +5,20 @@ import { useState } from "react";
 import { auth, firestore } from '../../services/firebase.config';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { signUpValidationSchema } from "../../constants/validationSchema";
-import { SignUpForm, FirebaseError } from "../../interfaces/formInterfaces";
+import { SignUpForm } from "../../interfaces/formInterfaces";
 import { doc, setDoc } from "firebase/firestore";
 import { signUpInitialValues } from "../../constants/initialFormValues";
 import { useRouter } from 'next/navigation';
-import { handleFirebaseError } from "../../constants/firebaseErrors";
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import Link from "next/link";
+import Spinner from "../shared/ui/loader/Spinner";
 
 const SignUp = () => {
-    
+
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    
+
     const handleSubmit = async (values: SignUpForm) => {
         setLoading(true);
         setError(null);
@@ -106,12 +107,9 @@ const SignUp = () => {
                         />
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
-                    <button type="submit" className="flex items-center justify-center bg-primary p-4 text-white font-medium rounded-md hover:opacity-90">
+                    <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:opacity-90" disabled={loading}>
                         {loading ? (
-                            <>Creating account<svg className="animate-spin h-5 w-5 ms-3 text-white" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                            </svg></>
+                            <>Creating account<Spinner size={18} color="#fff" /></>
                         ) : <>Create account</>}
                     </button>
                 </Form>

@@ -4,12 +4,10 @@ import { HiOutlineInformationCircle } from "react-icons/hi2"
 import StepperLayout from "../shared/StepperLayout"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useRouter } from "next/navigation"
-import AuthGuard from "../../utils/authGuard"
 import { Field, Form, Formik } from "formik"
-import { getAuth } from "firebase/auth"
-import { app } from "../../services/firebase.config"
+import { auth } from "../../services/firebase.config"
 import { UserTypeForm } from "../../interfaces/formInterfaces"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Link from "next/link"
 import Spinner from "../shared/ui/loader/Spinner"
 import { useDispatch, useSelector } from "react-redux"
@@ -21,7 +19,6 @@ const UserType = () => {
 
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
-    const auth = getAuth(app);
 
     const { initialValues, isReadOnly, loading, error, pageLoading } = useSelector((state: RootState) => state.userType);
 
@@ -42,7 +39,9 @@ const UserType = () => {
             dispatch(setIsAuthenticated(!!user))
             if (user) {
                 dispatch(setPageLoading(true))
-                dispatch(fetchUserData());
+                dispatch(fetchUserData()).then(Response => {
+                    console.log(Response)
+                })
             } else {
                 dispatch(setPageLoading(false));
             }
@@ -51,7 +50,7 @@ const UserType = () => {
     }, [auth, dispatch]);
 
     return (
-        <AuthGuard>
+        <div>
             <Formik
                 initialValues={initialValues}
                 enableReinitialize
@@ -111,8 +110,9 @@ const UserType = () => {
                                     <button
                                         type="submit"
                                         className='flex items-center justify-center gap-2 bg-green-600 p-3 rounded-md text-white min-w-48 font-medium hover:opacity-90'
+                                        disabled={loading}
                                     >
-                                        {loading ? <>Saving data <Spinner size={18} color="#fff" /></> : <>Save & Continue</>}
+                                        {loading ? <>Saving data<Spinner size={18} color="#fff" /></> : <>Save & Continue</>}
                                     </button>
                                 )}
                             </div>
@@ -120,7 +120,7 @@ const UserType = () => {
                     </StepperControlsLayout>
                 </Form>
             </Formik>
-        </AuthGuard>
+        </div>
     )
 }
 

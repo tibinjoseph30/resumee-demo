@@ -1,5 +1,7 @@
-import { FirebaseError } from "../interfaces/formInterfaces";
-
+export interface FirebaseError {
+    code: any;
+    message: string;
+}
 
 export const handleFirebaseError = (error: FirebaseError): string => {
     let errorMessage = 'An error occurred. Please try again later.';

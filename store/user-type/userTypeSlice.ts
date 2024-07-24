@@ -9,7 +9,8 @@ interface UserTypeState {
     loading: boolean;
     pageLoading: boolean;
     error: string | null;
-    isAuthenticated: boolean
+    isAuthenticated: boolean;
+    isDataFromFirestore: boolean;
 }
 
 const initialState: UserTypeState = {
@@ -18,7 +19,8 @@ const initialState: UserTypeState = {
     loading: false,
     pageLoading: true,
     error: null,
-    isAuthenticated: false
+    isAuthenticated: false,
+    isDataFromFirestore: false
 };
 
 const userTypeSlice = createSlice({
@@ -41,8 +43,9 @@ const userTypeSlice = createSlice({
                 state.error = null
             })
             .addCase(fetchUserData.fulfilled, (state, action) => {
-                state.initialValues = action.payload;
-                state.isReadOnly = true;
+                state.initialValues = action.payload.data;
+                state.isDataFromFirestore = action.payload.fromFirestore;
+                state.isReadOnly = state.isDataFromFirestore;
                 state.loading = false;
                 state.pageLoading = false;
             })

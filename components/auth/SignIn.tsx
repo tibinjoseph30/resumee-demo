@@ -5,11 +5,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../services/firebase.config';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { signInValidationSchema } from "../../constants/validationSchema";
-import { SignInForm, FirebaseError } from "../../interfaces/formInterfaces";
+import { SignInForm } from "../../interfaces/formInterfaces";
 import { signInInitialValues } from "../../constants/initialFormValues";
 import { useRouter } from 'next/navigation';
-import { handleFirebaseError } from "../../constants/firebaseErrors";
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import Link from "next/link";
+import Spinner from "../shared/ui/loader/Spinner";
 
 const SignIn = () => {
     const router = useRouter();
@@ -72,19 +73,15 @@ const SignIn = () => {
                         />
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
-                    <button type="submit" className="flex items-center justify-center bg-primary p-4 text-white font-medium rounded-md hover:opacity-90">
+                    <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:opacity-90" disabled={loading}>
                         {loading ? (
-                            <>Signing in<svg className="animate-spin h-5 w-5 ms-3 text-white" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                            </svg></>
+                            <>Signing in<Spinner size={18} color="#fff" /></>
                         ) : <>Sign in</>}
                     </button>
                 </Form>
             </Formik>
             <div className="mt-4 text-center text-slate-500">Not an account? <Link href="/sign-up">Create an account</Link></div>
             {error && <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
-            {/* <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">Invalid credentials. Please check your email and password and try again.</div> */}
         </div>
     )
 }

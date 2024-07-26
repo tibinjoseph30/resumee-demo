@@ -1,4 +1,4 @@
-import { PersonalInfoForm, SignInForm, SignUpForm, UserTypeForm } from "../interfaces/formInterfaces";
+import { EducationForm, PersonalInfoForm, SignInForm, SignUpForm, UserTypeForm } from "../interfaces/formInterfaces";
 
 
 export const signUpInitialValues: SignUpForm = {
@@ -7,13 +7,16 @@ export const signUpInitialValues: SignUpForm = {
     email: '',
     password: ''
 };
+
 export const signInInitialValues: SignInForm = {
     email: '',
     password: ''
 };
+
 export const userTypeInitialValues: UserTypeForm = {
     user_type: 'fresher'
 };
+
 export const personalInfoInitialValues: PersonalInfoForm = {
     firstName: '',
     lastName: '',
@@ -25,5 +28,16 @@ export const personalInfoInitialValues: PersonalInfoForm = {
     country: '',
     state: '',
     city: '',
-    zipCode: '',
+    zipCode: ''
+};
+
+export const educationInitialValues: EducationForm = {
+    courseName: '',
+    university: '',
+    institution: '',
+    joinDate: '',
+    relieveDate: '',
+    country: '',
+    state: '',
+    city: ''
 };

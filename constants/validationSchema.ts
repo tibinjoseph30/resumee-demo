@@ -35,4 +35,47 @@ export const personalInfoValidationSchema = Yup.object().shape({
         .min(2, 'Last name must be at least 2 characters')
         .max(50, 'Last name must be less than 50 characters')
         .required('Last name is required'),
+    designation: Yup.string()
+        .required('Designation is required'),
+    mobileNumber: Yup.string()
+        .required('Mobile number is required')
+        .matches(/^\+?[1-9]\d{8,16}$/, 'Invalid phone number'),
+    email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+    house: Yup.string()
+        .required('House / Flat / Villa is required'),
+    street: Yup.string()
+        .required('Street / Road / Village is required'),
+    country: Yup.string()
+        .required('Country is required'),
+    state: Yup.string()
+        .required('State is required'),
+    city: Yup.string()
+        .required('City is required'),
+    zipCode: Yup.string()
+        .matches(/^\+?[0-9]\d{5,7}$/, 'Invalid Pin / Zip')
+        .required('Pin / Zip is required'),
+})
+
+export const educationValidationSchema = Yup.object().shape({
+    courseName: Yup.string()
+        .min(2, 'Course name must be at least 2 characters')
+        .required('Course name is required'),
+    university: Yup.string()
+        .min(2, 'University must be at least 2 characters')
+        .required('University is required'),
+    institution: Yup.string()
+        .min(2, 'Institution must be at least 2 characters')
+        .required('Institution is required'),
+    joinDate: Yup.string()
+        .required('Join date is required'),
+    relieveDate: Yup.string()
+        .required('Relieve date is required'),
+    country: Yup.string()
+        .required('Country is required'),
+    state: Yup.string()
+        .required('State is required'),
+    city: Yup.string()
+        .required('City is required')
 })

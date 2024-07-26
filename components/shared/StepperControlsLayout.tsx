@@ -24,6 +24,7 @@ const StepperControlsLayout: React.FC<LayoutProps> = ({ currentStep, totalSteps,
                 <div className='flex gap-4 items-center'>
                     {showBackButton &&
                         <button
+                            type='button'
                             onClick={() => router.back()}
                             className='border border-slate-300 p-3 rounded-md min-w-28 font-medium'
                             disabled={disableBackButton}
@@ -34,6 +35,7 @@ const StepperControlsLayout: React.FC<LayoutProps> = ({ currentStep, totalSteps,
                 </div>
                 <div className='flex gap-4 items-center'>
                     <button
+                        type='button'
                         className='bg-gray-600 text-white p-3 rounded-md min-w-28 font-medium hover:opacity-90'
                     >
                         Cancel

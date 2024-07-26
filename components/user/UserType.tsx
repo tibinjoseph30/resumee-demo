@@ -101,9 +101,9 @@ const UserType = () => {
                             <div>
                                 {isReadOnly ? (
                                     <div className="flex gap-4">
-                                        <button onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
+                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
                                         <Link href="/resume/personal-info">
-                                            <button className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
+                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
                                         </Link>
                                     </div>
                                 ) : (

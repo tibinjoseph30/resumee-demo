@@ -3,7 +3,6 @@
 import { HiMiniPlus } from "react-icons/hi2";
 import StepperLayout from '../shared/StepperLayout';
 import StepperControlsLayout from '../shared/StepperControlsLayout';
-import AuthGuard from "../../utils/authGuard";
 import Link from "next/link";
 
 const Education = () => {
@@ -12,7 +11,7 @@ const Education = () => {
     };
 
     return (
-        <AuthGuard>
+        <div>
             <StepperLayout>
                 <div>
                     <div className="mb-8">
@@ -29,7 +28,7 @@ const Education = () => {
                         </button>
                     </Link>
                 </div>
-                <div className="grid grid-cols-3 mt-8">
+                <div className="grid grid-cols-3 mt-12">
                     <div className="bg-white rounded-lg border">
                         <div className="grid gap-6 p-6">
                             <div>
@@ -66,7 +65,7 @@ const Education = () => {
                     Save & Continue
                 </button>
             </StepperControlsLayout>
-        </AuthGuard>
+        </div>
     );
 };
 

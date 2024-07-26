@@ -25,3 +25,14 @@ export interface PersonalInfoForm {
     city: string;
     zipCode: string;
 }
+
+export interface EducationForm {
+    courseName: string;
+    university: string;
+    institution: string;
+    joinDate: string;
+    relieveDate: string;
+    country: string;
+    state: string;
+    city: string;
+}

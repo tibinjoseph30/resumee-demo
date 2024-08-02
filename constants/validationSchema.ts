@@ -77,5 +77,14 @@ export const educationValidationSchema = Yup.object().shape({
     state: Yup.string()
         .required('State is required'),
     city: Yup.string()
-        .required('City is required')
+        .required('City is required'),
+    marksIn: Yup.string(),
+    marksInPer: Yup.string()
+    .matches(/^(100(\.00?)?|[0-9]?\d(\.\d{1,2})?)$/, 'Invalid marks format'),
+    marksInGpa: Yup.string()
+    .matches(/^(?:[0-3](?:\.\d{1,2})?|4(?:\.0{1,2})?)$/, 'Invalid marks format'),
+    marksInCgpa: Yup.string()
+    .matches(/^(?:[0-9](?:\.\d{1,2})?|10(?:\.0{1,2})?)$/, 'Invalid marks format'),
+    coreSubjects: Yup.array().of(Yup.string()),
+    complimentarySubjects: Yup.array().of(Yup.string())
 })

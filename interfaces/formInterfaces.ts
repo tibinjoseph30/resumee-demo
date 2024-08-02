@@ -27,12 +27,19 @@ export interface PersonalInfoForm {
 }
 
 export interface EducationForm {
+    id?: string;
     courseName: string;
     university: string;
     institution: string;
-    joinDate: string;
-    relieveDate: string;
+    joinDate: any;
+    relieveDate: any;
     country: string;
     state: string;
     city: string;
+    marksIn: string;
+    marksInPer: string;
+    marksInGpa: string;
+    marksInCgpa: string;
+    coreSubjects: string[]
+    complimentarySubjects: string[]
 }

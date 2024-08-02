@@ -272,3 +272,31 @@
         }
     }
 }
+
+.react-tagsinput {
+    &.react-tagsinput--focused {
+        border-color: rgb($primaryColor);
+    }
+    & > span {
+        @include flexbox;
+        @include flex-wrap(wrap);
+        gap: 5px;
+    }
+    .react-tagsinput-tag {
+        background-color: #333;
+        color: #fff;
+        padding: 0.25rem 0.5rem;
+        font-size: 14px;
+        @include border-radius(0.25rem);
+        @include inline-flex;
+        @include align-items(center);
+        @include justify-content(center);
+        gap: 5px;
+        .react-tagsinput-remove {
+            &::before {
+                content: "\00d7";
+                color: #fff;
+            }
+        }
+    }
+}

@@ -39,5 +39,11 @@ export const educationInitialValues: EducationForm = {
     relieveDate: '',
     country: '',
     state: '',
-    city: ''
+    city: '',
+    marksIn: 'Percentage',
+    marksInPer: '',
+    marksInGpa: '',
+    marksInCgpa: '',
+    coreSubjects: [],
+    complimentarySubjects: []
 };

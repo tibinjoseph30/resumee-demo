@@ -112,11 +112,8 @@ const PersonalInfo = () => {
                                 <div className="text-2xl font-semibold">Personal informations</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
-                            {pageLoading ?
-                                (<div className="bg-white flex items-center justify-center w-full">
-                                    <Spinner />
-                                </div>) :
-                                <div>
+                            {pageLoading ? <Spinner size={32} /> :
+                                (<div>
                                     <div className="grid grid-cols-2 gap-7">
                                         <div className="form-group col-end-2">
                                             <label htmlFor="firstName" className="control-label">First name</label>
@@ -247,7 +244,7 @@ const PersonalInfo = () => {
                                             <label htmlFor="state" className="control-label">State</label>
                                             <Field name="state">
                                                 {() => {
-                                                    const options = stateOptions();
+                                                    const options = stateOptions(selectedCountry);
                                                     const selectedOption = options.find(option => option.label === values.state);
 
                                                     return (
@@ -300,7 +297,7 @@ const PersonalInfo = () => {
                                             <ErrorMessage name="zipCode" component="div" className="text-red-500 text-sm mt-1" />
                                         </div>
                                     </div>
-                                </div>}
+                                </div>)}
 
                         </StepperLayout>
                         <StepperControlsLayout currentStep={1} totalSteps={8} showBackButton={true} disableBackButton={false}>

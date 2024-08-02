@@ -8,6 +8,7 @@ type State = {
 };
 
 type Country = {
+  code: string;
   code2: string;
   code3: string;
   name: string;

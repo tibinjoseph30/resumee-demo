@@ -1,65 +1,85 @@
 "use client"
 
-import { useState } from "react";
-import DatePicker from "react-datepicker";
-import StepperLayout from "../shared/StepperLayout";
-import StepperControlsLayout from "../shared/StepperControlsLayout";
-import Select from 'react-select';
-import { useRouter } from "next/navigation";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { educationInitialValues } from "../../constants/initialFormValues";
-import { educationValidationSchema } from "../../constants/validationSchema";
-import { useCountrySelect } from "../../context/useCountrySelect";
-import { EducationForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
-import Spinner from "../shared/ui/loader/Spinner";
-import { useUniversitySelect } from "../../context/useUniversitySelect";
+import StepperLayout from "../shared/StepperLayout";
+import DatePicker from "react-datepicker";
+import Select from 'react-select';
 import TagsInput from "react-tagsinput";
-import { InputMask } from "@react-input/mask";
+import Spinner from "../shared/ui/loader/Spinner";
+import StepperControlsLayout from "../shared/StepperControlsLayout";
+import { useEffect, useState } from "react";
+import { auth, firestore } from "../../services/firebase.config";
+import { CertificationForm } from "../../interfaces/formInterfaces";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useParams, useRouter } from "next/navigation";
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
+import { useCountrySelect } from "../../context/useCountrySelect";
+import { certificationValidationSchema } from "../../constants/validationSchema";
+import { certificationInitialValues } from "../../constants/initialFormValues";
 
-const CreateEducation = () => {
+const EditCertification = () => {
     const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(false);
     const [joinDate, setJoinDate] = useState<Date | null>(null);
     const [relieveDate, setRelieveDate] = useState<Date | null>(null);
+    const [certificationData, setCertificationData] = useState<CertificationForm | null>(null);
     const { countryOptions, stateOptions, getStatesByCountryName } = useCountrySelect();
-    const { universityOptions } = useUniversitySelect();
     const [selectedCountry, setSelectedCountry] = useState<string>('');
-    const [marksType, setMarksType] = useState<string>('percentage');
 
-    const router = useRouter()
     const user = auth.currentUser
+    const router = useRouter();
+    const { id } = useParams<{ id: string }>()
 
-    const markOptions = [
-        { value: 'percentage', label: 'Percentage' },
-        { value: 'cgpa', label: 'CGPA' },
-        { value: 'gpa', label: 'GPA' }
-    ]
+    useEffect(() => {
+        if (id) {
+            const fetchEducationData = async () => {
+                try {
+                    setPageLoading(true)
+                    const docRef = doc(firestore, 'certification', id);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data() as CertificationForm
+                        console.log(data)
+                        setCertificationData(data)
+                        setJoinDate(data.joinDate?.toDate() || null);
+                        setRelieveDate(data.relieveDate?.toDate() || null);
+                        setSelectedCountry(data.country || '');
+                        getStatesByCountryName(data.country || '');
+                    }
+                } catch (error) {
+                    const errorMessage = handleFirebaseError(error as FirebaseError)
+                    console.log(errorMessage)
+                } finally {
+                    setPageLoading(false)
+                }
+            }
+            fetchEducationData()
+        }
+    }, [id])
 
-    const handleSubmit = async (values: EducationForm) => {
-        console.log('submited datas:', values);
+    const handleUpdate = async (values: CertificationForm) => {
         setLoading(true);
-
         try {
             if (user) {
-                const educationCollectionRef = collection(firestore, 'education');
-                await addDoc(educationCollectionRef, {
+                const docRef = doc(firestore, 'certification', id); // Use id to update specific document
+                await updateDoc(docRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    joinDate: joinDate ? joinDate : null,
+                    relieveDate: relieveDate ? relieveDate : null
                 });
-                console.log('Data successfully saved to Firestore');
+                console.log('Data successfully updated in Firestore');
                 router.back()
             } else {
-                console.log('No authenticated user found. Please log in.')
+                console.log('No authenticated user found. Please log in.');
             }
         } catch (error) {
-            const errorMessage = handleFirebaseError(error as FirebaseError)
-            console.log(errorMessage)
+            const errorMessage = handleFirebaseError(error as FirebaseError);
+            console.log(errorMessage);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleCountryChange = (option: any) => {
         const countryValue = option?.label || '';
@@ -67,23 +87,22 @@ const CreateEducation = () => {
         getStatesByCountryName(countryValue);
     };
 
-    const handleMarksInChange = (option: any) => {
-        const selectedValue = option?.label || '';
-        setMarksType(selectedValue.toLowerCase());
-    };
-
-    return (
+    return(
         <div>
             <StepperLayout>
                 <Formik
-                    initialValues={educationInitialValues}
-                    validationSchema={educationValidationSchema}
-                    onSubmit={handleSubmit}
+                    initialValues={{
+                        ...certificationInitialValues,
+                        ...certificationData
+                    }}
+                    validationSchema={certificationValidationSchema}
+                    onSubmit={handleUpdate}
+                    enableReinitialize
                 >
                     {({ setFieldValue, handleBlur, values }) => (
                         <Form>
                             <div className="mb-8">
-                                <div className="text-2xl font-semibold">Create New Education</div>
+                                <div className="text-2xl font-semibold">Edit Certification</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
                             <div className="grid grid-cols-2 gap-7">
@@ -97,37 +116,6 @@ const CreateEducation = () => {
                                         className="control border-2 p-4 rounded-md"
                                     />
                                     <ErrorMessage name="courseName" component="div" className="text-red-500 text-sm mt-1" />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="university" className="control-label">University</label>
-                                    <Field name="university">
-                                        {() => {
-                                            const options = universityOptions();
-                                            const selectedOption = options.find(option => option.label === values.university);
-                                            return (
-                                                <Select
-                                                    options={options}
-                                                    name="university"
-                                                    value={selectedOption}
-                                                    onChange={(option) => {
-                                                        setFieldValue('university', option?.label);
-                                                        handleCountryChange(option);
-                                                    }}
-                                                    onBlur={handleBlur}
-                                                    classNamePrefix="react-select"
-                                                    classNames={{
-                                                        control: () => 'control-select'
-                                                    }}
-                                                    placeholder="Select university"
-                                                    maxMenuHeight={200}
-                                                    menuPlacement="auto"
-                                                    menuPosition="fixed"
-                                                    loadingMessage={() => (1)}
-                                                />
-                                            )
-                                        }}
-                                    </Field>
-                                    <ErrorMessage name="university" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="institution" className="control-label">Institution Name</label>
@@ -247,106 +235,14 @@ const CreateEducation = () => {
                                     <ErrorMessage name="city" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="marksIn" className="control-label">Marks In</label>
-                                    <div className="flex gap-3">
-                                        <div className="w-40">
-                                            <Field name="marksIn">
-                                                {({ field, form }: { field: any; form: any }) => (
-                                                    <Select
-                                                        options={markOptions}
-                                                        value={markOptions.find(option => option.label === field.value) || markOptions[0]}
-                                                        onChange={(option) => {
-                                                            form.setFieldValue('marksIn', option?.label);
-                                                            handleMarksInChange(option);
-                                                        }}
-                                                        classNamePrefix="react-select"
-                                                        classNames={{
-                                                            control: () => 'control-select'
-                                                        }}
-                                                    />
-                                                )}
-                                            </Field>
-                                        </div>
-                                        {marksType === 'percentage' && (
-                                            <div className="flex-1">
-                                                <Field name="marksInPer">
-                                                    {({ field, form }: { field: any, form: any }) => (
-                                                        <InputMask
-                                                            name="marksInPer"
-                                                            mask="aaa"
-                                                            replacement={{ a: /\d/ }}
-                                                            value={field.value}
-                                                            onChange={(e) => form.setFieldValue('marksInPer', e.target.value)}
-                                                            className="control border-2 p-4 rounded-md"
-                                                            placeholder="eg: 99"
-                                                        />
-                                                    )}
-                                                </Field>
-                                                <ErrorMessage name="marksInPer" component="div" className="text-red-500 text-sm mt-1" />
-                                            </div>
-                                        )}
-                                        {marksType === 'gpa' && (
-                                            <div className="flex-1">
-                                                <Field name="marksInGpa">
-                                                    {({ field, form }: { field: any, form: any }) => (
-                                                        <InputMask
-                                                            name="marksInGpa"
-                                                            mask="a.bb"
-                                                            replacement={{ a: /\d/, b: /\d/ }}
-                                                            value={field.value}
-                                                            onChange={(e) => form.setFieldValue('marksInGpa', e.target.value)}
-                                                            className="control border-2 p-4 rounded-md"
-                                                            placeholder="eg: 3.99"
-                                                        />
-                                                    )}
-                                                </Field>
-                                                <ErrorMessage name="marksInGpa" component="div" className="text-red-500 text-sm mt-1" />
-                                            </div>
-                                        )}
-                                        {marksType === 'cgpa' && (
-                                            <div className="flex-1">
-                                                <Field name="marksInCgpa">
-                                                    {({ field, form }: { field: any, form: any }) => (
-                                                        <InputMask
-                                                            name="marksInCgpa"
-                                                            mask="a.bb"
-                                                            replacement={{ a: /\d/, b: /\d/ }}
-                                                            value={field.value}
-                                                            onChange={(e) => form.setFieldValue('marksInCgpa', e.target.value)}
-                                                            className="control border-2 p-4 rounded-md"
-                                                            placeholder="eg: 9.99"
-                                                        />
-                                                    )}
-                                                </Field>
-                                                <ErrorMessage name="marksInCgpa" component="div" className="text-red-500 text-sm mt-1" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="coreSubjects" className="control-label">Core Subjects</label>
-                                    <Field name="coreSubjects">
+                                    <label htmlFor="subjects" className="control-label">Subjects</label>
+                                    <Field name="subjects">
                                         {({ form }: { form: any }) => (
                                             <TagsInput
-                                                value={form.values.coreSubjects}
+                                                value={form.values.subjects}
                                                 inputProps={{placeholder: "Type and hit enter"}}
                                                 onChange={(newTags) => {
-                                                    form.setFieldValue('coreSubjects', newTags);
-                                                }}
-                                                className="react-tagsinput control border-2 p-4 rounded-md"
-                                            />
-                                        )}
-                                    </Field>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="complimentarySubjects" className="control-label">Complimentary Subjects</label>
-                                    <Field name="complimentarySubjects">
-                                        {({ form }: { form: any }) => (
-                                            <TagsInput
-                                                value={form.values.complimentarySubjects}
-                                                inputProps={{placeholder: "Type and hit enter"}}
-                                                onChange={(newTags) => {
-                                                    form.setFieldValue('complimentarySubjects', newTags);
+                                                    form.setFieldValue('subjects', newTags);
                                                 }}
                                                 className="react-tagsinput control border-2 p-4 rounded-md"
                                             />
@@ -370,7 +266,7 @@ const CreateEducation = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={2} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
@@ -381,4 +277,4 @@ const CreateEducation = () => {
     )
 }
 
-export default CreateEducation
+export default EditCertification

@@ -43,3 +43,15 @@ export interface EducationForm {
     coreSubjects: string[]
     complimentarySubjects: string[]
 }
+
+export interface CertificationForm {
+    id?: string;
+    courseName: string;
+    institution: string;
+    joinDate: any;
+    relieveDate: any;
+    country: string;
+    state: string;
+    city: string;
+    subjects: string[]
+}

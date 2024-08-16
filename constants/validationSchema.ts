@@ -88,3 +88,23 @@ export const educationValidationSchema = Yup.object().shape({
     coreSubjects: Yup.array().of(Yup.string()),
     complimentarySubjects: Yup.array().of(Yup.string())
 })
+
+export const certificationValidationSchema = Yup.object().shape({
+    courseName: Yup.string()
+        .min(2, 'Course name must be at least 2 characters')
+        .required('Course name is required'),
+    institution: Yup.string()
+        .min(2, 'Institution must be at least 2 characters')
+        .required('Institution is required'),
+    joinDate: Yup.string()
+        .required('Join date is required'),
+    relieveDate: Yup.string()
+        .required('Relieve date is required'),
+    country: Yup.string()
+        .required('Country is required'),
+    state: Yup.string()
+        .required('State is required'),
+    city: Yup.string()
+        .required('City is required'),
+    subjects: Yup.array().of(Yup.string())
+})

@@ -28,6 +28,7 @@
                 padding: 1.25rem;
                 padding-left: 55px;
                 display: block;
+                background-color: #fff;
 
                 &::before {
                     top: 1.25rem;
@@ -152,6 +153,8 @@
         border-color: rgb($borderColor);
         outline: none !important;
         box-shadow: none !important;
+        background-color: #fff;
+        color: inherit;
 
         &:hover {
             border-color: rgb($borderColor);
@@ -274,6 +277,7 @@
 }
 
 .react-tagsinput {
+    background-color: #fff;
     &.react-tagsinput--focused {
         border-color: rgb($primaryColor);
     }

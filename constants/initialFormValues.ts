@@ -1,4 +1,4 @@
-import { EducationForm, PersonalInfoForm, SignInForm, SignUpForm, UserTypeForm } from "../interfaces/formInterfaces";
+import { CertificationForm, EducationForm, PersonalInfoForm, SignInForm, SignUpForm, UserTypeForm } from "../interfaces/formInterfaces";
 
 
 export const signUpInitialValues: SignUpForm = {
@@ -46,4 +46,15 @@ export const educationInitialValues: EducationForm = {
     marksInCgpa: '',
     coreSubjects: [],
     complimentarySubjects: []
+};
+
+export const certificationInitialValues: CertificationForm = {
+    courseName: '',
+    institution: '',
+    joinDate: '',
+    relieveDate: '',
+    country: '',
+    state: '',
+    city: '',
+    subjects: []
 };

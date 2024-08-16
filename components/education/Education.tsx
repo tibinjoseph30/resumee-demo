@@ -5,16 +5,20 @@ import StepperLayout from '../shared/StepperLayout';
 import StepperControlsLayout from '../shared/StepperControlsLayout';
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { auth, firestore } from "../../services/firebase.config";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import { EducationForm } from "../../interfaces/formInterfaces";
 import Spinner from "../shared/ui/loader/Spinner";
 import { format } from 'date-fns';
+import ConfirmationModal from "../shared/ui/confirmation/Confirmation";
 
 const Education = () => {
+    const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(false);
     const [educationData, setEducationData] = useState<EducationForm[]>([])
+    const [modalOpen, setModalOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
 
@@ -54,6 +58,28 @@ const Education = () => {
         fetchData()
     }, [user])
 
+    const handleDelete = async (id: any) => {
+        setDeletingId(id);
+        setModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        setLoading(true)
+        if (deletingId) {
+            try {
+                await deleteDoc(doc(firestore, 'education', deletingId));
+                setEducationData(educationData.filter(data => data.id !== deletingId));
+            } catch (error) {
+                console.log('Error deleting document:', error);
+                alert('Failed to delete the record');
+            } finally {
+                setDeletingId(undefined);
+                setLoading(false)
+                setModalOpen(false);
+            }
+        }
+    };
+
     return (
         <div>
             <StepperLayout>
@@ -80,20 +106,22 @@ const Education = () => {
                         <div className="grid grid-cols-2 gap-5 mt-12">
                             {educationData.map((data, index) => (
                                 <div key={index} className="flex flex-col bg-white rounded-lg border">
-                                    <div className="grid px-6 pt-6 pb-0 gap-2">
-                                        <div className="flex flex-col items-start gap-1">
+                                    <div className="grid px-6 py-4 gap-2 border-b">
+                                        <div className="flex flex-wrap items-center justify-between gap-1">
+                                            <div>
+                                                <div className="font-semibold">{data.courseName}</div>
+                                                <div className="text-sm text-slate-500">{data.university}</div>
+                                            </div>
                                             {(data.marksInGpa !== "" || data.marksInCgpa !== "" || data.marksInPer !== "") && (
                                                 <div className="text-xs text-amber-800 px-3 py-1 rounded-full bg-amber-100 whitespace-nowrap">
                                                     {data.marksIn}: <b>{data.marksIn === "GPA" ? data.marksInGpa : data.marksIn === "CGPA" ? data.marksInCgpa : data.marksInPer}</b>
                                                 </div>
                                             )}
-                                            <div className="font-semibold text-xl">{data.courseName}</div>
-                                            <div className="text-sm">{data.university}</div>
                                         </div>
                                     </div>
                                     <div className="flex-1">
                                         <div className="grid gap-4 p-6">
-                                            <div className="grid grid-cols-2 gap-5 items-center">
+                                            <div className="grid grid-cols-2 gap-5">
                                                 <div>
                                                     <div className="text-sm text-slate-500">Join Date</div>
                                                     <div className="font-medium text-sm">{formatDate(data.joinDate)}</div>
@@ -102,19 +130,30 @@ const Education = () => {
                                                     <div className="text-sm text-slate-500">Relieve Date</div>
                                                     <div className="font-medium text-sm">{formatDate(data.relieveDate)}</div>
                                                 </div>
+                                                <div>
+                                                    <div className="text-sm text-slate-500">Intitution</div>
+                                                    <div className="font-medium text-sm">{data.institution}</div>
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm text-slate-500">Location</div>
+                                                    <div className="font-medium text-sm">{data.city}, {data.state}, {data.country}</div>
+                                                </div>
                                             </div>
-                                            <div className="font-medium text-sm">{data.institution}, {data.city}, {data.state}, {data.country}</div>
                                             <div className="grid gap-2 font-medium text-sm">
-                                                <div><u>Core Subjects:</u> {data.coreSubjects.join(', ')}</div>
-                                                <div><u>Complimentary Subjects:</u> {data.complimentarySubjects.join(', ')}</div>
+                                                {data.coreSubjects.length > 0 && (
+                                                    <div><u>Core Subjects:</u> {data.coreSubjects.join(', ')}</div>
+                                                )}
+                                                {data.complimentarySubjects.length > 0 && (
+                                                    <div><u>Complimentary Subjects:</u> {data.complimentarySubjects.join(', ')}</div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-3 px-6 py-4 border-t">
+                                    <div className="flex justify-end gap-2 px-6 py-4 border-t">
                                         <Link href={`/resume/education/edit/${data.id}`}>
-                                            <button type="button" className="w-full bg-primary/[0.2] text-primary rounded-md p-3 text-sm font-medium hover:opacity-90">Edit</button>
+                                            <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
                                         </Link>
-                                        <button type="button" className="bg-red-500 rounded-md text-white p-3 text-sm font-medium hover:opacity-90">Delete</button>
+                                        <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
                                     </div>
                                 </div>
                             ))}
@@ -133,6 +172,13 @@ const Education = () => {
                     >Continue</button>
                 </Link>
             </StepperControlsLayout>
+            <ConfirmationModal
+                isOpen={modalOpen}
+                loading={loading}
+                onClose={() => setModalOpen(false)}
+                onConfirm={confirmDelete}
+                message="Are you sure you want to delete this record?"
+            />
         </div>
     );
 };

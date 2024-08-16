@@ -3,7 +3,7 @@
 3. education
 4. certification
 5. skills
-6. work history
-7. projects
+6. projects
+7. work history
 8. accounts & links & photo
 9. preview & settings & download

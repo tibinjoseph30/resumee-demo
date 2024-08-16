@@ -92,7 +92,7 @@ const EditEducation = () => {
                     relieveDate: relieveDate ? relieveDate : null
                 });
                 console.log('Data successfully updated in Firestore');
-                router.push('/resume/education');
+                router.back()
             } else {
                 console.log('No authenticated user found. Please log in.');
             }
@@ -368,6 +368,7 @@ const EditEducation = () => {
                                                         onChange={(newTags) => {
                                                             form.setFieldValue('coreSubjects', newTags);
                                                         }}
+                                                        inputProps={{placeholder: "Type and hit enter"}}
                                                         className="react-tagsinput control border-2 p-4 rounded-md"
                                                     />
                                                 )}
@@ -382,6 +383,7 @@ const EditEducation = () => {
                                                         onChange={(newTags) => {
                                                             form.setFieldValue('complimentarySubjects', newTags);
                                                         }}
+                                                        inputProps={{placeholder: "Type and hit enter"}}
                                                         className="react-tagsinput control border-2 p-4 rounded-md"
                                                     />
                                                 )}

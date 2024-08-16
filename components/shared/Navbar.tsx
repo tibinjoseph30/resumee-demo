@@ -39,7 +39,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <header className='py-4 border-b'>
+        <header className='py-4 border-b bg-white'>
             <div className="container mx-auto">
                 <nav className="navbar flex justify-between">
                     <Link href="/" className='nav-brand'>

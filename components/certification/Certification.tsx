@@ -1,9 +1,85 @@
+"use client"
+
 import Link from "next/link"
 import StepperLayout from "../shared/StepperLayout"
 import { HiMiniPlus } from "react-icons/hi2"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
+import { useEffect, useState } from "react"
+import { CertificationForm } from "../../interfaces/formInterfaces"
+import { auth, firestore } from "../../services/firebase.config"
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
+import Spinner from "../shared/ui/loader/Spinner"
+import { format } from "date-fns"
+import ConfirmationModal from "../shared/ui/confirmation/Confirmation"
 
 const Certification = () => {
+    const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(false);
+    const [certificationData, setCertificationData] = useState<CertificationForm[]>([])
+    const [modalOpen, setModalOpen] = useState(false);
+    const [deletingId, setDeletingId] = useState<string>();
+
+    const user = auth.currentUser
+
+    const formatDate = (timestamp: any) => {
+        return timestamp ? format(new Date(timestamp.seconds * 1000), 'dd/MM/yyyy') : 'N/A';
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!user) {
+                console.log('No authenticated user found.');
+                return;
+            }
+
+            try {
+                setPageLoading(true)
+                const certificationCollectionRef = collection(firestore, 'certification');
+                const docSnap = await getDocs(query(certificationCollectionRef, where("userId", "==", user.uid)));
+
+                if (!docSnap.empty) {
+                    const data: CertificationForm[] = docSnap.docs.map(doc => ({
+                        ...(doc.data() as CertificationForm),
+                        id: doc.id
+                    }))
+                    console.log('Documents data:', data);
+                    setCertificationData(data);
+                } else {
+                    console.log('No such document!');
+                }
+            } catch (error) {
+                const errorMessage = handleFirebaseError(error as FirebaseError)
+                console.log(errorMessage)
+            } finally {
+                setPageLoading(false)
+            }
+        }
+        fetchData()
+    }, [user])
+
+    const handleDelete = async (id: any) => {
+        setDeletingId(id);
+        setModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        setLoading(true)
+        if (deletingId) {
+            try {
+                await deleteDoc(doc(firestore, 'certification', deletingId));
+                setCertificationData(certificationData.filter(data => data.id !== deletingId));
+            } catch (error) {
+                console.log('Error deleting document:', error);
+                alert('Failed to delete the record');
+            } finally {
+                setDeletingId(undefined);
+                setLoading(false)
+                setModalOpen(false);
+            }
+        }
+    };
+
     return (
         <div>
             <StepperLayout>
@@ -22,41 +98,60 @@ const Certification = () => {
                         </button>
                     </Link>
                 </div>
-                <div className="grid grid-cols-3 gap-5 mt-12">
-                    <div className="flex flex-col bg-white rounded-lg border">
-                        <div className="grid px-6 pt-6 pb-0 gap-2">
-                            <div className="font-semibold text-xl">abc</div>
-                        </div>
-                        <div className="flex-1">
-                            <div className="grid gap-4 p-6">
-                                <div className="grid grid-cols-2 gap-5 items-center">
-                                    <div>
-                                        <div className="text-sm text-slate-500">Join Date</div>
-                                        <div className="font-medium text-sm">21-04-2015</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-sm text-slate-500">Relieve Date</div>
-                                        <div className="font-medium text-sm">21-04-2015</div>
+                {pageLoading ?
+                    (<div className="mt-12">
+                        <Spinner size={32} />
+                    </div>) :
+                    <div className="grid grid-cols-3 gap-5 mt-12">
+                        {certificationData.map((data, index) => (
+                            <div key={index} className="flex flex-col bg-white rounded-lg border">
+                                <div className="px-6 py-4 border-b gap-1">
+                                    <div className="font-semibold">{data.courseName}</div>
+                                    <div className="text-sm text-slate-500">{data.institution}</div>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="grid gap-4 p-6">
+                                        <div className="grid grid-cols-2 gap-5 items-center">
+                                            <div>
+                                                <div className="text-sm text-slate-500">Join Date</div>
+                                                <div className="font-medium text-sm">{formatDate(data.joinDate)}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-sm text-slate-500">Relieve Date</div>
+                                                <div className="font-medium text-sm">{formatDate(data.relieveDate)}</div>
+                                            </div>
+                                        </div>
+                                        <div className="font-medium text-sm">{data.city}, {data.state}, {data.country}</div>
+                                        <div className="font-medium text-sm"><u>Areas of study:</u> {data.subjects.join(', ')}</div>
                                     </div>
                                 </div>
-                                <div className="font-medium text-sm">abc, defg, hijk</div>
+                                <div className="flex justify-end gap-2 px-6 py-4 border-t">
+                                    <Link href={`/resume/certification/edit/${data.id}`}>
+                                        <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
+                                    </Link>
+                                    <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3 px-6 py-4 border-t">
-                            <button className="bg-primary/[0.2] text-primary rounded-md p-2 text-sm font-medium hover:opacity-90">Edit</button>
-                            <button className="bg-red-500 rounded-md text-white p-2 text-sm font-medium hover:opacity-90">Delete</button>
-                        </div>
+                        ))}
                     </div>
-                </div>
+                }
+
             </StepperLayout>
             <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={false}>
-                <Link href="/resume/education">
+                <Link href="/resume/skills">
                     <button
                         type="button"
                         className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
                     >Continue</button>
                 </Link>
             </StepperControlsLayout>
+            <ConfirmationModal
+                isOpen={modalOpen}
+                loading={loading}
+                onClose={() => setModalOpen(false)}
+                onConfirm={confirmDelete}
+                message="Are you sure you want to delete this record?"
+            />
         </div>
     )
 }

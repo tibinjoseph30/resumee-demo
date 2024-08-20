@@ -55,3 +55,29 @@ export interface CertificationForm {
     city: string;
     subjects: string[]
 }
+
+export interface SkillsForm {
+    id?: string;
+    skillCategory: string;
+    skills: string[]
+}
+
+export interface ProjectForm {
+    id?: string;
+    projectName: string;
+    description: string;
+    technology: string[]
+}
+
+export interface ExperienceForm {
+    id?: string;
+    currentlyWorking: boolean,
+    organization: string;
+    designation: string;
+    joinDate: any;
+    relieveDate: any;
+    country: string;
+    state: string;
+    city: string;
+    roles: string[]
+}

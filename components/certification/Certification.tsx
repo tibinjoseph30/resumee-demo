@@ -114,15 +114,15 @@ const Certification = () => {
                                         <div className="grid grid-cols-2 gap-5 items-center">
                                             <div>
                                                 <div className="text-sm text-slate-500">Join Date</div>
-                                                <div className="font-medium text-sm">{formatDate(data.joinDate)}</div>
+                                                <div className="text-sm">{formatDate(data.joinDate)}</div>
                                             </div>
                                             <div>
                                                 <div className="text-sm text-slate-500">Relieve Date</div>
-                                                <div className="font-medium text-sm">{formatDate(data.relieveDate)}</div>
+                                                <div className="text-sm">{formatDate(data.relieveDate)}</div>
                                             </div>
                                         </div>
-                                        <div className="font-medium text-sm">{data.city}, {data.state}, {data.country}</div>
-                                        <div className="font-medium text-sm"><u>Areas of study:</u> {data.subjects.join(', ')}</div>
+                                        <div className="text-sm">{data.city}, {data.state}, {data.country}</div>
+                                        <div className="text-sm"><u className="font-medium">Areas of study:</u> {data.subjects.join(', ')}</div>
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-2 px-6 py-4 border-t">

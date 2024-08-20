@@ -1,83 +1,261 @@
+"use client"
+
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import StepperLayout from "../shared/StepperLayout";
+import { ExperienceForm } from "../../interfaces/formInterfaces";
+import { experienceInitialValues } from "../../constants/initialFormValues";
+import { experienceValidationSchema } from "../../constants/validationSchema";
 import { useState } from "react";
+import { useCountrySelect } from "../../context/useCountrySelect";
 import DatePicker from "react-datepicker";
+import Select from 'react-select';
+import TagsInput from "react-tagsinput";
+import Spinner from "../shared/ui/loader/Spinner";
+import StepperControlsLayout from "../shared/StepperControlsLayout";
+import { useRouter } from "next/navigation";
+import { auth, firestore } from "../../services/firebase.config";
+import { addDoc, collection } from "firebase/firestore";
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
-type ExperienceCreateProps = {
-    onCancel: () => void;
-};
+const Createexperience = () => {
+    const [loading, setLoading] = useState(false);
+    const [joinDate, setJoinDate] = useState<Date | null>(null);
+    const [relieveDate, setRelieveDate] = useState<Date | null>(null);
+    const { countryOptions, stateOptions, getStatesByCountryName } = useCountrySelect();
+    const [selectedCountry, setSelectedCountry] = useState<string>('');
 
-const CreateExperience: React.FC<ExperienceCreateProps> = ({ onCancel }) => {
-    const [startDate, setStartDate] = useState<Date | null>(new Date());
+    const router = useRouter()
+    const user = auth.currentUser
+
+    const handleSubmit = async (values: ExperienceForm) => {
+        console.log(values)
+        setLoading(true)
+
+        try {
+            if (user) {
+                const experienceCollectionRef = collection(firestore, 'experience');
+                await addDoc(experienceCollectionRef, {
+                    ...values,
+                    userId: user.uid
+                });
+                console.log('Data successfully saved to Firestore');
+                router.back()
+            }
+        } catch(error) {
+            const errorMessage = handleFirebaseError(error as FirebaseError)
+            console.log(errorMessage)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const handleCountryChange = (option: any) => {
+        const countryValue = option?.label || '';
+        setSelectedCountry(countryValue);
+        getStatesByCountryName(countryValue);
+    };
+
     return (
         <div>
-            <div className="mb-8">
-                <div className="text-2xl font-semibold">Create new experience</div>
-                <div className="text-slate-400 mt-1">Fill up the details below</div>
-            </div>
-            <div className="grid grid-cols-2 gap-7">
-                <div className="control-check">
-                    <input type="checkbox" id="html" />
-                    <label htmlFor="html" className="font-medium">Currently working here</label>
-                </div>
-                <div className="form-group col-span-2">
-                    <label htmlFor="" className="control-label">Designation</label>
-                    <input type="text" placeholder="eg: UI developer" className="control border-2 p-4 rounded-md" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Organization</label>
-                    <input type="text" placeholder="eg: HCL" className="control border-2 p-4 rounded-md" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">City</label>
-                    <input type="text" className="control border-2 p-4 rounded-md" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">State</label>
-                    <input type="text" className="control border-2 p-4 rounded-md" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Start date</label>
-                    <DatePicker
-                        className="control border-2 p-4 rounded-md"
-                        selected={startDate}
-                        onChange={(date) => setStartDate(date)}
-                        dateFormat="dd/MM/yyyy"
-                        showYearDropdown
-                        dropdownMode="select"
-                        withPortal
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">End date</label>
-                    <input type="text" className="control border-2 p-4 rounded-md" />
-                </div>
-            </div>
-            <div className="mt-10 mb-5">
-                <div className="text-xl font-semibold">Key roles</div>
-            </div>
-            <div className="grid gap-7">
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Role 1</label>
-                    <textarea name="" id="" className="control border-2 p-4 rounded-md"></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Role 2</label>
-                    <textarea name="" id="" className="control border-2 p-4 rounded-md"></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Role 3 <span className="text-sm text-slate-400 font-normal">(optional)</span></label>
-                    <textarea name="" id="" className="control border-2 p-4 rounded-md"></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="" className="control-label">Role 4 <span className="text-sm text-slate-400 font-normal">(optional)</span></label>
-                    <textarea name="" id="" className="control border-2 p-4 rounded-md"></textarea>
-                </div>
-            </div>
-            <div className="flex justify-end gap-3 mt-10">
-                <button type="button" className="bg-gray-400 text-white p-3 rounded-md min-w-32 font-medium hover:opacity-90" onClick={onCancel}>Cancel</button>
-                <button type="submit" className="bg-primary p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90">Save</button>
-            </div>
+            <StepperLayout>
+                <Formik
+                    initialValues={experienceInitialValues}
+                    validationSchema={experienceValidationSchema}
+                    onSubmit={handleSubmit}
+                >
+                    {({ setFieldValue, handleBlur, values }) => (
+                        <Form>
+                            <div className="mb-8">
+                                <div className="text-2xl font-semibold">Create New Experience</div>
+                                <div className="text-slate-400 mt-1">Fill up the details below</div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-7">
+                                <div className="form-group col-span-2">
+                                    <div className="control-check">
+                                        <Field
+                                            type="checkbox"
+                                            name="currentlyWorking"
+                                            id="currently_working"
+                                            checked={values.currentlyWorking}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor="currently_working" className="font-medium">
+                                            Currently working here
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="form-group col-span-2">
+                                    <label htmlFor="organization" className="control-label">Organization Name</label>
+                                    <Field
+                                        type="text"
+                                        name="organization"
+                                        id="organization"
+                                        placeholder="eg: microsoft"
+                                        className="control border-2 p-4 rounded-md"
+                                    />
+                                    <ErrorMessage name="organization" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group col-span-2">
+                                    <label htmlFor="designation" className="control-label">Designation</label>
+                                    <Field
+                                        type="text"
+                                        name="designation"
+                                        id="designation"
+                                        placeholder="eg: ui developer"
+                                        className="control border-2 p-4 rounded-md"
+                                    />
+                                    <ErrorMessage name="designation" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="joinDate" className="control-label">Join date</label>
+                                    <DatePicker
+                                        className="control border-2 p-4 rounded-md"
+                                        placeholderText="Select date"
+                                        selected={joinDate}
+                                        onChange={(date) => {
+                                            setJoinDate(date)
+                                            setFieldValue('joinDate', date);
+                                        }}
+                                        dateFormat="dd/MM/yyyy"
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        withPortal
+                                    />
+                                    <ErrorMessage name="joinDate" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                {values.currentlyWorking === false &&
+                                    (<div className="form-group">
+                                        <label htmlFor="relieveDate" className="control-label">Relieve date</label>
+                                        <DatePicker
+                                            className="control border-2 p-4 rounded-md"
+                                            placeholderText="Select date"
+                                            selected={relieveDate}
+                                            onChange={(date) => {
+                                                setRelieveDate(date)
+                                                setFieldValue('relieveDate', date);
+                                            }}
+                                            dateFormat="dd/MM/yyyy"
+                                            showYearDropdown
+                                            dropdownMode="select"
+                                            withPortal
+                                        />
+                                        <ErrorMessage name="relieveDate" component="div" className="text-red-500 text-sm mt-1" />
+                                    </div>)
+                                }
+                                <div className="form-group">
+                                    <label htmlFor="country" className="control-label">Country</label>
+                                    <Field name="country">
+                                        {() => {
+                                            const options = countryOptions();
+                                            const selectedOption = options.find(option => option.label === values.country);
+                                            return (
+                                                <Select
+                                                    options={options}
+                                                    name="country"
+                                                    value={selectedOption}
+                                                    onChange={(option) => {
+                                                        setFieldValue('country', option?.label);
+                                                        handleCountryChange(option);
+                                                    }}
+                                                    onBlur={handleBlur}
+                                                    classNamePrefix="react-select"
+                                                    classNames={{
+                                                        control: () => 'control-select'
+                                                    }}
+                                                    placeholder="Select country"
+                                                    maxMenuHeight={200}
+                                                    menuPlacement="auto"
+                                                    menuPosition="fixed"
+                                                />
+                                            )
+                                        }}
+                                    </Field>
+                                    <ErrorMessage name="country" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="state" className="control-label">State</label>
+                                    <Field name="state">
+                                        {() => {
+                                            const options = stateOptions(selectedCountry);
+                                            const selectedOption = options.find(option => option.label === values.state);
+
+                                            return (
+                                                <Select
+                                                    options={options}
+                                                    name="state"
+                                                    value={selectedOption}
+                                                    onChange={
+                                                        (option) => {
+                                                            setFieldValue('state', option?.label)
+                                                        }
+                                                    }
+                                                    onBlur={handleBlur}
+                                                    classNamePrefix="react-select"
+                                                    classNames={{
+                                                        control: () => 'control-select'
+                                                    }}
+                                                    maxMenuHeight={200}
+                                                    menuPlacement="auto"
+                                                    menuPosition="fixed"
+                                                />
+                                            );
+                                        }}
+                                    </Field>
+                                    <ErrorMessage name="state" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="city" className="control-label">City</label>
+                                    <Field
+                                        type="text"
+                                        name="city"
+                                        id="city"
+                                        placeholder="eg: newcastle"
+                                        className="control border-2 p-4 rounded-md"
+                                    />
+                                    <ErrorMessage name="city" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group col-span-2">
+                                    <label htmlFor="roles" className="control-label">Key Roles</label>
+                                    <div className="text-sm mb-3">(<b>Note:</b> Adding key roles to your resume can help you demonstrate your capabilities and achievements in different positions, and impress recruiters.)</div>
+                                    <Field name="roles">
+                                        {({ form }: { form: any }) => (
+                                            <TagsInput
+                                                value={form.values.roles}
+                                                inputProps={{ placeholder: "Type and hit enter" }}
+                                                onChange={(newTags) => {
+                                                    form.setFieldValue('roles', newTags);
+                                                }}
+                                                className="react-tagsinput control border-2 p-4 rounded-md min-h-40"
+                                            />
+                                        )}
+                                    </Field>
+                                </div>
+                            </div>
+                            <div className="flex justify-end gap-3 mt-10">
+                                <button type="button" onClick={() => router.back()} className="border border-slate-300 p-3 rounded-md min-w-28 font-medium">Cancel</button>
+                                <button
+                                    type="submit"
+                                    className="flex items-center justify-center gap-2 bg-green-600 p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90"
+                                    disabled={loading}
+                                >
+                                    {loading ? <>Saving<Spinner size={18} color="#fff" /></> : <>Save</>}
+                                </button>
+                            </div>
+                        </Form>
+                    )}
+
+                </Formik>
+
+            </StepperLayout>
+            <StepperControlsLayout currentStep={6} totalSteps={8} showBackButton={true} disableBackButton={true}>
+                <button
+                    type="button"
+                    className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
+                    disabled
+                >Continue</button>
+            </StepperControlsLayout>
         </div>
     )
 }
 
-export default CreateExperience
+export default Createexperience

@@ -1,4 +1,4 @@
-import { CertificationForm, EducationForm, PersonalInfoForm, SignInForm, SignUpForm, UserTypeForm } from "../interfaces/formInterfaces";
+import { CertificationForm, EducationForm, ExperienceForm, PersonalInfoForm, ProjectForm, SignInForm, SignUpForm, SkillsForm, UserTypeForm } from "../interfaces/formInterfaces";
 
 
 export const signUpInitialValues: SignUpForm = {
@@ -57,4 +57,27 @@ export const certificationInitialValues: CertificationForm = {
     state: '',
     city: '',
     subjects: []
+};
+
+export const skillsInitialValues: SkillsForm = {
+    skillCategory: '',
+    skills: []
+};
+
+export const projectInitialValues: ProjectForm = {
+    projectName: '',
+    description: '',
+    technology: []
+};
+
+export const experienceInitialValues: ExperienceForm = {
+    currentlyWorking: true,
+    organization: '',
+    designation: '',
+    joinDate: '',
+    relieveDate: '',
+    country: '',
+    state: '',
+    city: '',
+    roles: []
 };

@@ -1,61 +1,89 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import StepperLayout from "../shared/StepperLayout";
 import TagsInput from "react-tagsinput";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { projectInitialValues } from "../../constants/initialFormValues";
 import { projectsValidationSchema } from "../../constants/validationSchema";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { ProjectForm } from "../../interfaces/formInterfaces";
 import { auth, firestore } from "../../services/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
-const CreateProject = () => {
-    const [loading, setLoading] = useState(false)
+const EditProject = () => {
+    const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(false);
+    const [projectData, setProjectData] = useState<ProjectForm | null>(null);
 
-    const router = useRouter()
     const user = auth.currentUser
+    const router = useRouter();
+    const { id } = useParams<{ id: string }>()
 
-    const handleSubmit = async (values: ProjectForm) => {
-        console.log('submited data', values)
-        setLoading(true)
+    useEffect(() => {
+        if (id) {
+            const fetchEducationData = async () => {
+                try {
+                    setPageLoading(true)
+                    const docRef = doc(firestore, 'projects', id);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data() as ProjectForm
+                        console.log(data)
+                        setProjectData(data)
+                    }
+                } catch (error) {
+                    const errorMessage = handleFirebaseError(error as FirebaseError)
+                    console.log(errorMessage)
+                } finally {
+                    setPageLoading(false)
+                }
+            }
+            fetchEducationData()
+        }
+    }, [id])
 
+    const handleUpdate = async (values: ProjectForm) => {
+        setLoading(true);
         try {
             if (user) {
-                const projectsCollectionRef = collection(firestore, 'projects');
-                await addDoc(projectsCollectionRef, {
+                const docRef = doc(firestore, 'projects', id); // Use id to update specific document
+                await updateDoc(docRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
                 });
-                console.log('Data successfully saved to Firestore');
+                console.log('Data successfully updated in Firestore');
                 router.back()
             } else {
-                console.log('No authenticated user found. Please log in.')
+                console.log('No authenticated user found. Please log in.');
             }
         } catch (error) {
-            const errorMessage = handleFirebaseError(error as FirebaseError)
-            console.log(errorMessage)
+            const errorMessage = handleFirebaseError(error as FirebaseError);
+            console.log(errorMessage);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div>
             <StepperLayout>
                 <Formik
-                    initialValues={projectInitialValues}
+                    initialValues={{
+                        ...projectInitialValues,
+                        ...projectData
+                    }}
                     validationSchema={projectsValidationSchema}
-                    onSubmit={handleSubmit}
+                    onSubmit={handleUpdate}
+                    enableReinitialize
                 >
                     {({ setFieldValue, handleBlur, values }) => (
                         <Form>
                             <div className="mb-8">
-                                <div className="text-2xl font-semibold">Create New Project</div>
+                                <div className="text-2xl font-semibold">Edit Project</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
                             <div className="grid grid-cols-2 gap-7">
@@ -125,4 +153,4 @@ const CreateProject = () => {
     )
 }
 
-export default CreateProject
+export default EditProject

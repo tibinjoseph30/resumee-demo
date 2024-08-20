@@ -124,27 +124,27 @@ const Education = () => {
                                             <div className="grid grid-cols-2 gap-5">
                                                 <div>
                                                     <div className="text-sm text-slate-500">Join Date</div>
-                                                    <div className="font-medium text-sm">{formatDate(data.joinDate)}</div>
+                                                    <div className="text-sm">{formatDate(data.joinDate)}</div>
                                                 </div>
                                                 <div>
                                                     <div className="text-sm text-slate-500">Relieve Date</div>
-                                                    <div className="font-medium text-sm">{formatDate(data.relieveDate)}</div>
+                                                    <div className="text-sm">{formatDate(data.relieveDate)}</div>
                                                 </div>
                                                 <div>
                                                     <div className="text-sm text-slate-500">Intitution</div>
-                                                    <div className="font-medium text-sm">{data.institution}</div>
+                                                    <div className="text-sm">{data.institution}</div>
                                                 </div>
                                                 <div>
                                                     <div className="text-sm text-slate-500">Location</div>
-                                                    <div className="font-medium text-sm">{data.city}, {data.state}, {data.country}</div>
+                                                    <div className="text-sm">{data.city}, {data.state}, {data.country}</div>
                                                 </div>
                                             </div>
-                                            <div className="grid gap-2 font-medium text-sm">
+                                            <div className="grid gap-2 text-sm">
                                                 {data.coreSubjects.length > 0 && (
-                                                    <div><u>Core Subjects:</u> {data.coreSubjects.join(', ')}</div>
+                                                    <div><u className="font-medium">Core Subjects:</u> {data.coreSubjects.join(', ')}</div>
                                                 )}
                                                 {data.complimentarySubjects.length > 0 && (
-                                                    <div><u>Complimentary Subjects:</u> {data.complimentarySubjects.join(', ')}</div>
+                                                    <div><u className="font-medium">Complimentary Subjects:</u> {data.complimentarySubjects.join(', ')}</div>
                                                 )}
                                             </div>
                                         </div>

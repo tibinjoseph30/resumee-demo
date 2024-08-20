@@ -1,21 +1,21 @@
 "use client"
 
-import { HiMiniPlus } from 'react-icons/hi2';
-import StepperLayout from '../shared/StepperLayout';
-import Link from 'next/link';
-import StepperControlsLayout from '../shared/StepperControlsLayout';
-import { auth, firestore } from '../../services/firebase.config';
-import { useEffect, useState } from 'react';
-import { SkillsForm } from '../../interfaces/formInterfaces';
-import Spinner from '../shared/ui/loader/Spinner';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
-import { FirebaseError, handleFirebaseError } from '../../constants/firebaseErrors';
-import ConfirmationModal from '../shared/ui/confirmation/Confirmation';
+import Link from "next/link"
+import StepperLayout from "../shared/StepperLayout"
+import { HiMiniPlus } from "react-icons/hi2"
+import Spinner from "../shared/ui/loader/Spinner"
+import StepperControlsLayout from "../shared/StepperControlsLayout"
+import ConfirmationModal from "../shared/ui/confirmation/Confirmation"
+import { useEffect, useState } from "react"
+import { ProjectForm } from "../../interfaces/formInterfaces"
+import { auth, firestore } from "../../services/firebase.config"
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
+import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
 
-const Skills = () => {
+const Projects = () => {
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(false);
-    const [skillsData, setSkillsData] = useState<SkillsForm[]>([])
+    const [projectData, setProjectData] = useState<ProjectForm[]>([])
     const [modalOpen, setModalOpen] = useState(false);
     const [deletingId, setDeletingId] = useState<string>();
 
@@ -30,16 +30,16 @@ const Skills = () => {
 
             try {
                 setPageLoading(true)
-                const skillsCollectionRef = collection(firestore, 'skills');
-                const docSnap = await getDocs(query(skillsCollectionRef, where("userId", "==", user.uid)));
+                const projectCollectionRef = collection(firestore, 'projects')
+                const docSnap = await getDocs(query(projectCollectionRef, where("userId", "==", user.uid)))
 
                 if (!docSnap.empty) {
-                    const data: SkillsForm[] = docSnap.docs.map(doc => ({
-                        ...(doc.data() as SkillsForm),
+                    const data: ProjectForm[] = docSnap.docs.map(doc => ({
+                        ...(doc.data() as ProjectForm),
                         id: doc.id
                     }))
                     console.log('Documents data:', data);
-                    setSkillsData(data);
+                    setProjectData(data)
                 } else {
                     console.log('No such document!');
                 }
@@ -54,36 +54,35 @@ const Skills = () => {
     }, [user])
 
     const handleDelete = async (id: any) => {
-        setDeletingId(id);
-        setModalOpen(true);
-    };
+        setDeletingId(id)
+        setModalOpen(true)
+    }
 
     const confirmDelete = async () => {
         setLoading(true)
         if (deletingId) {
             try {
-                await deleteDoc(doc(firestore, 'skills', deletingId));
-                setSkillsData(skillsData.filter(data => data.id !== deletingId));
+                await deleteDoc(doc(firestore, 'projects', deletingId))
+                setProjectData(projectData.filter(data=> data.id !== deletingId))
             } catch (error) {
                 console.log('Error deleting document:', error);
-                alert('Failed to delete the record');
             } finally {
                 setDeletingId(undefined);
                 setLoading(false)
                 setModalOpen(false);
             }
         }
-    };
+    }
 
     return (
         <div>
             <StepperLayout>
                 <div>
                     <div className="mb-8">
-                        <div className="text-2xl font-semibold">Skills</div>
+                        <div className="text-2xl font-semibold">Projects</div>
                         <div className="text-slate-400 mt-1">List out your skills here</div>
                     </div>
-                    <Link href="/resume/skills/new">
+                    <Link href="/resume/project/new">
                         <button
                             className="bg-primary rounded-md text-white p-3 min-w-44 font-medium hover:opacity-90">
                             <span className="inline-flex items-center gap-1">
@@ -98,20 +97,17 @@ const Skills = () => {
                         <Spinner size={32} />
                     </div>) :
                     <div className="grid grid-cols-2 gap-5 mt-12">
-                        {skillsData.map((data, index) => (
+                        {projectData.map((data, index) => (
                             <div key={index} className="flex flex-col bg-white rounded-lg border">
                                 <div className="px-6 py-4 pb-0">
-                                    <div className="font-semibold">{data.skillCategory}</div>
+                                    <div className="font-semibold">{data.projectName}</div>
                                 </div>
                                 <div className="grid gap-4 p-6">
-                                    <div className="flex flex-wrap gap-2">
-                                        {data.skills.map((skill, skillIndex)=> (
-                                            <div key={skillIndex} className='border rounded-full text-sm inline-flex px-3 py-1'>{skill}</div>
-                                        ))}   
-                                    </div>
+                                    <div className="text-sm">{data.description}</div>
+                                    <div className="text-sm"><u className="font-medium">Built in:</u> {data.technology.join(', ')}</div>
                                 </div>
                                 <div className="flex justify-end gap-2 px-6 py-4 border-t">
-                                    <Link href={`/resume/skills/edit/${data.id}`}>
+                                    <Link href={`/resume/project/edit/${data.id}`}>
                                         <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
                                     </Link>
                                     <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
@@ -121,8 +117,8 @@ const Skills = () => {
                     </div>
                 }
             </StepperLayout>
-            <StepperControlsLayout currentStep={4} totalSteps={8} showBackButton={true} disableBackButton={false}>
-                <Link href="/resume/project">
+            <StepperControlsLayout currentStep={5} totalSteps={8} showBackButton={true} disableBackButton={false}>
+                <Link href="/resume/work-experience">
                     <button
                         type="button"
                         className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
@@ -141,4 +137,4 @@ const Skills = () => {
     )
 }
 
-export default Skills
+export default Projects

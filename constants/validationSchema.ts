@@ -80,11 +80,11 @@ export const educationValidationSchema = Yup.object().shape({
         .required('City is required'),
     marksIn: Yup.string(),
     marksInPer: Yup.string()
-    .matches(/^(100(\.00?)?|[0-9]?\d(\.\d{1,2})?)$/, 'Invalid marks format'),
+        .matches(/^(100(\.00?)?|[0-9]?\d(\.\d{1,2})?)$/, 'Invalid marks format'),
     marksInGpa: Yup.string()
-    .matches(/^(?:[0-3](?:\.\d{1,2})?|4(?:\.0{1,2})?)$/, 'Invalid marks format'),
+        .matches(/^(?:[0-3](?:\.\d{1,2})?|4(?:\.0{1,2})?)$/, 'Invalid marks format'),
     marksInCgpa: Yup.string()
-    .matches(/^(?:[0-9](?:\.\d{1,2})?|10(?:\.0{1,2})?)$/, 'Invalid marks format'),
+        .matches(/^(?:[0-9](?:\.\d{1,2})?|10(?:\.0{1,2})?)$/, 'Invalid marks format'),
     coreSubjects: Yup.array().of(Yup.string()),
     complimentarySubjects: Yup.array().of(Yup.string())
 })
@@ -108,3 +108,46 @@ export const certificationValidationSchema = Yup.object().shape({
         .required('City is required'),
     subjects: Yup.array().of(Yup.string())
 })
+
+export const skillsValidationSchema = Yup.object().shape({
+    skillCategory: Yup.string()
+        .min(2, 'Title must be at least 2 characters')
+        .required('Title is required'),
+    skills: Yup.array().of(Yup.string())
+        .min(1, 'At least one skill is required'),
+})
+
+export const projectsValidationSchema = Yup.object().shape({
+    projectName: Yup.string()
+        .min(2, 'Project name must be at least 2 characters')
+        .required('Project name is required'),
+    description: Yup.string()
+        .required('Description is required'),
+    technology: Yup.array().of(Yup.string())
+})
+
+export const experienceValidationSchema = Yup.object().shape({
+    organization: Yup.string()
+        .min(2, 'Organization must be at least 2 characters')
+        .required('Organization is required'),
+    designation: Yup.string()
+        .min(2, 'Designation must be at least 2 characters')
+        .required('Designation is required'),
+    joinDate: Yup.date()
+        .required('Join date is required')
+        .nullable(),
+    currentlyWorking: Yup.boolean(),
+    relieveDate: Yup.date()
+        .nullable()
+        .test('is-required', 'Relieve date is required', function (value) {
+            const { currentlyWorking } = this.parent;
+            return currentlyWorking ? true : !!value;
+        }),
+    country: Yup.string()
+        .required('Country is required'),
+    state: Yup.string()
+        .required('State is required'),
+    city: Yup.string()
+        .required('City is required'),
+    roles: Yup.array().of(Yup.string())
+});

@@ -4,10 +4,12 @@ export interface SignUpForm {
     email: string;
     password: string;
 }
+
 export interface SignInForm {
     email: string;
     password: string;
 }
+
 export interface UserTypeForm {
     user_type: string;
 }
@@ -80,4 +82,16 @@ export interface ExperienceForm {
     state: string;
     city: string;
     roles: string[]
+}
+
+export interface AccountsForm {
+    githubAccount: boolean,
+    linkedInAccount: boolean;
+    githubUrl: string;
+    linkedinUrl: string;
+}
+
+export interface PreviewForm {
+    layouts: string,
+    fonts: string,
 }

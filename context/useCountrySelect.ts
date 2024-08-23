@@ -56,7 +56,7 @@ export const useCountrySelect = () => {
   };
 
   const countryOptions = () => countries;
-  const stateOptions = () => states;
+  const stateOptions = (selectedCountry: string) => states;
 
   return {
     countryOptions,

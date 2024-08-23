@@ -139,7 +139,7 @@ const Experience = () => {
                                         </div>
                                     </div>
                                     <div className="flex justify-end gap-2 px-6 py-4 border-t">
-                                        <Link href={`/resume/experience/edit/${data.id}`}>
+                                        <Link href={`/resume/work-experience/edit/${data.id}`}>
                                             <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
                                         </Link>
                                         <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
@@ -153,7 +153,7 @@ const Experience = () => {
 
             </StepperLayout>
             <StepperControlsLayout currentStep={6} totalSteps={8} showBackButton={true} disableBackButton={false}>
-                <Link href="/resume/certification">
+                <Link href="/resume/accounts">
                     <button
                         type="button"
                         className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"

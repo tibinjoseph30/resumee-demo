@@ -133,11 +133,10 @@ export const experienceValidationSchema = Yup.object().shape({
     designation: Yup.string()
         .min(2, 'Designation must be at least 2 characters')
         .required('Designation is required'),
-    joinDate: Yup.date()
-        .required('Join date is required')
-        .nullable(),
+    joinDate: Yup.string()
+        .required('Join date is required'),
     currentlyWorking: Yup.boolean(),
-    relieveDate: Yup.date()
+    relieveDate: Yup.string()
         .nullable()
         .test('is-required', 'Relieve date is required', function (value) {
             const { currentlyWorking } = this.parent;
@@ -150,4 +149,23 @@ export const experienceValidationSchema = Yup.object().shape({
     city: Yup.string()
         .required('City is required'),
     roles: Yup.array().of(Yup.string())
+});
+
+export const accountsValidationSchema = Yup.object().shape({
+    githubAccount: Yup.boolean(),
+    linkedInAccount: Yup.boolean(),
+    githubUrl: Yup.string()
+        .nullable()
+        .test('is-required', 'URL is required', function (value) {
+            const { githubAccount } = this.parent;
+            return !githubAccount || (!!value && value.trim() !== '');
+        })
+        .url('Invalid URL format'),
+    linkedinUrl: Yup.string()
+        .nullable()
+        .test('is-required', 'URL is required', function (value) {
+            const { linkedInAccount } = this.parent;
+            return !linkedInAccount || (!!value && value.trim() !== '');
+        })
+        .url('Invalid URL format')
 });

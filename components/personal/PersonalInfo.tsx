@@ -30,27 +30,6 @@ const PersonalInfo = () => {
     const router = useRouter()
     const user = auth.currentUser
 
-    const handleSubmit = async (values: PersonalInfoForm) => {
-        console.log(values);
-        setLoading(true);
-
-        try {
-            if (user) {
-                const docRef = doc(firestore, 'personalInfo', user.uid)
-                await setDoc(docRef, values, { merge: true })
-                console.log('Data successfully saved to Firestore');
-                router.push('/resume/education')
-            } else {
-                console.log('No authenticated user found. Please log in.')
-            }
-        } catch (error) {
-            const errorMessage = handleFirebaseError(error as FirebaseError)
-            console.log(errorMessage)
-        } finally {
-            setLoading(false)
-        }
-    }
-
     useEffect(() => {
         const fetchData = async () => {
             if (!user) {
@@ -95,6 +74,27 @@ const PersonalInfo = () => {
 
     const handleEdit = () => {
         setIsReadOnly(false);
+    }
+
+    const handleSubmit = async (values: PersonalInfoForm) => {
+        console.log(values);
+        setLoading(true);
+
+        try {
+            if (user) {
+                const docRef = doc(firestore, 'personalInfo', user.uid)
+                await setDoc(docRef, values, { merge: true })
+                console.log('Data successfully saved to Firestore');
+                router.push('/resume/education')
+            } else {
+                console.log('No authenticated user found. Please log in.')
+            }
+        } catch (error) {
+            const errorMessage = handleFirebaseError(error as FirebaseError)
+            console.log(errorMessage)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (

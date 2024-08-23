@@ -25,8 +25,8 @@ const EditEducation = () => {
     const [joinDate, setJoinDate] = useState<Date | null>(null);
     const [relieveDate, setRelieveDate] = useState<Date | null>(null);
     const [educationData, setEducationData] = useState<EducationForm | null>(null);
-    const { countryOptions, stateOptions, getStatesByCountryName } = useCountrySelect();
     const { universityOptions } = useUniversitySelect();
+    const { countryOptions, stateOptions, getStatesByCountryName } = useCountrySelect();
     const [selectedCountry, setSelectedCountry] = useState<string>('');
     const [marksType, setMarksType] = useState<string>('');
 

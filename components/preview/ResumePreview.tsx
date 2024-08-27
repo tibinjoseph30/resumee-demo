@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Field, Form, Formik } from "formik";
 import Spinner from "../shared/ui/loader/Spinner";
@@ -9,46 +9,79 @@ import { useRouter } from "next/navigation";
 import StandardLayout from "./layouts/standard/StandardLayout";
 import SinglePageLayout from "./layouts/single-page/SinglePageLayout";
 import CreativeLayout from "./layouts/creative/CreativeLayout";
+import StandardDocument from "./documents/StandardDocument";
+import SinglePageDocument from "./documents/SinglePageDocument";
+import CreativeDocument from "./documents/CreativeDocument";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+
+// Helper function to get font class
+const getFontClass = (font: string) => {
+    switch (font) {
+        case 'inter':
+            return 'font-inter';
+        case 'merriweather':
+            return 'font-merriweather';
+        case 'ebGaramond':
+            return 'font-eb-garamond';
+        case 'lato':
+            return 'font-lato';
+        case 'roboto':
+            return 'font-roboto';
+        default:
+            return 'font-inter';
+    }
+};
 
 const ResumePreview = () => {
-    const [loading, setLoading] = useState(false);
 
-    const router = useRouter()
+    const router = useRouter();
 
     const layoutOptions = [
         { value: 'standard', label: 'Standard' },
         { value: 'singlePage', label: 'Single-page' },
         { value: 'creative', label: 'Creative' }
-    ]
+    ];
 
     const fontOptions = [
         { value: 'inter', label: 'Inter' },
         { value: 'merriweather', label: 'Merriweather' },
-        { value: 'carlito', label: 'Carlito' },
+        { value: 'ebGaramond', label: 'EB Garamond' },
+        { value: 'lato', label: 'Lato' },
         { value: 'roboto', label: 'Roboto' }
-    ]
+    ];
 
-    const handleSubmit = () => {
+    const handleSubmit = (values: any) => {
+        // Handle form submission here
+    };
 
-    }
-
-    const renderLayout = (layout: string, font: string) => {
-        const fontClass = font === 'inter' ? 'font-inter' :
-            font === "merriweather" ? "font-merriweather" :
-                font === "carlito" ? "font-carlito" :
-                font === "roboto" ? "font-roboto" : "font-inter";
+    const renderLayout = (layout: string, font: string, color: string) => {
+        const fontClass = getFontClass(font);
+        const layoutStyle = { color };
 
         switch (layout) {
             case 'standard':
-                return <div className={fontClass}><StandardLayout /></div>
+                return <div className={fontClass} style={layoutStyle}><StandardLayout /></div>;
             case 'singlePage':
-                return <SinglePageLayout />
+                return <div className={fontClass} style={layoutStyle}><SinglePageLayout /></div>;
             case 'creative':
-                return <CreativeLayout />
+                return <CreativeLayout />;
             default:
-                return <div className={fontClass}><StandardLayout /></div>
+                return <div className={fontClass} style={layoutStyle}><StandardLayout /></div>;
         }
-    }
+    };
+
+    const renderDocument = (values: any) => {
+        switch (values.layouts) {
+            case 'standard':
+                return <StandardDocument font={values.fonts} color={values.selectedColor} />;
+            case 'singlePage':
+                return <SinglePageDocument font={values.fonts} color={values.selectedColor} />;
+            case 'creative':
+                return <CreativeDocument font={values.fonts} color={values.selectedColor} />;
+            default:
+                return <StandardDocument font={values.fonts} color={values.selectedColor} />;
+        }
+    };
 
     return (
         <div>
@@ -56,11 +89,11 @@ const ResumePreview = () => {
                 initialValues={previewInitialValues}
                 onSubmit={handleSubmit}
             >
-                {({ setFieldValue, handleBlur, values }) => (
+                {({ setFieldValue, handleBlur, values, resetForm }) => (
                     <div className="grid grid-cols-3 py-6">
                         <div className="col-span-2">
                             <div className="bg-white p-6 w-4/5 mx-auto shadow-sm">
-                                {renderLayout(values.layouts, values.fonts)}
+                                {renderLayout(values.layouts, values.fonts, values.selectedColor)}
                             </div>
                         </div>
                         <div className="bg-white fixed w-1/3 top-0 bottom-0 right-0 p-6 border-l">
@@ -90,7 +123,7 @@ const ResumePreview = () => {
                                             {({ field, form }: { field: any; form: any }) => (
                                                 <Select
                                                     options={fontOptions}
-                                                    value={fontOptions.find(option => option.value === field.value)}
+                                                    value={fontOptions.find(option => option.value === field.value) || fontOptions[0]}
                                                     onChange={(option) => {
                                                         form.setFieldValue('fonts', option?.value);
                                                     }}
@@ -112,26 +145,29 @@ const ResumePreview = () => {
                                         />
                                     </div>
                                 </div>
-                                {/* <div className="flex gap-3 mt-6">
-                                    <button type="button" onClick={() => router.back()} className="w-full border border-slate-300 p-3 rounded-md min-w-28 font-medium">Back</button>
+                                <PDFDownloadLink
+                                    document={renderDocument(values)}
+                                    fileName="resume.pdf"
+                                    className="flex justify-center bg-primary text-white p-5 rounded-md mt-6 hover:opacity-90"
+                                >
+                                    Download PDF
+                                </PDFDownloadLink>
+                                <div className="flex justify-between items-center mt-4">
                                     <button
-                                        type="submit"
-                                        className="w-full flex items-center justify-center gap-2 bg-amber-500 p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90"
-                                        disabled={loading}
+                                        type="button"
+                                        onClick={() => router.back()}
+                                        className="w-full border border-slate-300 p-5 rounded-md font-medium"
                                     >
-                                        {loading ? <>Applying<Spinner size={18} color="#fff" /></> : <>Apply</>}
+                                        Back to Edit
                                     </button>
-                                </div> */}
-                                <button type="button" className="w-full bg-primary px-3 py-5 rounded-md text-white min-w-36 font-medium hover:opacity-90 mt-6">Download PDF</button>
-                                <button type="button" className="text-primary font-medium mt-6">Back to Edit</button>
+                                </div>
                             </Form>
                         </div>
                     </div>
                 )}
-
             </Formik>
         </div>
-    )
-}
+    );
+};
 
-export default ResumePreview
+export default ResumePreview;

@@ -94,4 +94,5 @@ export interface AccountsForm {
 export interface PreviewForm {
     layouts: string,
     fonts: string,
+    selectedColor: string
 }

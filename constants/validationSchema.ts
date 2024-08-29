@@ -121,6 +121,8 @@ export const projectsValidationSchema = Yup.object().shape({
     projectName: Yup.string()
         .min(2, 'Project name must be at least 2 characters')
         .required('Project name is required'),
+    projectStartedOn: Yup.string()
+        .required('Join date is required'),
     description: Yup.string()
         .required('Description is required'),
     technology: Yup.array().of(Yup.string())

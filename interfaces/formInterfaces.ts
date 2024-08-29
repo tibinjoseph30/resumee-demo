@@ -67,6 +67,7 @@ export interface SkillsForm {
 export interface ProjectForm {
     id?: string;
     projectName: string;
+    projectStartedOn: any;
     description: string;
     technology: string[]
 }

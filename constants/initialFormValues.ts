@@ -66,6 +66,7 @@ export const skillsInitialValues: SkillsForm = {
 
 export const projectInitialValues: ProjectForm = {
     projectName: '',
+    projectStartedOn: '',
     description: '',
     technology: []
 };
@@ -90,5 +91,7 @@ export const accountsInitialValues: AccountsForm = {
 };
 
 export const previewInitialValues: PreviewForm = {
-    layouts: ''
+    layouts: '',
+    fonts: '',
+    selectedColor: ''
 };

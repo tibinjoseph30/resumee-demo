@@ -11,6 +11,7 @@ import { ProjectForm } from "../../interfaces/formInterfaces"
 import { auth, firestore } from "../../services/firebase.config"
 import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
+import { format } from "date-fns"
 
 const Projects = () => {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,10 @@ const Projects = () => {
     const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
+
+    const formatDate = (timestamp: { seconds: number } | null | undefined) => {
+        return timestamp ? format(new Date(timestamp.seconds * 1000), 'yyy') : 'N/A';
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,8 +104,9 @@ const Projects = () => {
                     <div className="grid grid-cols-2 gap-5 mt-12">
                         {projectData.map((data, index) => (
                             <div key={index} className="flex flex-col bg-white rounded-lg border">
-                                <div className="px-6 py-4 pb-0">
+                                <div className="flex justify-between items-center px-6 py-4 pb-0">
                                     <div className="font-semibold">{data.projectName}</div>
+                                    <div className="text-sm text-slate-500">{formatDate(data.projectStartedOn)}</div>
                                 </div>
                                 <div className="grid gap-4 p-6">
                                     <div className="text-sm">{data.description}</div>

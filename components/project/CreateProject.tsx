@@ -13,9 +13,11 @@ import { ProjectForm } from "../../interfaces/formInterfaces";
 import { auth, firestore } from "../../services/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
+import DatePicker from "react-datepicker";
 
 const CreateProject = () => {
     const [loading, setLoading] = useState(false)
+    const [projectStart, setProjectStart] = useState<Date | null>(null);
 
     const router = useRouter()
     const user = auth.currentUser
@@ -59,7 +61,7 @@ const CreateProject = () => {
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
                             <div className="grid grid-cols-2 gap-7">
-                                <div className="form-group col-span-2">
+                                <div className="form-group">
                                     <label htmlFor="projectName" className="control-label">Project Name</label>
                                     <Field
                                         type="text"
@@ -69,6 +71,23 @@ const CreateProject = () => {
                                         className="control border-2 p-4 rounded-md"
                                     />
                                     <ErrorMessage name="projectName" component="div" className="text-red-500 text-sm mt-1" />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="projectStartedOn" className="control-label">Started On</label>
+                                    <DatePicker
+                                        className="control border-2 p-4 rounded-md"
+                                        placeholderText="Select year"
+                                        selected={projectStart}
+                                        onChange={(date) => {
+                                            setProjectStart(date)
+                                            setFieldValue('projectStartedOn', date);
+                                        }}
+                                        dateFormat="yyyy"
+                                        showYearPicker
+                                        yearItemNumber={9}
+                                        withPortal
+                                    />
+                                    <ErrorMessage name="projectStartedOn" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
                                 <div className="form-group col-span-2">
                                     <label htmlFor="description" className="control-label">Description</label>

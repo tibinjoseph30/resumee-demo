@@ -2,11 +2,15 @@ import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font, Link, Note } from '@react-pdf/renderer';
 
 Font.register({
-    family: 'Merriweather',
+    family: 'Bitter Serif',
     fonts: [
-        { src: '/fonts/Merriweather/Merriweather-Regular.ttf' },
-        { src: '/fonts/Merriweather/Merriweather-Bold.ttf', fontWeight: 'bold' },
-        { src: '/fonts/Merriweather/Merriweather-BoldItalic.ttf', fontWeight: 'bold', fontStyle: 'italic' },
+        { src: '/fonts/Bitter-serif/Bitter-Regular.ttf' },
+        { src: '/fonts/Bitter-serif/Bitter-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Bitter-serif/Bitter-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Bitter-serif/Bitter-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Bitter-serif/Bitter-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Bitter-serif/Bitter-Bold.ttf', fontWeight: 'bold' },
+        { src: '/fonts/Bitter-serif/Bitter-BoldItalic.ttf', fontWeight: 'bold', fontStyle: 'italic' },
     ],
 });
 
@@ -15,17 +19,76 @@ Font.register({
     fonts: [
         { src: '/fonts/Inter/Inter-Regular.ttf' },
         { src: '/fonts/Inter/Inter-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Inter/Inter-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
         { src: '/fonts/Inter/Inter-SemiBold.ttf', fontWeight: 600 },
         { src: '/fonts/Inter/Inter-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
         { src: '/fonts/Inter/Inter-Bold.ttf', fontWeight: 'bold' },
     ],
 });
 
+Font.register({
+    family: 'Roboto',
+    fonts: [
+        { src: '/fonts/Roboto/Roboto-Regular.ttf' },
+        { src: '/fonts/Roboto/Roboto-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Roboto/Roboto-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Roboto/Roboto-Bold.ttf', fontWeight: 'bold' },
+    ],
+});
+
+Font.register({
+    family: 'Poppins',
+    fonts: [
+        { src: '/fonts/Poppins/Poppins-Regular.ttf' },
+        { src: '/fonts/Poppins/Poppins-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Poppins/Poppins-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Poppins/Poppins-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Poppins/Poppins-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Poppins/Poppins-Bold.ttf', fontWeight: 'bold' },
+    ],
+});
+
+Font.register({
+    family: 'Open Sans',
+    fonts: [
+        { src: '/fonts/Open-sans/OpenSans-Regular.ttf' },
+        { src: '/fonts/Open-sans/OpenSans-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Open-sans/OpenSans-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Open-sans/OpenSans-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Open-sans/OpenSans-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Open-sans/OpenSans-Bold.ttf', fontWeight: 'bold' },
+    ],
+});
+
+Font.register({
+    family: 'Cousine',
+    fonts: [
+        { src: '/fonts/Cousine/Cousine-Regular.ttf' },
+        { src: '/fonts/Cousine/Cousine-Bold.ttf', fontWeight: 'bold' },
+        { src: '/fonts/Cousine/Cousine-BoldItalic.ttf', fontWeight: 'bold', fontStyle: 'italic' },
+    ],
+});
+
+Font.register({
+    family: 'Noto Serif',
+    fonts: [
+        { src: '/fonts/Noto-serif/NotoSerif-Regular.ttf' },
+        { src: '/fonts/Noto-serif/NotoSerif-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Noto-serif/NotoSerif-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Noto-serif/NotoSerif-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Noto-serif/NotoSerif-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Noto-serif/NotoSerif-Bold.ttf', fontWeight: 'bold' },
+        { src: '/fonts/Noto-serif/NotoSerif-BoldItalic.ttf', fontWeight: 'bold', fontStyle: 'italic' },
+    ],
+});
+
 const StandardDocument = ({ font, color }: { font: string; color: string }) => {
     const fontFamily = font === 'inter' ? 'Inter' :
-        font === 'merriweather' ? 'Merriweather' :
-            font === 'ebGaramond' ? 'EB Garamond' :
-                font === 'lato' ? 'Lato' :
+        font === 'bitterSerif' ? 'Bitter Serif' :
+            font === 'openSans' ? 'Open Sans' :
+                font === 'notoSerif' ? 'Noto Serif' :
+                font === 'poppins' ? 'Poppins' :
+                font === 'cousine' ? 'Cousine' :
                     font === 'roboto' ? 'Roboto' : 'Inter';
 
     const styles = StyleSheet.create({
@@ -35,7 +98,8 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
         },
         text: {
             fontSize: 11,
-            color
+            lineHeight: 1.5,
+            color,
         },
         bold: {
             fontWeight: 'bold',
@@ -55,7 +119,8 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                 <View>
                     <Text style={[styles.text, { fontSize: 24, fontWeight: 500, textAlign: 'center' }]}>John Doe</Text>
                 </View>
-                <View style={{ textAlign: 'center', marginTop: 15, marginBottom: 15 }}>
+                <View style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
+                    <Text style={styles.text}>Frontend Developer</Text>
                     <Text style={styles.text}>7569856321{' '}|{' '}jd@yopmail.com</Text>
                     <Text style={styles.text}>
                         <Link src="https://github.com/johndoe1">github.com/johndoe1</Link>{' '}|{' '}
@@ -82,7 +147,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                         <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Work Experience</Text>
                     </View>
                     <View style={{ marginTop: 5 }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={[styles.text, { fontWeight: 'bold' }]}>Adobe, Bangalore</Text>
                             <Text style={styles.text}>Mar 2021 - Present</Text>
                         </View>
@@ -101,7 +166,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                         </View>
                     </View>
                     <View style={{ marginTop: 5 }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.text, { fontWeight: 'bold' }]}>Amazone, Bangalore</Text>
                             <Text style={styles.text}>Sep 2019 - Mar 2021</Text>
                         </View>
@@ -129,7 +194,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                         <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Education</Text>
                     </View>
                     <View style={{ marginTop: 5 }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={[styles.text, { fontWeight: 'bold' }]}>BITS Hyderabad</Text>
                             <Text style={styles.text}>Sep 2019 - Mar 2021</Text>
                         </View>
@@ -146,16 +211,14 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                     <View style={{ borderBottom: '1px solid #555' }}>
                         <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Projects</Text>
                     </View>
-                    <View style={{ marginTop: 5, paddingLeft: 15, paddingRight: 12 }}>
+                    <View style={{ marginTop: 5 }}>
                         <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                            <Text style={styles.disc}>•</Text>
                             <View>
                                 <Text style={[styles.text, { fontWeight: 'bold' }]}>Word Lookup Dictionary (2015):</Text>
                                 <Text style={styles.text}>Developed a desktop software for online lookup of English words. Implemented efficient search of valid words using Trie data structure. Implemented spelling correction and auto-suggestion using edit distance algorithm. Used web scraping to get the data for online lookup. Python, BeautifulSoup.</Text>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                            <Text style={styles.disc}>•</Text>
                             <View>
                                 <Text style={[styles.text, { fontWeight: 'bold' }]}>Alternative-Routes in Road Networks (2016):</Text>
                                 <Text style={styles.text}>the route which takes the shortest time to travel from source to destination in a given road network with randomly generated traffic. Implemented methods to avoid collisions between vehicles by dynamically changing their speeds. Used C++ and OpenGL library for simulation. C++, OpenGL</Text>

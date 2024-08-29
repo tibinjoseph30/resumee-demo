@@ -47,15 +47,21 @@ textarea {
     box-shadow: 0 0 0 1px rgb($primaryColor / 20%) !important;
 }
 
-.font-merriweather {
-    font-family: "Merriweather", serif;
+.font-bitter-serif {
+    font-family: "Bitter", serif;
 }
-.font-lato {
-    font-family: "Lato", sans-serif;
+.font-open-sans {
+    font-family: "Open Sans", sans-serif;
 }
-.font-eb-garamond {
-    font-family: "Tinos", serif;
+.font-noto-serif {
+    font-family: "Noto Serif", serif;
 }
 .font-roboto  {
     font-family: "Roboto", sans-serif;
+}
+.font-cousine  {
+    font-family: "Cousine", monospace;   
+}
+.font-poppins  {
+    font-family: "Poppins", sans-serif;   
 }

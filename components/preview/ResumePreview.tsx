@@ -4,7 +4,6 @@ import { Field, Form, Formik } from "formik";
 import Spinner from "../shared/ui/loader/Spinner";
 import { useState } from "react";
 import Select from 'react-select';
-import { previewInitialValues } from "../../constants/initialFormValues";
 import { useRouter } from "next/navigation";
 import StandardLayout from "./layouts/standard/StandardLayout";
 import SinglePageLayout from "./layouts/single-page/SinglePageLayout";
@@ -13,20 +12,25 @@ import StandardDocument from "./documents/StandardDocument";
 import SinglePageDocument from "./documents/SinglePageDocument";
 import CreativeDocument from "./documents/CreativeDocument";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { previewInitialValues } from "../../constants/initialFormValues";
 
 // Helper function to get font class
 const getFontClass = (font: string) => {
     switch (font) {
         case 'inter':
             return 'font-inter';
-        case 'merriweather':
-            return 'font-merriweather';
-        case 'ebGaramond':
-            return 'font-eb-garamond';
-        case 'lato':
-            return 'font-lato';
+        case 'bitterSerif':
+            return 'font-bitter-serif';
+        case 'openSans':
+            return 'font-open-sans';
+        case 'notoSerif':
+            return 'font-noto-serif';
         case 'roboto':
             return 'font-roboto';
+        case 'cousine':
+            return 'font-cousine';
+        case 'poppins':
+            return 'font-poppins';
         default:
             return 'font-inter';
     }
@@ -44,10 +48,12 @@ const ResumePreview = () => {
 
     const fontOptions = [
         { value: 'inter', label: 'Inter' },
-        { value: 'merriweather', label: 'Merriweather' },
-        { value: 'ebGaramond', label: 'EB Garamond' },
-        { value: 'lato', label: 'Lato' },
-        { value: 'roboto', label: 'Roboto' }
+        { value: 'bitterSerif', label: 'Bitter Serif' },
+        { value: 'openSans', label: 'Open Sans' },
+        { value: 'notoSerif', label: 'Noto Serif' },
+        { value: 'roboto', label: 'Roboto' },
+        { value: 'cousine', label: 'Cousine' },
+        { value: 'poppins', label: 'Poppins' }
     ];
 
     const handleSubmit = (values: any) => {

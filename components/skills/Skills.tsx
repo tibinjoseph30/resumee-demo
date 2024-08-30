@@ -97,28 +97,33 @@ const Skills = () => {
                     (<div className="mt-12">
                         <Spinner size={32} />
                     </div>) :
-                    <div className="grid grid-cols-2 gap-5 mt-12">
-                        {skillsData.map((data, index) => (
-                            <div key={index} className="flex flex-col bg-white rounded-lg border">
-                                <div className="px-6 py-4 pb-0">
-                                    <div className="font-semibold">{data.skillCategory}</div>
-                                </div>
-                                <div className="grid gap-4 p-6">
-                                    <div className="flex flex-wrap gap-2">
-                                        {data.skills.map((skill, skillIndex)=> (
-                                            <div key={skillIndex} className='border rounded-full text-sm inline-flex px-3 py-1'>{skill}</div>
-                                        ))}   
+                    (<>{skillsData.length > 0 ?
+                        <div className="grid grid-cols-2 gap-5 mt-12">
+                            {skillsData.map((data, index) => (
+                                <div key={index} className="flex flex-col bg-white rounded-lg border">
+                                    <div className="px-6 py-4 pb-0">
+                                        <div className="font-semibold">{data.skillCategory}</div>
+                                    </div>
+                                    <div className="grid gap-4 p-6">
+                                        <div className="flex flex-wrap gap-2">
+                                            {data.skills.map((skill, skillIndex) => (
+                                                <div key={skillIndex} className='border rounded-full text-sm inline-flex px-3 py-1'>{skill}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-end gap-2 px-6 py-4 border-t">
+                                        <Link href={`/resume/skills/edit/${data.id}`}>
+                                            <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
+                                        </Link>
+                                        <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
                                     </div>
                                 </div>
-                                <div className="flex justify-end gap-2 px-6 py-4 border-t">
-                                    <Link href={`/resume/skills/edit/${data.id}`}>
-                                        <button type="button" className="text-blue-500 p-2 text-sm uppercase font-semibold">Edit</button>
-                                    </Link>
-                                    <button onClick={() => handleDelete(data.id)} type="button" className="p-2 text-sm uppercase text-red-500 font-semibold">Delete</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div> :
+                        <>
+                            <div className="mt-12 text-slate-500">Add at least one Skill set and continue.</div>
+                        </>
+                    }</>)
                 }
             </StepperLayout>
             <StepperControlsLayout currentStep={4} totalSteps={8} showBackButton={true} disableBackButton={false}>
@@ -126,7 +131,7 @@ const Skills = () => {
                     <button
                         type="button"
                         className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
-                    // disabled={educationData.length <= 0}
+                        disabled={skillsData.length <= 0}
                     >Continue</button>
                 </Link>
             </StepperControlsLayout>

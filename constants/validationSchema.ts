@@ -153,6 +153,13 @@ export const experienceValidationSchema = Yup.object().shape({
     roles: Yup.array().of(Yup.string())
 });
 
+export const objectivesValidationSchema = Yup.object().shape({
+    objectives: Yup.string()
+        .min(250, 'Objectives must be at least 250 characters')
+        .required('Objectives are required'),
+    achievements: Yup.array().of(Yup.string())
+})
+
 export const accountsValidationSchema = Yup.object().shape({
     githubAccount: Yup.boolean(),
     linkedInAccount: Yup.boolean(),

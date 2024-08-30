@@ -1,4 +1,4 @@
-import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, PersonalInfoForm, PreviewForm, ProjectForm, SignInForm, SignUpForm, SkillsForm, UserTypeForm } from "../interfaces/formInterfaces";
+import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, PreviewForm, ProjectForm, SignInForm, SignUpForm, SkillsForm, UserTypeForm } from "../interfaces/formInterfaces";
 
 
 export const signUpInitialValues: SignUpForm = {
@@ -81,6 +81,11 @@ export const experienceInitialValues: ExperienceForm = {
     state: '',
     city: '',
     roles: []
+};
+
+export const objectivesInitialValues: ObjectiveForm = {
+    objectives: '',
+    achievements: []
 };
 
 export const accountsInitialValues: AccountsForm = {

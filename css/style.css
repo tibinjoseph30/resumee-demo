@@ -1,0 +1,341 @@
+@charset "UTF-8";
+body {
+  color: rgb(var(--app-body-color));
+  font-size: 1rem;
+  font-family: var(--app-primary-font);
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+  font-weight: 400;
+  background-color: #f5f5f5;
+}
+
+a {
+  color: rgb(var(--app-primary-color));
+}
+
+.container {
+  padding: 0 1rem;
+}
+
+input,
+textarea {
+  background-color: #fff;
+}
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: rgb(var(--app-primary-color)/var(--tw-bg-opacity));
+}
+
+.bg-primary\/\[0\.2\] {
+  background-color: rgb(var(--app-primary-color)/20%);
+}
+
+.text-primary {
+  color: rgb(var(--app-primary-color)) !important;
+}
+
+.border-primary {
+  border-color: rgb(var(--app-primary-color)) !important;
+}
+
+.shadow-primary {
+  -webkit-box-shadow: 0 0 0 1px rgb(var(--app-primary-color)/20%) !important;
+          box-shadow: 0 0 0 1px rgb(var(--app-primary-color)/20%) !important;
+}
+
+.font-bitter-serif {
+  font-family: "Bitter", serif;
+}
+
+.font-open-sans {
+  font-family: "Open Sans", sans-serif;
+}
+
+.font-noto-serif {
+  font-family: "Noto Serif", serif;
+}
+
+.font-roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-cousine {
+  font-family: "Cousine", monospace;
+}
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+button:disabled {
+  opacity: 0.75;
+}
+button:disabled:hover {
+  opacity: 0.75 !important;
+}
+
+.control-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.form-group .control {
+  display: block;
+  width: 100%;
+}
+.form-group .control:focus {
+  border-color: rgb(var(--app-primary-color));
+}
+
+.control-radio-container [type=radio]:checked + label, .control-radio-container [type=radio]:not(:checked) + label {
+  padding: 1.25rem;
+  padding-left: 55px;
+  display: block;
+  background-color: #fff;
+}
+.control-radio-container [type=radio]:checked + label::before, .control-radio-container [type=radio]:not(:checked) + label::before {
+  top: 1.25rem;
+  left: 1.25rem;
+  width: 22px;
+  height: 22px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #bbb;
+}
+.control-radio-container [type=radio]:checked + label .title, .control-radio-container [type=radio]:not(:checked) + label .title {
+  line-height: 24px;
+}
+.control-radio-container [type=radio]:checked + label {
+  border-color: rgb(var(--app-primary-color));
+}
+.control-radio-container [type=radio]:checked + label::before {
+  border-width: 6px;
+  border-color: rgb(var(--app-primary-color));
+}
+
+[type=radio]:checked,
+[type=radio]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+[type=radio]:checked + label,
+[type=radio]:not(:checked) + label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+[type=radio]:not(:checked) + label:before,
+[type=radio]:checked + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 100%;
+  background: #fff;
+}
+
+[type=radio]:checked + label:before {
+  content: "";
+  border-color: rgb(var(--app-primary-color));
+}
+
+.control-check input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+.control-check input:checked + label::before {
+  border-color: rgb(var(--app-primary-color));
+  background-color: rgb(var(--app-primary-color));
+}
+.control-check input:checked + label::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 8px;
+  width: 6px;
+  height: 12px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.control-check label {
+  position: relative;
+  cursor: pointer;
+}
+.control-check label:hover::before {
+  border-color: #ccc;
+}
+.control-check label::before {
+  content: "";
+  background-color: #fff;
+  border: 2px solid rgb(var(--app-border-color));
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  border-radius: 0.25rem;
+}
+
+.react-select__control.control-select {
+  padding: 1rem;
+  border-width: 2px;
+  border-radius: 0.375rem;
+  border-color: rgb(var(--app-border-color));
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  background-color: #fff;
+  color: inherit;
+}
+.react-select__control.control-select:hover {
+  border-color: rgb(var(--app-border-color));
+}
+.react-select__control.react-select__control--is-focused {
+  border-color: rgb(var(--app-primary-color)) !important;
+}
+.react-select__control .react-select__value-container {
+  padding: 0;
+}
+.react-select__control .react-select__value-container .react-select__placeholder {
+  margin: 0;
+}
+.react-select__control .react-select__value-container .react-select__input-container {
+  margin: 0;
+  padding: 0;
+}
+.react-select__control .react-select__indicators .react-select__indicator-separator {
+  display: none;
+}
+.react-select__control .react-select__indicators .react-select__indicator {
+  padding: 0;
+}
+.react-select__control + .react-select__menu .react-select__menu-list .react-select__option.react-select__option--is-focused {
+  background-color: rgb(var(--app-primary-color)/10%);
+}
+.react-select__control + .react-select__menu .react-select__menu-list .react-select__option.react-select__option--is-selected {
+  background-color: rgb(var(--app-primary-color)) !important;
+}
+
+.react-tel-input.phone-input-container .form-control {
+  font-size: initial;
+  padding: 1rem;
+  border-width: 2px;
+  border-radius: 0.375rem;
+  border-color: rgb(var(--app-border-color));
+  width: 100%;
+  height: auto;
+  line-height: unset;
+  padding-left: 52px;
+}
+.react-tel-input.phone-input-container .form-control:focus {
+  border-color: rgb(var(--app-primary-color));
+}
+.react-tel-input.phone-input-container .flag-dropdown {
+  background-color: transparent !important;
+  border: none;
+  border-radius: unset;
+}
+.react-tel-input.phone-input-container .flag-dropdown .selected-flag {
+  padding-left: 1.25rem;
+  min-width: 52px;
+  background-color: transparent !important;
+}
+
+.react-datepicker__portal .react-datepicker {
+  font-family: var(--app-primary-font);
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__navigation {
+  top: 0.75rem;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__navigation-icon {
+  top: unset;
+  font-size: unset;
+  width: auto;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__navigation-icon::before {
+  border-width: 2px 2px 0 0;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__header {
+  background-color: #fff;
+  border: none;
+  font-weight: 600;
+  padding-top: 1rem;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__header.react-datepicker-year-header {
+  padding-top: 1.25rem;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__day--selected,
+.react-datepicker__portal .react-datepicker .react-datepicker__year-text--selected {
+  background-color: rgb(var(--app-primary-color));
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__day--outside-month {
+  opacity: 0.5;
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__day--keyboard-selected {
+  background-color: rgb(var(--app-primary-color)/10%);
+}
+.react-datepicker__portal .react-datepicker .react-datepicker__year-text {
+  line-height: 1.5rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 0.5rem;
+}
+
+.react-tagsinput {
+  background-color: #fff;
+}
+.react-tagsinput.react-tagsinput--focused {
+  border-color: rgb(var(--app-primary-color));
+}
+.react-tagsinput > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.react-tagsinput .react-tagsinput-tag {
+  background-color: #333;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 14px;
+  border-radius: 0.25rem;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  gap: 5px;
+}
+.react-tagsinput .react-tagsinput-tag .react-tagsinput-remove::before {
+  content: "×";
+  color: #fff;
+}/*# sourceMappingURL=style.css.map */

@@ -85,6 +85,12 @@ export interface ExperienceForm {
     roles: string[]
 }
 
+export interface ObjectiveForm {
+    id?: string;
+    objectives: string;
+    achievements: string[]
+}
+
 export interface AccountsForm {
     githubAccount: boolean,
     linkedInAccount: boolean;

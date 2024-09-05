@@ -165,7 +165,9 @@ const StandardLayout = () => {
             </div>
             <div className="grid gap-5">
                 {pageLoading ? (
-                    <AnimatedSkills />
+                    <div>
+                        <AnimatedSkills />
+                    </div>
                 ) : (
                     <>{userTypeData?.user_type === "experienced" ?
                         <>{skillsData.length > 0 && (
@@ -189,36 +191,42 @@ const StandardLayout = () => {
                     }</>
                 )}
                 {userTypeData?.user_type === "experienced" && (
-                    <div>
+                    <>
                         {pageLoading ? (
-                            <AnimatedWorkExperience />
-                        ) : (
                             <div>
-                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Work Experience</div>
-                                <div className="grid gap-3">
-                                    {experienceData.map((data, index) => (
-                                        <div key={index} className="grid gap-1">
-                                            <div className="flex justify-between items-center text-sm">
-                                                <div><b>{data.organization}, {data.state}</b></div>
-                                                <div>{formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</div>
-                                            </div>
-                                            <div className="text-sm font-semibold"><i>{data.designation}</i></div>
-                                            <ul className="text-sm list-disc ps-9">
-                                                {data.roles.map((role, roleIndex) => (
-                                                    <li key={roleIndex}>{role}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    ))}
-                                </div>
+                                <AnimatedWorkExperience />
                             </div>
+                        ) : (
+                            <>{experienceData.length > 0 && (
+                                <div>
+                                    <div className="text-xl font-medium border-b border-slate-500 mb-2">Work Experience</div>
+                                    <div className="grid gap-3">
+                                        {experienceData.map((data, index) => (
+                                            <div key={index} className="grid gap-1">
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <div><b>{data.organization}, {data.state}</b></div>
+                                                    <div>{formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</div>
+                                                </div>
+                                                <div className="text-sm font-semibold"><i>{data.designation}</i></div>
+                                                <ul className="text-sm list-disc ps-9">
+                                                    {data.roles.map((role, roleIndex) => (
+                                                        <li key={roleIndex}>{role}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}</>
                         )}
-                    </div>
+                    </>
                 )}
-                <div>
-                    {pageLoading ? (
+                {pageLoading ? (
+                    <div>
                         <AnimatedEducation />
-                    ) : (
+                    </div>
+                ) : (
+                    <>{educationData.length > 0 && (
                         <div>
                             <div className="text-xl font-medium border-b border-slate-500 mb-2">Education</div>
                             <div className="grid gap-3">
@@ -243,12 +251,14 @@ const StandardLayout = () => {
                                 ))}
                             </div>
                         </div>
-                    )}
-                </div>
-                <div>
-                    {pageLoading ? (
+                    )}</>
+                )}
+                {pageLoading ? (
+                    <div>
                         <AnimatedEducation />
-                    ) : (
+                    </div>
+                ) : (
+                    <>{certificationData.length > 0 && (
                         <div>
                             <div className="text-xl font-medium border-b border-slate-500 mb-2">Certification</div>
                             <div className="grid gap-3">
@@ -272,12 +282,34 @@ const StandardLayout = () => {
                                 ))}
                             </div>
                         </div>
-                    )}
-                </div>
-                <div>
-                    {pageLoading ? (
+                    )}</>
+                )}
+                {userTypeData?.user_type === "fresher" && (
+                    <>
+                        {pageLoading ? (
+                            <div>
+                                <AnimatedSkills />
+                            </div>
+                        ) : (
+                            <>{skillsData.length > 0 && (
+                                <div>
+                                    <div className="text-xl font-medium border-b border-slate-500 mb-2">Skills</div>
+                                    <div className="grid gap-1">
+                                        {skillsData.map((data, index) => (
+                                            <div key={index} className="text-sm">{data.skillCategory}:<br /><b>{data.skills.join(', ')}</b></div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}</>
+                        )}
+                    </>
+                )}
+                {pageLoading ? (
+                    <div>
                         <AnimatedProjects />
-                    ) : (
+                    </div>
+                ) : (
+                    <>{projectData.length > 0 && (
                         <div>
                             <div className="text-xl font-medium border-b border-slate-500 mb-2">Projects</div>
                             <ul className="text-sm grid gap-1">
@@ -286,8 +318,8 @@ const StandardLayout = () => {
                                 ))}
                             </ul>
                         </div>
-                    )}
-                </div>
+                    )}</>
+                )}
             </div>
         </div>
     )

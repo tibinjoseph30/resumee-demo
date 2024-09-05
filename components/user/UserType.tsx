@@ -1,13 +1,13 @@
 "use client"
 
-import { HiOutlineInformationCircle } from "react-icons/hi2"
+import { HiArrowRight, HiMiniPencil, HiOutlineInformationCircle } from "react-icons/hi2"
 import StepperLayout from "../shared/StepperLayout"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useRouter } from "next/navigation"
 import { Field, Form, Formik } from "formik"
 import { auth } from "../../services/firebase.config"
 import { UserTypeForm } from "../../interfaces/formInterfaces"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Spinner from "../shared/ui/loader/Spinner"
 import { useDispatch, useSelector } from "react-redux"
@@ -60,7 +60,7 @@ const UserType = () => {
                     <StepperLayout>
                         <div className="text-2xl font-semibold mb-8">Getting started with your experience.</div>
                         {pageLoading ? <Spinner size={32} /> :
-                            (<div className="grid grid-cols-2 gap-7">
+                            (<div className="grid sm:grid-cols-2 gap-7">
                                 <div className="control-radio-container">
                                     <Field
                                         type="radio"
@@ -98,9 +98,15 @@ const UserType = () => {
                             <div>
                                 {isReadOnly ? (
                                     <div className="flex gap-4">
-                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
+                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
+                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md sm:hidden">
+                                            <HiMiniPencil />
+                                        </button>
                                         <Link href="/resume/personal-info">
-                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
+                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90 hidden sm:block">Continue</button>
+                                            <button type="button" className="bg-primary p-3 rounded-md text-white sm:hidden">
+                                                <HiArrowRight />
+                                            </button>
                                         </Link>
                                     </div>
                                 ) : (

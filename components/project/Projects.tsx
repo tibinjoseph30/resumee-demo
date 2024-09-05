@@ -110,7 +110,7 @@ const Projects = () => {
                         <Spinner size={32} />
                     </div>) :
                     (<>{projectData.length > 0 ?
-                        <div className="grid grid-cols-2 gap-5 mt-12">
+                        <div className="grid md:grid-cols-2 gap-5 mt-12">
                             {projectData.map((data, index) => (
                                 <div key={index} className="flex flex-col bg-white rounded-lg border">
                                     <div className="flex justify-between items-center px-6 py-4 pb-0">

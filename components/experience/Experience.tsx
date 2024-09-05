@@ -103,7 +103,7 @@ const Experience = () => {
                         <Spinner size={32} />
                     </div>) :
                     (<>{experienceData.length > 0 ?
-                        <div className="grid grid-cols-2 gap-5 mt-12">
+                        <div className="grid xl:grid-cols-2 gap-5 mt-12">
                             {experienceData.map((data, index) => (
                                 <div key={index} className="flex flex-col bg-white rounded-lg border">
                                     <div className="grid px-6 py-4 gap-2 border-b">

@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, Font, Link, Note } from '@react-pdf/renderer';
+import { auth, firestore } from '../../../services/firebase.config';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, ProjectForm, SkillsForm, UserTypeForm } from '../../../interfaces/formInterfaces';
+import { FirebaseError, handleFirebaseError } from '../../../constants/firebaseErrors';
+import { format } from 'date-fns';
 
 Font.register({
     family: 'Bitter Serif',
@@ -83,13 +88,122 @@ Font.register({
 });
 
 const StandardDocument = ({ font, color }: { font: string; color: string }) => {
+    const [personalInfoData, setPersonalInfoData] = useState<PersonalInfoForm | null>(null)
+    const [skillsData, setSkillsData] = useState<SkillsForm[]>([])
+    const [experienceData, setExperienceData] = useState<ExperienceForm[]>([])
+    const [educationData, setEducationData] = useState<EducationForm[]>([])
+    const [certificationData, setCertificationData] = useState<CertificationForm[]>([])
+    const [projectData, setProjectData] = useState<ProjectForm[]>([])
+    const [accountsData, setAccountsData] = useState<AccountsForm | null>(null)
+    const [userTypeData, setUserTypeData] = useState<UserTypeForm | null>(null)
+    const [objectiveData, setObjectiveData] = useState<ObjectiveForm | null>(null)
+
+    const user = auth.currentUser
+
+    const formatDate = (timestamp: { seconds: number } | null | undefined) => {
+        return timestamp ? format(new Date(timestamp.seconds * 1000), 'MMM yyyy') : 'N/A';
+    };
+    const formatYear = (timestamp: { seconds: number } | null | undefined) => {
+        return timestamp ? format(new Date(timestamp.seconds * 1000), 'yyyy') : 'N/A';
+    };
+
+    useEffect(() => {
+        if (!user) {
+            console.log('No authenticated user found.');
+            return
+        }
+        const fetchData = async () => {
+
+            try {
+                const [personalInfoDoc, skillsDocs, experienceDocs, educationDocs, certificationDocs, projectDocs, accountsDoc, userTypeDocs, objectiveDocs] = await Promise.all([
+                    getDoc(doc(firestore, 'personalInfo', user.uid)),
+                    getDocs(query(collection(firestore, 'skills'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(firestore, 'experience'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(firestore, 'education'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(firestore, 'certification'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(firestore, 'projects'), where("userId", "==", user.uid))),
+                    getDoc(doc(firestore, 'accounts', user.uid)),
+                    getDoc(doc(firestore, 'userType', user.uid)),
+                    getDoc(doc(firestore, 'objectives', user.uid)),
+                ]);
+
+                if (personalInfoDoc.exists()) {
+                    const data = personalInfoDoc.data() as PersonalInfoForm
+                    setPersonalInfoData(data);
+                }
+
+                if (!skillsDocs.empty) {
+                    const data = skillsDocs.docs.map(doc => ({
+                        ...(doc.data() as SkillsForm),
+                        id: doc.id
+                    }))
+                    setSkillsData(data);
+                }
+
+                if (!experienceDocs.empty) {
+                    const data = experienceDocs.docs.map(doc => ({
+                        ...(doc.data() as ExperienceForm),
+                        id: doc.id
+                    }))
+                    setExperienceData(data);
+                }
+
+                if (!educationDocs.empty) {
+                    const data = educationDocs.docs.map(doc => ({
+                        ...(doc.data() as EducationForm),
+                        id: doc.id
+                    }))
+                    setEducationData(data);
+                }
+
+                if (!certificationDocs.empty) {
+                    const data = certificationDocs.docs.map(doc => ({
+                        ...(doc.data() as CertificationForm),
+                        id: doc.id
+                    }))
+                    setCertificationData(data);
+                }
+
+                if (!projectDocs.empty) {
+                    const data = projectDocs.docs.map(doc => ({
+                        ...(doc.data() as ProjectForm),
+                        id: doc.id
+                    }))
+                    setProjectData(data);
+                }
+
+                if (accountsDoc.exists()) {
+                    const data = accountsDoc.data() as AccountsForm
+                    setAccountsData(data);
+                }
+
+                if (userTypeDocs.exists()) {
+                    const data = userTypeDocs.data() as UserTypeForm
+                    setUserTypeData(data);
+                    console.log(data.user_type)
+                }
+
+                if (objectiveDocs.exists()) {
+                    const data = objectiveDocs.data() as ObjectiveForm
+                    setObjectiveData(data);
+                }
+
+            } catch (error) {
+                const errorMessage = handleFirebaseError(error as FirebaseError)
+                console.log(errorMessage)
+            }
+        }
+
+        fetchData()
+    }, [user])
+
     const fontFamily = font === 'inter' ? 'Inter' :
         font === 'bitterSerif' ? 'Bitter Serif' :
             font === 'openSans' ? 'Open Sans' :
                 font === 'notoSerif' ? 'Noto Serif' :
-                font === 'poppins' ? 'Poppins' :
-                font === 'cousine' ? 'Cousine' :
-                    font === 'roboto' ? 'Roboto' : 'Inter';
+                    font === 'poppins' ? 'Poppins' :
+                        font === 'cousine' ? 'Cousine' :
+                            font === 'roboto' ? 'Roboto' : 'Inter';
 
     const styles = StyleSheet.create({
         page: {
@@ -117,115 +231,130 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View>
-                    <Text style={[styles.text, { fontSize: 24, fontWeight: 500, textAlign: 'center' }]}>John Doe</Text>
+                    <Text style={[styles.text, { fontSize: 24, fontWeight: 500, textAlign: 'center', textTransform: 'capitalize' }]}>{personalInfoData?.firstName} {personalInfoData?.lastName}</Text>
                 </View>
                 <View style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
-                    <Text style={styles.text}>Frontend Developer</Text>
-                    <Text style={styles.text}>7569856321{' '}|{' '}jd@yopmail.com</Text>
+                    <Text style={styles.text}>{personalInfoData?.designation}</Text>
+                    <Text style={styles.text}>{personalInfoData?.mobileNumber}{' '}|{' '}{personalInfoData?.email}</Text>
                     <Text style={styles.text}>
-                        <Link src="https://github.com/johndoe1">github.com/johndoe1</Link>{' '}|{' '}
-                        <Link src="https://linkedin.com/in/johndoe">linkedin.com/in/johndoe</Link>
+                        {accountsData?.githubAccount === true && (
+                            <Link src={accountsData.githubUrl}>{accountsData?.githubUrl}</Link>
+                        )}
+                        {accountsData?.githubAccount === true && accountsData.linkedInAccount === true && ' | '}
+                        {accountsData?.linkedInAccount === true && (
+                            <Link src={accountsData.linkedinUrl}>{accountsData?.linkedinUrl}</Link>
+                        )}
                     </Text>
                 </View>
-                <View style={{ marginBottom: 20 }}>
-                    <View style={{ borderBottom: '1px solid #555' }}>
-                        <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Skills</Text>
-                    </View>
-                    <View style={{ marginTop: 5 }}>
-                        <View style={{ marginBottom: 5 }}>
-                            <Text style={styles.text}>Languages: </Text>
-                            <Text style={[styles.text, { fontWeight: 'bold' }]}>C/C++, Java, Python, JavaScript, TypeScript, SQL</Text>
+                {userTypeData?.user_type === "experienced" ? (
+                    <>
+                        <View style={{ borderBottom: '1px solid #555', marginBottom: 5 }}>
+                            <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Skills</Text>
                         </View>
-                        <View style={{ marginBottom: 5 }}>
-                            <Text style={styles.text}>Technologies & Tools: </Text>
-                            <Text style={[styles.text, { fontWeight: 'bold' }]}>AWS, EC2, DynamoDB, S3, SQS, Lambda, Athena, Elasticsearch, Spark, Hive, Presto, Docker, Splunk, Kafka, Spring, Angular, ReactJS</Text>
+                        {skillsData.map((data, index) => (
+                            <View key={index} style={{ marginBottom: 10 }}>
+                                <Text style={styles.text}>{data.skillCategory}: </Text>
+                                <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.skills.join(', ')}</Text>
+                            </View>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        <View style={{ borderBottom: '1px solid #555', marginBottom: 5 }}>
+                            <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Objective</Text>
                         </View>
-                    </View>
-                </View>
-                <View style={{ marginBottom: 20 }}>
-                    <View style={{ borderBottom: '1px solid #555' }}>
-                        <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Work Experience</Text>
-                    </View>
-                    <View style={{ marginTop: 5 }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <Text style={[styles.text, { fontWeight: 'bold' }]}>Adobe, Bangalore</Text>
-                            <Text style={styles.text}>Mar 2021 - Present</Text>
+                        <View style={{ marginBottom: 10 }}>
+                            <Text style={styles.text}>{objectiveData?.objectives}</Text>
                         </View>
-                        <View style={{ marginBottom: 5 }}>
-                            <Text style={[styles.text, { fontStyle: 'italic', fontWeight: 500, marginBottom: 5 }]}>Comuter Scientist</Text>
-                            <View style={{ paddingLeft: 15, paddingRight: 12 }}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.disc}>•</Text>
-                                    <Text style={styles.text}>Led the migration of Hive and Presto jobs from Qubole to AWS EMR, enhancing availability and significantly reducing operational costs.</Text>
+                    </>
+                )}
+                {userTypeData?.user_type === "experienced" && (
+                    <>
+                        <View style={{ borderBottom: '1px solid #555', marginBottom: 5, marginTop: 10 }}>
+                            <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Work Experience</Text>
+                        </View>
+                        {experienceData.map((data, index) => (
+                            <View key={index} style={{ marginBottom: 10 }}>
+                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.organization}, {data.state}</Text>
+                                    <Text style={styles.text}>{formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</Text>
                                 </View>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.disc}>•</Text>
-                                    <Text style={styles.text}>Reduced the cost involved in running custom reports service by more than 80% by devising an automated system that identified and disabled reports with no usage or empty data</Text>
+                                <View>
+                                    <Text style={[styles.text, { fontStyle: 'italic', fontWeight: 500 }]}>{data.designation}</Text>
+                                    <View style={{ paddingLeft: 15, paddingRight: 12, marginTop: 5 }}>
+                                        {data.roles.map((role, roleIndex) => (
+                                            <View key={roleIndex} style={{ flexDirection: 'row' }}>
+                                                <Text style={styles.disc}>•</Text>
+                                                <Text style={styles.text}>{role}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </View>
-                    <View style={{ marginTop: 5 }}>
+                        ))}
+                    </>
+                )}
+                <View style={{ borderBottom: '1px solid #555', marginBottom: 5, marginTop: 10 }}>
+                    <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Education</Text>
+                </View>
+                {educationData.map((data, index) => (
+                    <View key={index} style={{ marginBottom: 10 }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={[styles.text, { fontWeight: 'bold' }]}>Amazone, Bangalore</Text>
-                            <Text style={styles.text}>Sep 2019 - Mar 2021</Text>
+                            <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.courseName}</Text>
+                            <Text style={styles.text}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
                         </View>
-                        <View style={{ marginBottom: 5 }}>
-                            <Text style={[styles.text, { fontStyle: 'italic', fontWeight: 500, marginBottom: 5 }]}>Software Development Engineer</Text>
-                            <View style={{ paddingLeft: 15, paddingRight: 12 }}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.disc}>•</Text>
-                                    <Text style={styles.text}>Led the migration of Hive and Presto jobs from Qubole to AWS EMR, enhancing availability and significantly reducing operational costs.</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.disc}>•</Text>
-                                    <Text style={styles.text}>Reduced the cost involved in running custom reports service by more than 80% by devising an automated system that identified and disabled reports with no usage or empty data</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.disc}>•</Text>
-                                    <Text style={styles.text}>Led a cost-saving initiative by identifying unused AWS resources and establishing S3 bucket expiration policies, leading to an annual cost reduction exceeding $50,000 in AWS expenditures.</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ marginBottom: 20 }}>
-                    <View style={{ borderBottom: '1px solid #555' }}>
-                        <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Education</Text>
-                    </View>
-                    <View style={{ marginTop: 5 }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={[styles.text, { fontWeight: 'bold' }]}>BITS Hyderabad</Text>
-                            <Text style={styles.text}>Sep 2019 - Mar 2021</Text>
+                            <Text style={styles.text}>{data.university}, {data.state}</Text>
+                            <Text style={[styles.text, { fontWeight: 600 }]}>{data.marksIn}: {data.marksIn === "GPA" ? data.marksInGpa + '/4' : data.marksIn === "CGPA" ? data.marksInCgpa + '/10' : data.marksInPer}</Text>
                         </View>
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                            <Text style={styles.text}>B.E. in Computer Science and Engineering</Text>
-                            <Text style={[styles.text, { fontWeight: 600 }]}>CGPA: 7.96/10</Text>
-                        </View>
-                        <View style={{ marginTop: 5 }}>
-                            <Text style={styles.text}>Relevant Coursework: Object Oriented Programming, Databases, Discrete Maths, Data Structures and Algorithms, Operating Systems, Computer Networks, Machine Learning, Data Mining, Advance Data Structures and Algorithms, Information Retrieval, Image Processing</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ marginBottom: 20 }}>
-                    <View style={{ borderBottom: '1px solid #555' }}>
-                        <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Projects</Text>
-                    </View>
-                    <View style={{ marginTop: 5 }}>
-                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                            <View>
-                                <Text style={[styles.text, { fontWeight: 'bold' }]}>Word Lookup Dictionary (2015):</Text>
-                                <Text style={styles.text}>Developed a desktop software for online lookup of English words. Implemented efficient search of valid words using Trie data structure. Implemented spelling correction and auto-suggestion using edit distance algorithm. Used web scraping to get the data for online lookup. Python, BeautifulSoup.</Text>
+                        {(data.coreSubjects.length > 0 || data.complimentarySubjects.length > 0) && (
+                            <View style={{ marginTop: 5 }}>
+                                <Text style={styles.text}>{data.coreSubjects.length > 0 ? `Core Subjects: ${data.coreSubjects.join(', ')}.` : ''} {data.complimentarySubjects.length > 0 ? `Complimentary Subjects: ${data.complimentarySubjects.join(', ')}.` : ''}</Text>
                             </View>
-                        </View>
-                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                            <View>
-                                <Text style={[styles.text, { fontWeight: 'bold' }]}>Alternative-Routes in Road Networks (2016):</Text>
-                                <Text style={styles.text}>the route which takes the shortest time to travel from source to destination in a given road network with randomly generated traffic. Implemented methods to avoid collisions between vehicles by dynamically changing their speeds. Used C++ and OpenGL library for simulation. C++, OpenGL</Text>
-                            </View>
-                        </View>
+                        )}
                     </View>
+                ))}
+                <View style={{ borderBottom: '1px solid #555', marginBottom: 5, marginTop: 10 }}>
+                    <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Certification</Text>
                 </View>
+                {certificationData.map((data, index) => (
+                    <View key={index} style={{ marginBottom: 10 }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.courseName}</Text>
+                            <Text style={styles.text}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={styles.text}>{data.institution}, {data.state}</Text>
+                        </View>
+                        {data.subjects.length > 0 && (
+                            <View style={{ marginTop: 5 }}>
+                                <Text style={styles.text}>{data.subjects.length > 0 && `Areas of Expertise: ${data.subjects.join(', ')}.`}</Text>
+                            </View>
+                        )}
+                    </View>
+                ))}
+                {userTypeData?.user_type === "fresher" && (
+                    <>
+                        <View style={{ borderBottom: '1px solid #555', marginBottom: 5, marginTop: 10 }}>
+                            <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Skills</Text>
+                        </View>
+                        {skillsData.map((data, index) => (
+                            <View key={index} style={{ marginBottom: 10 }}>
+                                <Text style={styles.text}>{data.skillCategory}: </Text>
+                                <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.skills.join(', ')}</Text>
+                            </View>
+                        ))}
+                    </>
+                )}
+                <View style={{ borderBottom: '1px solid #555', marginBottom: 5, marginTop: 10 }}>
+                    <Text style={[styles.text, { fontSize: 16, fontWeight: 500 }]}>Projects</Text>
+                </View>
+                {projectData.map((data, index) => (
+                    <View key={index} style={{ marginBottom: 10 }}>
+                        <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.projectName} {`(${formatYear(data.projectStartedOn)})`}</Text>
+                        <Text style={styles.text}>{data.description}</Text>
+                    </View>
+                ))}
             </Page>
         </Document>
     );

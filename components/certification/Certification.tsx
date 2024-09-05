@@ -102,7 +102,7 @@ const Certification = () => {
                     (<div className="mt-12">
                         <Spinner size={32} />
                     </div>) :
-                    <div className="grid grid-cols-3 gap-5 mt-12">
+                    <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5 mt-12">
                         {certificationData.map((data, index) => (
                             <div key={index} className="flex flex-col bg-white rounded-lg border">
                                 <div className="px-6 py-4 border-b gap-1">

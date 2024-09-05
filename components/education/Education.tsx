@@ -103,7 +103,7 @@ const Education = () => {
                         <Spinner size={32} />
                     </div>) :
                     (<>{educationData.length > 0 ?
-                        <div className="grid grid-cols-2 gap-5 mt-12">
+                        <div className="grid xl:grid-cols-2 gap-5 mt-12">
                             {educationData.map((data, index) => (
                                 <div key={index} className="flex flex-col bg-white rounded-lg border">
                                     <div className="grid px-6 py-4 gap-2 border-b">
@@ -121,7 +121,7 @@ const Education = () => {
                                     </div>
                                     <div className="flex-1">
                                         <div className="grid gap-4 p-6">
-                                            <div className="grid grid-cols-2 gap-5">
+                                            <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-5">
                                                 <div>
                                                     <div className="text-sm text-slate-500">Join Date</div>
                                                     <div className="text-sm">{formatDate(data.joinDate)}</div>

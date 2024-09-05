@@ -38,7 +38,7 @@ const StepperControlsLayout: React.FC<LayoutProps> = ({ currentStep, totalSteps,
                         type='button'
                         className='bg-gray-600 text-white p-3 rounded-md min-w-28 font-medium hover:opacity-90'
                     >
-                        Cancel
+                        Reset
                     </button>
                     {children}
                 </div>

@@ -114,8 +114,8 @@ const PersonalInfo = () => {
                             </div>
                             {pageLoading ? <Spinner size={32} /> :
                                 (<div>
-                                    <div className="grid grid-cols-2 gap-7">
-                                        <div className="form-group col-end-2">
+                                    <div className="grid md:grid-cols-2 gap-7">
+                                        <div className="form-group">
                                             <label htmlFor="firstName" className="control-label">First name</label>
                                             <Field
                                                 type="text"
@@ -168,7 +168,7 @@ const PersonalInfo = () => {
                                             </Field>
                                             <ErrorMessage name="mobileNumber" component="div" className="text-red-500 text-sm mt-1" />
                                         </div>
-                                        <div className="form-group col-span-2">
+                                        <div className="form-group sm:col-span-2">
                                             <label htmlFor="email" className="control-label">Email</label>
                                             <Field
                                                 type="text"
@@ -184,7 +184,7 @@ const PersonalInfo = () => {
                                     <div className="mt-10 mb-5">
                                         <div className="text-xl font-semibold">Address</div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-7">
+                                    <div className="grid sm:grid-cols-2 gap-7">
                                         <div className="form-group">
                                             <label htmlFor="house" className="control-label">House / Flat / Villa</label>
                                             <Field

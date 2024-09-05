@@ -98,7 +98,7 @@ const Skills = () => {
                         <Spinner size={32} />
                     </div>) :
                     (<>{skillsData.length > 0 ?
-                        <div className="grid grid-cols-2 gap-5 mt-12">
+                        <div className="grid md:grid-cols-2 gap-5 mt-12">
                             {skillsData.map((data, index) => (
                                 <div key={index} className="flex flex-col bg-white rounded-lg border">
                                     <div className="px-6 py-4 pb-0">

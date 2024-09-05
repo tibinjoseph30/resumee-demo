@@ -7,8 +7,8 @@ interface InactivityAlertProps {
 const SessionTimeoutAlert: React.FC<InactivityAlertProps> = ({ remainingTime }) => {
     const seconds = Math.floor(remainingTime / 1000);
   return (
-    <div className="fixed bg-black/25 inset-0 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-12 w-1/3 text-center">
+    <div className="fixed bg-black/25 inset-0 flex items-center justify-center z-50 p-3">
+      <div className="bg-white rounded-xl p-12 xl:w-1/3 text-center">
         <div className="text-gray-700 text-2xl font-semibold mb-4">
           Your session will expire soon!
         </div>

@@ -89,7 +89,7 @@ const EditProject = () => {
                                 <div className="text-2xl font-semibold">Edit Project</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
-                            <div className="grid grid-cols-2 gap-7">
+                            <div className="grid sm:grid-cols-2 gap-7">
                                 <div className="form-group">
                                     <label htmlFor="projectName" className="control-label">Project Name</label>
                                     <Field
@@ -118,7 +118,7 @@ const EditProject = () => {
                                     />
                                     <ErrorMessage name="projectStartedOn" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
-                                <div className="form-group col-span-2">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="description" className="control-label">Description</label>
                                     <Field
                                         as="textarea"
@@ -129,7 +129,7 @@ const EditProject = () => {
                                     />
                                     <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
-                                <div className="form-group col-span-2">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="technology" className="control-label">Technologies</label>
                                     <Field name="technology">
                                         {({ form }: { form: any }) => (

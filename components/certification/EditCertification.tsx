@@ -105,8 +105,8 @@ const EditCertification = () => {
                                 <div className="text-2xl font-semibold">Edit Certification</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
-                            <div className="grid grid-cols-2 gap-7">
-                                <div className="form-group col-span-2">
+                            <div className="grid sm:grid-cols-2 gap-7">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="courseName" className="control-label">Course Name</label>
                                     <Field
                                         type="text"

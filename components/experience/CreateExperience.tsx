@@ -69,8 +69,8 @@ const CreateExperience = () => {
                                 <div className="text-2xl font-semibold">Create New Experience</div>
                                 <div className="text-slate-400 mt-1">Fill up the details below</div>
                             </div>
-                            <div className="grid grid-cols-2 gap-7">
-                                <div className="form-group col-span-2">
+                            <div className="grid sm:grid-cols-2 gap-7">
+                                <div className="form-group sm:col-span-2">
                                     <div className="control-check">
                                         <Field
                                             type="checkbox"
@@ -84,7 +84,7 @@ const CreateExperience = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <div className="form-group col-span-2">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="organization" className="control-label">Organization Name</label>
                                     <Field
                                         type="text"
@@ -95,7 +95,7 @@ const CreateExperience = () => {
                                     />
                                     <ErrorMessage name="organization" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
-                                <div className="form-group col-span-2">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="designation" className="control-label">Designation</label>
                                     <Field
                                         type="text"
@@ -214,7 +214,7 @@ const CreateExperience = () => {
                                     />
                                     <ErrorMessage name="city" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
-                                <div className="form-group col-span-2">
+                                <div className="form-group sm:col-span-2">
                                     <label htmlFor="roles" className="control-label">Key Roles</label>
                                     <div className="text-sm mb-3">(<b>Note:</b> Adding key roles to your resume can help you demonstrate your capabilities and achievements in different positions, and impress recruiters.)</div>
                                     <Field name="roles">

@@ -13,6 +13,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { accountsInitialValues } from '../../constants/initialFormValues';
 import { accountsValidationSchema } from '../../constants/validationSchema';
 import { useRouter } from 'next/navigation';
+import { HiOutlinePencil } from 'react-icons/hi2';
 
 const Accounts = () => {
     const [loading, setLoading] = useState(false);
@@ -162,8 +163,11 @@ const Accounts = () => {
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (
-                                        <div className="flex gap-4">
-                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
+                                        <div className="flex sm:gap-4 gap-2">
+                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
+                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md sm:hidden">
+                                                <HiOutlinePencil size={22} />
+                                            </button>
                                             <Link href="/resume/preview">
                                                 <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Preview</button>
                                             </Link>

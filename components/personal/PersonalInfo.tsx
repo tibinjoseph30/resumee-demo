@@ -16,6 +16,7 @@ import { FirebaseError, handleFirebaseError } from '../../constants/firebaseErro
 import Spinner from '../shared/ui/loader/Spinner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { HiOutlinePencil } from 'react-icons/hi2';
 
 const PersonalInfo = () => {
 
@@ -304,8 +305,11 @@ const PersonalInfo = () => {
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (
-                                        <div className="flex gap-4">
-                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
+                                        <div className="flex sm:gap-4 gap-2">
+                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
+                                            <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md sm:hidden">
+                                                <HiOutlinePencil size={22} />
+                                            </button>
                                             <Link href="/resume/education">
                                                 <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
                                             </Link>

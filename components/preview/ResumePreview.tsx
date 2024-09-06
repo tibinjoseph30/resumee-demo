@@ -96,13 +96,13 @@ const ResumePreview = () => {
                 onSubmit={handleSubmit}
             >
                 {({ setFieldValue, handleBlur, values, resetForm }) => (
-                    <div className="grid grid-cols-3 py-6">
+                    <div className="grid lg:grid-cols-3 py-6">
                         <div className="col-span-2">
                             <div className="bg-white p-6 w-4/5 mx-auto shadow-sm">
                                 {renderLayout(values.layouts, values.fonts, values.selectedColor)}
                             </div>
                         </div>
-                        <div className="bg-white fixed w-1/3 top-0 bottom-0 right-0 p-6 border-l">
+                        <div className="bg-white fixed lg:w-1/3 sm:w-96 w-72 top-0 bottom-0 right-0 p-6 border-l">
                             <Form>
                                 <div className="grid gap-6">
                                     <div className="form-group">

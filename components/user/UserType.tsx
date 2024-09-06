@@ -1,6 +1,6 @@
 "use client"
 
-import { HiArrowRight, HiMiniPencil, HiOutlineInformationCircle } from "react-icons/hi2"
+import { HiArrowRight, HiMiniPencil, HiOutlineInformationCircle, HiOutlinePencil } from "react-icons/hi2"
 import StepperLayout from "../shared/StepperLayout"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useRouter } from "next/navigation"
@@ -97,16 +97,13 @@ const UserType = () => {
                         {pageLoading ? <></> : (
                             <div>
                                 {isReadOnly ? (
-                                    <div className="flex gap-4">
+                                    <div className="flex sm:gap-4 gap-2">
                                         <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
                                         <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md sm:hidden">
-                                            <HiMiniPencil />
+                                            <HiOutlinePencil size={22} />
                                         </button>
                                         <Link href="/resume/personal-info">
-                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90 hidden sm:block">Continue</button>
-                                            <button type="button" className="bg-primary p-3 rounded-md text-white sm:hidden">
-                                                <HiArrowRight />
-                                            </button>
+                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
                                         </Link>
                                     </div>
                                 ) : (

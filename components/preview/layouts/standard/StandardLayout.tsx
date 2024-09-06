@@ -153,10 +153,10 @@ const StandardLayout = () => {
                     {pageLoading ? (
                         <AnimatedAccountDetails />
                     ) : (
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap sm:flex-row flex-col sm:gap-2">
                             <div><a href=""><u>{accountsData?.githubUrl}</u></a></div>
                             {accountsData?.githubAccount === true && accountsData.linkedInAccount === true && (
-                                <div>|</div>
+                                <div className="hidden sm:block">|</div>
                             )}
                             <div><a href=""><u>{accountsData?.linkedinUrl}</u></a></div>
                         </div>

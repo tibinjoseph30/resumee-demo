@@ -58,7 +58,7 @@ const UserType = () => {
             >
                 <Form>
                     <StepperLayout>
-                        <div className="text-2xl font-semibold mb-8">Getting started with your experience.</div>
+                        <div className="text-2xl font-semibold mb-8">Getting started with your experience</div>
                         {pageLoading ? <Spinner size={32} /> :
                             (<div className="grid sm:grid-cols-2 gap-7">
                                 <div className="control-radio-container">

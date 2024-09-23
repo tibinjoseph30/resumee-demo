@@ -13,6 +13,8 @@ import SinglePageDocument from "./documents/SinglePageDocument";
 import CreativeDocument from "./documents/CreativeDocument";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { previewInitialValues } from "../../constants/initialFormValues";
+import styles from './ResumePreview.module.scss'
+import { HiCog } from "react-icons/hi";
 
 // Helper function to get font class
 const getFontClass = (font: string) => {
@@ -60,6 +62,8 @@ const ResumePreview = () => {
         // Handle form submission here
     };
 
+    const [isOpen, setIsOpen] = useState(false)
+
     const renderLayout = (layout: string, font: string, color: string) => {
         const fontClass = getFontClass(font);
         const layoutStyle = { color };
@@ -96,13 +100,17 @@ const ResumePreview = () => {
                 onSubmit={handleSubmit}
             >
                 {({ setFieldValue, handleBlur, values, resetForm }) => (
-                    <div className="grid lg:grid-cols-3 py-6">
-                        <div className="col-span-2">
-                            <div className="bg-white p-6 w-4/5 mx-auto shadow-sm">
+                    <div className="grid lg:grid-cols-3 sm:py-6 py-3">
+                        <div onClick={()=> setIsOpen(true)} className={`bg-primary text-white rounded-full flex items-center justify-center fixed ${styles.settingsToggler}`}>
+                            <HiCog size={24} />
+                        </div>
+                        <div onClick={()=> setIsOpen(false)} className={`inset-0 bg-slate-900/50 ${isOpen ? 'fixed' : 'hidden'}`}></div>
+                        <div className="col-span-2 overflow-x-auto">
+                            <div className={`bg-white p-6 sm:w-4/5 sm:mx-auto mx-3 shadow-sm ${styles.preview}`}>
                                 {renderLayout(values.layouts, values.fonts, values.selectedColor)}
                             </div>
                         </div>
-                        <div className="bg-white fixed lg:w-1/3 sm:w-96 w-72 top-0 bottom-0 right-0 p-6 border-l">
+                        <div className={`bg-white fixed lg:w-1/3 top-0 right-0 bottom-0 p-6 border-l ${styles.settingsController} ${isOpen ? styles.opened : ''}`}>
                             <Form>
                                 <div className="grid gap-6">
                                     <div className="form-group">

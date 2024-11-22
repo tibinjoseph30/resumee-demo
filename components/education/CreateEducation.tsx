@@ -11,7 +11,7 @@ import { educationInitialValues } from "../../constants/initialFormValues";
 import { educationValidationSchema } from "../../constants/validationSchema";
 import { useCountrySelect } from "../../context/useCountrySelect";
 import { EducationForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import Spinner from "../shared/ui/loader/Spinner";
@@ -43,7 +43,7 @@ const CreateEducation = () => {
 
         try {
             if (user) {
-                const educationCollectionRef = collection(firestore, 'education');
+                const educationCollectionRef = collection(db, 'education');
                 await addDoc(educationCollectionRef, {
                     ...values,
                     userId: user.uid

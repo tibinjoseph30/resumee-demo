@@ -10,7 +10,7 @@ import { projectsValidationSchema } from "../../constants/validationSchema";
 import { useParams, useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { ProjectForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import DatePicker from "react-datepicker";
@@ -30,7 +30,7 @@ const EditProject = () => {
             const fetchEducationData = async () => {
                 try {
                     setPageLoading(true)
-                    const docRef = doc(firestore, 'projects', id);
+                    const docRef = doc(db, 'projects', id);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         const data = docSnap.data() as ProjectForm
@@ -53,7 +53,7 @@ const EditProject = () => {
         setLoading(true);
         try {
             if (user) {
-                const docRef = doc(firestore, 'projects', id); // Use id to update specific document
+                const docRef = doc(db, 'projects', id); // Use id to update specific document
                 await updateDoc(docRef, {
                     ...values,
                     userId: user.uid,

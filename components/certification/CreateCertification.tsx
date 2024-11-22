@@ -13,7 +13,7 @@ import { useCountrySelect } from "../../context/useCountrySelect";
 import TagsInput from "react-tagsinput";
 import { useRouter } from "next/navigation";
 import { CertificationForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
@@ -33,7 +33,7 @@ const CreateCertification = () => {
 
         try {
             if (user) {
-                const certificationCollectionRef = collection(firestore, 'certification');
+                const certificationCollectionRef = collection(db, 'certification');
                 await addDoc(certificationCollectionRef, {
                     ...values,
                     userId: user.uid

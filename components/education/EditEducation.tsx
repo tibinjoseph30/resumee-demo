@@ -16,7 +16,7 @@ import Spinner from "../shared/ui/loader/Spinner";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { useParams, useRouter } from "next/navigation";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
 const EditEducation = () => {
@@ -39,7 +39,7 @@ const EditEducation = () => {
             const fetchEducationData = async () => {
                 try {
                     setPageLoading(true)
-                    const docRef = doc(firestore, 'education', id);
+                    const docRef = doc(db, 'education', id);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         const data = docSnap.data() as EducationForm
@@ -84,7 +84,7 @@ const EditEducation = () => {
         setLoading(true);
         try {
             if (user) {
-                const docRef = doc(firestore, 'education', id); // Use id to update specific document
+                const docRef = doc(db, 'education', id); // Use id to update specific document
                 await updateDoc(docRef, {
                     ...values,
                     userId: user.uid,

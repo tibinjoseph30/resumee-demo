@@ -10,7 +10,7 @@ import TagsInput from "react-tagsinput";
 import { objectivesInitialValues } from "../../constants/initialFormValues";
 import { objectivesValidationSchema } from "../../constants/validationSchema";
 import { ObjectiveForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
@@ -34,7 +34,7 @@ const Objectives = () => {
             try {
                 console.log('Fetching data for user:', user.uid);
                 setPageLoading(true);
-                const docRef = doc(firestore, 'objectives', user.uid);
+                const docRef = doc(db, 'objectives', user.uid);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -67,7 +67,7 @@ const Objectives = () => {
 
         try {
             if (user) {
-                const docRef = doc(firestore, 'objectives', user.uid)
+                const docRef = doc(db, 'objectives', user.uid)
                 await setDoc(docRef, values, { merge: true })
                 console.log('Data successfully saved to Firestore');
                 router.push('/resume/accounts')

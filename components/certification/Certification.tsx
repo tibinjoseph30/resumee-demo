@@ -6,7 +6,7 @@ import { HiMiniPlus } from "react-icons/hi2"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useEffect, useState } from "react"
 import { CertificationForm } from "../../interfaces/formInterfaces"
-import { auth, firestore } from "../../services/firebase.config"
+import { auth, db } from "../../services/firebase.config"
 import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
 import Spinner from "../shared/ui/loader/Spinner"
@@ -35,7 +35,7 @@ const Certification = () => {
 
             try {
                 setPageLoading(true)
-                const certificationCollectionRef = collection(firestore, 'certification');
+                const certificationCollectionRef = collection(db, 'certification');
                 const docSnap = await getDocs(query(certificationCollectionRef, where("userId", "==", user.uid)));
 
                 if (!docSnap.empty) {
@@ -67,7 +67,7 @@ const Certification = () => {
         setLoading(true)
         if (deletingId) {
             try {
-                await deleteDoc(doc(firestore, 'certification', deletingId));
+                await deleteDoc(doc(db, 'certification', deletingId));
                 setCertificationData(certificationData.filter(data => data.id !== deletingId));
             } catch (error) {
                 console.log('Error deleting document:', error);

@@ -10,7 +10,7 @@ import { projectsValidationSchema } from "../../constants/validationSchema";
 import { useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { ProjectForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import DatePicker from "react-datepicker";
@@ -28,7 +28,7 @@ const CreateProject = () => {
 
         try {
             if (user) {
-                const projectsCollectionRef = collection(firestore, 'projects');
+                const projectsCollectionRef = collection(db, 'projects');
                 await addDoc(projectsCollectionRef, {
                     ...values,
                     userId: user.uid

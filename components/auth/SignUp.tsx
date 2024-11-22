@@ -2,7 +2,7 @@
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth, firestore } from '../../services/firebase.config';
+import { auth, db } from '../../services/firebase.config';
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { signUpValidationSchema } from "../../constants/validationSchema";
 import { SignUpForm } from "../../interfaces/formInterfaces";
@@ -30,7 +30,7 @@ const SignUp = () => {
             console.log(user)
 
             if (user) {
-                await setDoc(doc(firestore, 'users', user.uid), {
+                await setDoc(doc(db, 'users', user.uid), {
                     firstName,
                     lastName,
                     email,

@@ -17,8 +17,10 @@ const firebaseConfig = {
   measurementId: "G-WJ55HZZC6L"
 };
 
+console.log('All Environment Variables:', process.env);
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const firestore = getFirestore(app);
+const db = getFirestore(app);
 
-export {auth, firestore}
+export { auth, db }

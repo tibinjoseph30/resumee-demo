@@ -13,7 +13,7 @@ import TagsInput from "react-tagsinput";
 import Spinner from "../shared/ui/loader/Spinner";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { useRouter } from "next/navigation";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
@@ -33,7 +33,7 @@ const CreateExperience = () => {
 
         try {
             if (user) {
-                const experienceCollectionRef = collection(firestore, 'experience');
+                const experienceCollectionRef = collection(db, 'experience');
                 await addDoc(experienceCollectionRef, {
                     ...values,
                     userId: user.uid

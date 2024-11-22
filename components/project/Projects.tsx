@@ -8,7 +8,7 @@ import StepperControlsLayout from "../shared/StepperControlsLayout"
 import ConfirmationModal from "../shared/ui/confirmation/Confirmation"
 import { useEffect, useState } from "react"
 import { ProjectForm, UserTypeForm } from "../../interfaces/formInterfaces"
-import { auth, firestore } from "../../services/firebase.config"
+import { auth, db } from "../../services/firebase.config"
 import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
 import { format } from "date-fns"
@@ -38,8 +38,8 @@ const Projects = () => {
                 setPageLoading(true)
 
                 const [projectDocs, userTypeDocs] = await Promise.all([
-                    getDocs(query(collection(firestore, 'projects'), where("userId", "==", user.uid))),
-                    getDoc(doc(firestore, 'userType', user.uid)),
+                    getDocs(query(collection(db, 'projects'), where("userId", "==", user.uid))),
+                    getDoc(doc(db, 'userType', user.uid)),
                 ]);
 
                 if (!projectDocs.empty) {
@@ -75,7 +75,7 @@ const Projects = () => {
         setLoading(true)
         if (deletingId) {
             try {
-                await deleteDoc(doc(firestore, 'projects', deletingId))
+                await deleteDoc(doc(db, 'projects', deletingId))
                 setProjectData(projectData.filter(data => data.id !== deletingId))
             } catch (error) {
                 console.log('Error deleting document:', error);

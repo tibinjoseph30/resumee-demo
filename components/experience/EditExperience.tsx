@@ -13,7 +13,7 @@ import TagsInput from "react-tagsinput";
 import Spinner from "../shared/ui/loader/Spinner";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { useParams, useRouter } from "next/navigation";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
@@ -35,7 +35,7 @@ const EditExperience = () => {
             const fetchData = async () => {
                 try {
                     setPageLoading(true)
-                    const docRef = doc(firestore, 'experience', id);
+                    const docRef = doc(db, 'experience', id);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         const data = docSnap.data() as ExperienceForm
@@ -67,7 +67,7 @@ const EditExperience = () => {
         setLoading(true);
         try {
             if (user) {
-                const docRef = doc(firestore, 'experience', id);
+                const docRef = doc(db, 'experience', id);
                 await updateDoc(docRef, {
                     ...values,
                     userId: user.uid,

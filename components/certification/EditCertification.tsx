@@ -8,7 +8,7 @@ import TagsInput from "react-tagsinput";
 import Spinner from "../shared/ui/loader/Spinner";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { useEffect, useState } from "react";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { CertificationForm } from "../../interfaces/formInterfaces";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useParams, useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ const EditCertification = () => {
             const fetchEducationData = async () => {
                 try {
                     setPageLoading(true)
-                    const docRef = doc(firestore, 'certification', id);
+                    const docRef = doc(db, 'certification', id);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         const data = docSnap.data() as CertificationForm
@@ -61,7 +61,7 @@ const EditCertification = () => {
         setLoading(true);
         try {
             if (user) {
-                const docRef = doc(firestore, 'certification', id); // Use id to update specific document
+                const docRef = doc(db, 'certification', id); // Use id to update specific document
                 await updateDoc(docRef, {
                     ...values,
                     userId: user.uid,

@@ -10,7 +10,7 @@ import { skillsValidationSchema } from "../../constants/validationSchema";
 import { useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { SkillsForm } from "../../interfaces/formInterfaces";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
@@ -26,7 +26,7 @@ const CreateSkill = () => {
 
         try {
             if (user) {
-                const skillsCollectionRef = collection(firestore, 'skills');
+                const skillsCollectionRef = collection(db, 'skills');
                 await addDoc(skillsCollectionRef, {
                     ...values,
                     userId: user.uid

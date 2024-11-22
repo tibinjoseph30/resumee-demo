@@ -3,7 +3,7 @@
 import StepperLayout from '../shared/StepperLayout';
 import Link from 'next/link';
 import StepperControlsLayout from '../shared/StepperControlsLayout';
-import { auth, firestore } from '../../services/firebase.config';
+import { auth, db } from '../../services/firebase.config';
 import { useEffect, useState } from 'react';
 import { AccountsForm } from '../../interfaces/formInterfaces';
 import Spinner from '../shared/ui/loader/Spinner';
@@ -34,7 +34,7 @@ const Accounts = () => {
             try {
                 console.log('Fetching data for user:', user.uid);
                 setPageLoading(true);
-                const docRef = doc(firestore, 'accounts', user.uid);
+                const docRef = doc(db, 'accounts', user.uid);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -67,7 +67,7 @@ const Accounts = () => {
 
         try {
             if (user) {
-                const docRef = doc(firestore, 'accounts', user.uid)
+                const docRef = doc(db, 'accounts', user.uid)
                 await setDoc(docRef, values, { merge: true })
                 console.log('Data successfully saved to Firestore');
                 router.push('/resume/preview')

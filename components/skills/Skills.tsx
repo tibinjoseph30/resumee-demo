@@ -4,7 +4,7 @@ import { HiMiniPlus } from 'react-icons/hi2';
 import StepperLayout from '../shared/StepperLayout';
 import Link from 'next/link';
 import StepperControlsLayout from '../shared/StepperControlsLayout';
-import { auth, firestore } from '../../services/firebase.config';
+import { auth, db } from '../../services/firebase.config';
 import { useEffect, useState } from 'react';
 import { SkillsForm } from '../../interfaces/formInterfaces';
 import Spinner from '../shared/ui/loader/Spinner';
@@ -30,7 +30,7 @@ const Skills = () => {
 
             try {
                 setPageLoading(true)
-                const skillsCollectionRef = collection(firestore, 'skills');
+                const skillsCollectionRef = collection(db, 'skills');
                 const docSnap = await getDocs(query(skillsCollectionRef, where("userId", "==", user.uid)));
 
                 if (!docSnap.empty) {
@@ -62,7 +62,7 @@ const Skills = () => {
         setLoading(true)
         if (deletingId) {
             try {
-                await deleteDoc(doc(firestore, 'skills', deletingId));
+                await deleteDoc(doc(db, 'skills', deletingId));
                 setSkillsData(skillsData.filter(data => data.id !== deletingId));
             } catch (error) {
                 console.log('Error deleting document:', error);

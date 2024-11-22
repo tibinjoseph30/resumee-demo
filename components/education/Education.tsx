@@ -6,7 +6,7 @@ import StepperControlsLayout from '../shared/StepperControlsLayout';
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
-import { auth, firestore } from "../../services/firebase.config";
+import { auth, db } from "../../services/firebase.config";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import { EducationForm } from "../../interfaces/formInterfaces";
 import Spinner from "../shared/ui/loader/Spinner";
@@ -35,7 +35,7 @@ const Education = () => {
 
             try {
                 setPageLoading(true)
-                const educationCollectionRef = collection(firestore, 'education');
+                const educationCollectionRef = collection(db, 'education');
                 const docSnap = await getDocs(query(educationCollectionRef, where("userId", "==", user.uid)));
 
                 if (!docSnap.empty) {
@@ -67,7 +67,7 @@ const Education = () => {
         setLoading(true)
         if (deletingId) {
             try {
-                await deleteDoc(doc(firestore, 'education', deletingId));
+                await deleteDoc(doc(db, 'education', deletingId));
                 setEducationData(educationData.filter(data => data.id !== deletingId));
             } catch (error) {
                 console.log('Error deleting document:', error);

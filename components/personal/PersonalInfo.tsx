@@ -10,7 +10,7 @@ import { personalInfoValidationSchema } from '../../constants/validationSchema';
 import { PersonalInfoForm } from '../../interfaces/formInterfaces';
 import { useCountrySelect } from '../../context/useCountrySelect';
 import { useEffect, useState } from 'react';
-import { auth, firestore } from '../../services/firebase.config';
+import { auth, db } from '../../services/firebase.config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FirebaseError, handleFirebaseError } from '../../constants/firebaseErrors';
 import Spinner from '../shared/ui/loader/Spinner';
@@ -41,7 +41,7 @@ const PersonalInfo = () => {
             try {
                 console.log('Fetching data for user:', user.uid);
                 setPageLoading(true);
-                const docRef = doc(firestore, 'personalInfo', user.uid);
+                const docRef = doc(db, 'personalInfo', user.uid);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -83,7 +83,7 @@ const PersonalInfo = () => {
 
         try {
             if (user) {
-                const docRef = doc(firestore, 'personalInfo', user.uid)
+                const docRef = doc(db, 'personalInfo', user.uid)
                 await setDoc(docRef, values, { merge: true })
                 console.log('Data successfully saved to Firestore');
                 router.push('/resume/education')

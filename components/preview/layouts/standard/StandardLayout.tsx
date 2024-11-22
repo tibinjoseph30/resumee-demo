@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { auth, firestore } from "../../../../services/firebase.config"
+import { auth, db } from "../../../../services/firebase.config"
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../../../constants/firebaseErrors";
 import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, ProjectForm, SkillsForm, UserTypeForm } from "../../../../interfaces/formInterfaces";
@@ -38,15 +38,15 @@ const StandardLayout = () => {
                 setPageLoading(true)
 
                 const [personalInfoDoc, skillsDocs, experienceDocs, educationDocs, certificationDocs, projectDocs, accountsDoc, userTypeDocs, objectiveDocs] = await Promise.all([
-                    getDoc(doc(firestore, 'personalInfo', user.uid)),
-                    getDocs(query(collection(firestore, 'skills'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'experience'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'education'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'certification'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'projects'), where("userId", "==", user.uid))),
-                    getDoc(doc(firestore, 'accounts', user.uid)),
-                    getDoc(doc(firestore, 'userType', user.uid)),
-                    getDoc(doc(firestore, 'objectives', user.uid)),
+                    getDoc(doc(db, 'personalInfo', user.uid)),
+                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'projects'), where("userId", "==", user.uid))),
+                    getDoc(doc(db, 'accounts', user.uid)),
+                    getDoc(doc(db, 'userType', user.uid)),
+                    getDoc(doc(db, 'objectives', user.uid)),
                 ]);
 
                 if (personalInfoDoc.exists()) {
@@ -143,7 +143,7 @@ const StandardLayout = () => {
                         <AnimatedContactDetails />
                     ) : (
                         <div className="flex gap-2">
-                            <div>{personalInfoData?.mobileNumber}</div>
+                            <div>+{personalInfoData?.mobileNumber}</div>
                             <div>|</div>
                             <div>{personalInfoData?.email}</div>
                         </div>

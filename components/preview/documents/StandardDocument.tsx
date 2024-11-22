@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, Font, Link, Note } from '@react-pdf/renderer';
-import { auth, firestore } from '../../../services/firebase.config';
+import { auth, db } from '../../../services/firebase.config';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, ProjectForm, SkillsForm, UserTypeForm } from '../../../interfaces/formInterfaces';
 import { FirebaseError, handleFirebaseError } from '../../../constants/firebaseErrors';
@@ -116,15 +116,15 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
 
             try {
                 const [personalInfoDoc, skillsDocs, experienceDocs, educationDocs, certificationDocs, projectDocs, accountsDoc, userTypeDocs, objectiveDocs] = await Promise.all([
-                    getDoc(doc(firestore, 'personalInfo', user.uid)),
-                    getDocs(query(collection(firestore, 'skills'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'experience'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'education'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'certification'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(firestore, 'projects'), where("userId", "==", user.uid))),
-                    getDoc(doc(firestore, 'accounts', user.uid)),
-                    getDoc(doc(firestore, 'userType', user.uid)),
-                    getDoc(doc(firestore, 'objectives', user.uid)),
+                    getDoc(doc(db, 'personalInfo', user.uid)),
+                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'projects'), where("userId", "==", user.uid))),
+                    getDoc(doc(db, 'accounts', user.uid)),
+                    getDoc(doc(db, 'userType', user.uid)),
+                    getDoc(doc(db, 'objectives', user.uid)),
                 ]);
 
                 if (personalInfoDoc.exists()) {
@@ -235,7 +235,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                 </View>
                 <View style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
                     <Text style={styles.text}>{personalInfoData?.designation}</Text>
-                    <Text style={styles.text}>{personalInfoData?.mobileNumber}{' '}|{' '}{personalInfoData?.email}</Text>
+                    <Text style={styles.text}>+{personalInfoData?.mobileNumber}{' '}|{' '}{personalInfoData?.email}</Text>
                     <Text style={styles.text}>
                         {accountsData?.githubAccount === true && (
                             <Link src={accountsData.githubUrl}>{accountsData?.githubUrl}</Link>
@@ -352,7 +352,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                 {projectData.map((data, index) => (
                     <View key={index} style={{ marginBottom: 10 }}>
                         <Text style={[styles.text, { fontWeight: 'bold' }]}>{data.projectName} {`(${formatYear(data.projectStartedOn)})`}</Text>
-                        <Text style={styles.text}>{data.description}</Text>
+                        <Text style={styles.text}>{data.description}, used in {data.technology.join(', ')}</Text>
                     </View>
                 ))}
             </Page>

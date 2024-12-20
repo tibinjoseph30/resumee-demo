@@ -87,7 +87,7 @@ const EditProject = () => {
                         <Form>
                             <div className="mb-8">
                                 <div className="text-2xl font-semibold">Edit Project</div>
-                                <div className="text-slate-400 mt-1">Fill up the details below</div>
+                                <div className="mt-1">Fill up the details below</div>
                             </div>
                             <div className="grid sm:grid-cols-2 gap-7">
                                 <div className="form-group">
@@ -147,10 +147,10 @@ const EditProject = () => {
                                 </div>
                             </div>
                             <div className="flex sm:flex-row flex-col justify-end gap-3 mt-10">
-                                <button type="button" onClick={() => router.back()} className="border border-slate-300 p-3 rounded-md min-w-28 font-medium sm:w-auto w-full">Cancel</button>
+                                <button type="button" onClick={() => router.back()} className="border border-slate-300 p-3 rounded-md min-w-28 font-medium sm:w-auto w-full hover:border-slate-400">Cancel</button>
                                 <button
                                     type="submit"
-                                    className="flex items-center justify-center gap-2 bg-green-600 p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90 sm:w-auto w-full"
+                                    className="flex items-center justify-center gap-2 bg-emerald-500 p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90 sm:w-auto w-full"
                                     disabled={loading}
                                 >
                                     {loading ? <>Saving<Spinner size={18} color="#fff" /></> : <>Save</>}

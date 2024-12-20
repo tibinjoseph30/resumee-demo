@@ -104,8 +104,8 @@ const Skills = () => {
                                     <div className="px-6 py-4 pb-0">
                                         <div className="font-semibold">{data.skillCategory}</div>
                                     </div>
-                                    <div className="grid gap-4 p-6">
-                                        <div className="flex flex-wrap gap-2">
+                                    <div className="grid gap-4 p-6 basis-full">
+                                        <div className="flex items-start flex-wrap gap-2">
                                             {data.skills.map((skill, skillIndex) => (
                                                 <div key={skillIndex} className='border rounded-full text-sm inline-flex px-3 py-1'>{skill}</div>
                                             ))}

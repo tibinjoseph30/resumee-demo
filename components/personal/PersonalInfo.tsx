@@ -111,7 +111,7 @@ const PersonalInfo = () => {
                         <StepperLayout>
                             <div className="mb-8">
                                 <div className="text-2xl font-semibold">Personal informations</div>
-                                <div className="text-slate-400 mt-1">Fill up the details below</div>
+                                <div className="mt-1">Fill up the details below</div>
                             </div>
                             {pageLoading ? <Spinner size={32} /> :
                                 (<div>

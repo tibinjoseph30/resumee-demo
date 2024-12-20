@@ -28,6 +28,9 @@ textarea {
     &:focus {
         outline: none;
     }
+    &::placeholder {
+        color: #9f9f9f;
+    }
 }
 
 .bg-primary {

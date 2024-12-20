@@ -9,8 +9,8 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <main>
-        <div className="container mx-auto">
+      <main className='main'>
+        <div className="container mx-auto basis-full">
             {children}
         </div>
       </main>

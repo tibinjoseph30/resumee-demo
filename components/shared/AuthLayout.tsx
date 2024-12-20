@@ -6,7 +6,7 @@ interface LayoutProps {
 
 const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className='pt-12 pb-32 sm:w-2/3 lg:w-1/3 mx-auto'>
+    <div className='grid items-center py-6 sm:w-2/3 lg:w-1/3 mx-auto h-full'>
       {children}
     </div>
   )

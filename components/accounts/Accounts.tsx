@@ -98,7 +98,7 @@ const Accounts = () => {
                         <StepperLayout>
                             <div className="mb-8">
                                 <div className="text-2xl font-semibold">Connect Accounts</div>
-                                <div className="text-slate-400 mt-1">Check the boxes below</div>
+                                <div className="mt-1">Check the boxes below</div>
                             </div>
                             <div className="grid grid-cols-2 gap-7">
                                 <div className="form-group col-span-2">

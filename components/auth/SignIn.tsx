@@ -43,7 +43,6 @@ const SignIn = () => {
         <div>
             <div className="mb-8">
                 <div className="text-2xl font-semibold">Sign In</div>
-                <div className="text-slate-400 mt-1">Fill up the details below</div>
             </div>
             <Formik
                 initialValues={signInInitialValues}

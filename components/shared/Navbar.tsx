@@ -50,14 +50,14 @@ const Navbar = () => {
     }, []);
 
     return (
-        <header className='py-4 border-b bg-white'>
-            <div className="container mx-auto">
-                <nav className="navbar flex justify-between">
+        <header className='header border-b bg-white'>
+            <div className="container mx-auto h-full">
+                <nav className="navbar flex justify-between items-center h-full">
                     <Link href="/" className='nav-brand'>
                         <Image
                             src='/media/resumee.svg'
                             alt='logo'
-                            width={120}
+                            width={150}
                             height={50}
                         />
                     </Link>

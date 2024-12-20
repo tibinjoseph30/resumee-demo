@@ -6,7 +6,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../services/firebase.config';
 import SessionTimeoutAlert from '../components/shared/ui/sessionTimeoutAlert';
 
-const INACTIVITY_LIMIT = 600000;
+const INACTIVITY_LIMIT = 1000000;
 const WARNING_TIME = 30000;
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {

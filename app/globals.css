@@ -13,7 +13,8 @@
 
 :root {
   --app-primary-color: 57 109 229;
-  --app-body-color: 34 34 34;
+  --app-body-color: 53 63 76;
   --app-border-color: 229 231 235;
   --app-primary-font: "Inter", sans-serif;
+  --app-header-height: 64px;
 }

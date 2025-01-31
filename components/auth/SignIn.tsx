@@ -79,7 +79,7 @@ const SignIn = () => {
                     </button>
                 </Form>
             </Formik>
-            <div className="mt-4 text-center text-slate-500">Not an account? <Link href="/sign-up">Create an account</Link></div>
+            <div className="mt-4 text-center text-slate-500">Not registered? <Link href="/sign-up">Create an account</Link></div>
             {error && <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
         </div>
     )

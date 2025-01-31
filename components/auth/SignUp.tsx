@@ -61,7 +61,7 @@ const SignUp = () => {
                 validationSchema={signUpValidationSchema}
                 onSubmit={handleSubmit}
             >
-                <Form className="grid gap-7">
+                <Form className="grid lg:grid-cols-2 grid-cols-1 gap-7">
                     <div className="form-group">
                         <label htmlFor="firstName" className="control-label">First name</label>
                         <Field
@@ -106,7 +106,7 @@ const SignUp = () => {
                         />
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
-                    <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:opacity-90" disabled={loading}>
+                    <button type="submit" className="lg:col-span-2 flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:opacity-90" disabled={loading}>
                         {loading ? (
                             <>Creating account<Spinner size={18} color="#fff" /></>
                         ) : <>Create account</>}

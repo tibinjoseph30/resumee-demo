@@ -48,18 +48,6 @@ const StepperControlsLayout: React.FC<LayoutProps> = ({ currentStep, totalSteps,
                     </div>
                 </div>
                 <div className='flex sm:gap-4 gap-2 items-center justify-end flex-1'>
-                    <button
-                        type='button'
-                        className='bg-red-500 text-white p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block'
-                    >
-                        Reset
-                    </button>
-                    <button
-                        type='button'
-                        className='bg-red-500 text-white p-3 rounded-md sm:hidden'
-                    >
-                        <HiArrowPath size={22} />
-                    </button>
                     {children}
                 </div>
             </div>

@@ -1,17 +1,17 @@
 import SignUp from "../../components/auth/SignUp"
 import AppLayout from "../../components/shared/AppLayout"
-import AuthLayout from "../../components/shared/AuthLayout"
+import AuthSignUpLayout from "../../components/shared/AuthSignUpLayout"
 import GuestGuard from "../../utils/guestGuard"
 
 const Register = () => {
 
     return (
         <AppLayout>
-            <AuthLayout>
+            <AuthSignUpLayout>
                 <GuestGuard>
                     <SignUp />
                 </GuestGuard>
-            </AuthLayout>
+            </AuthSignUpLayout>
         </AppLayout>
     )
 }

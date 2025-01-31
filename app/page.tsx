@@ -7,7 +7,9 @@ const Home = () => {
     <AppLayout>
       <div className="p-4 text-center h-full flex justify-center items-center">
         <Link href="/resume/user">
-          <button className="flex items-center justify-center gap-4 bg-primary text-white p-6 text-lg rounded-lg min-w-72 font-medium hover:opacity-90">Create your resume <HiOutlineArrowRight/></button>
+          <button className="group flex items-center justify-center gap-4 bg-primary text-white p-6 text-lg rounded-lg min-w-80 font-medium hover:opacity-90">Create your resume
+            <HiOutlineArrowRight size={20} className="group-hover:translate-x-2 transition-all" />
+          </button>
         </Link>
       </div>
     </AppLayout>

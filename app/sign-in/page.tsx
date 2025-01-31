@@ -1,17 +1,17 @@
 import SignIn from "../../components/auth/SignIn"
 import AppLayout from "../../components/shared/AppLayout"
-import AuthLayout from "../../components/shared/AuthLayout"
+import AuthSignInLayout from "../../components/shared/AuthSignInLayout"
 import GuestGuard from "../../utils/guestGuard"
 
 const Login = () => {
 
     return (
         <AppLayout>
-            <AuthLayout>
+            <AuthSignInLayout>
                 <GuestGuard>
                     <SignIn />
                 </GuestGuard>
-            </AuthLayout>
+            </AuthSignInLayout>
         </AppLayout>
     )
 }

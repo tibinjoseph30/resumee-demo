@@ -98,8 +98,8 @@ const UserType = () => {
                             <div>
                                 {isReadOnly ? (
                                     <div className="flex sm:gap-4 gap-2">
-                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
-                                        <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md sm:hidden">
+                                        <button type="button" onClick={handleEdit} className="bg-blue-100 text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
+                                        <button type="button" onClick={handleEdit} className="bg-blue-100 text-primary p-3 rounded-md sm:hidden">
                                             <HiOutlinePencil size={22} />
                                         </button>
                                         <Link href="/resume/personal-info">

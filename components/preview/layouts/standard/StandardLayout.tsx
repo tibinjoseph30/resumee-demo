@@ -127,7 +127,7 @@ const StandardLayout = () => {
                 {pageLoading ? (
                     <AnimatedName />
                 ) : (
-                    `${personalInfoData?.firstName} ${personalInfoData?.lastName}`
+                    <>{personalInfoData?.firstName} {personalInfoData?.lastName}</>
                 )}
             </div>
             <div className="mb-3">

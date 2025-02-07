@@ -90,7 +90,7 @@ const Experience = () => {
                     </div>
                     <Link href="/resume/work-experience/new">
                         <button
-                            className="bg-primary rounded-md text-white p-3 min-w-44 font-medium hover:opacity-90">
+                            className="bg-primary rounded-md text-white p-3 min-w-44 font-medium hover:bg-primary">
                             <span className="inline-flex items-center gap-1">
                                 <HiMiniPlus size={20} />
                                 Create New
@@ -156,7 +156,7 @@ const Experience = () => {
                 <Link href="/resume/accounts">
                     <button
                         type="button"
-                        className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
+                        className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"
                         // disabled={educationData.length <= 0}
                     >Continue</button>
                 </Link>

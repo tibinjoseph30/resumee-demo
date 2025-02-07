@@ -116,10 +116,10 @@ const EditSkills = () => {
                                 </div>
                             </div>
                             <div className="flex sm:flex-row flex-col justify-end gap-3 mt-10">
-                                <button type="button" onClick={() => router.back()} className="border border-slate-300 p-3 rounded-md min-w-28 font-medium sm:w-auto w-full hover:border-slate-400">Cancel</button>
+                                <button type="button" onClick={() => router.back()} className="border border-slate-300 bg-slate-200 p-3 rounded-md min-w-28 font-medium sm:w-auto w-full hover:border-slate-400">Cancel</button>
                                 <button
                                     type="submit"
-                                    className="flex items-center justify-center gap-2 bg-emerald-500 p-3 rounded-md text-white min-w-32 font-medium hover:opacity-90 sm:w-auto w-full"
+                                    className="flex items-center justify-center gap-2 bg-emerald-500 p-3 rounded-md text-white min-w-32 font-medium hover:bg-emerald-600 sm:w-auto w-full"
                                     disabled={loading}
                                 >
                                     {loading ? <>Saving<Spinner size={18} color="#fff" /></> : <>Save</>}
@@ -134,7 +134,7 @@ const EditSkills = () => {
             <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
-                    className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
+                    className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"
                     disabled
                 >Continue</button>
             </StepperControlsLayout>

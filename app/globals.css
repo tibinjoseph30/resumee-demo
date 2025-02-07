@@ -12,7 +12,8 @@
 
 
 :root {
-  --app-primary-color: 57 109 229;
+  --app-primary-color: 59 130 246;
+  --app-primary-hover-color: 37 99 235;
   --app-body-color: 53 63 76;
   --app-border-color: 229 231 235;
   --app-primary-font: "Inter", sans-serif;

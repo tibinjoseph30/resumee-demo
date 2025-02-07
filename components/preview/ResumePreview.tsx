@@ -1,7 +1,6 @@
 "use client";
 
 import { Field, Form, Formik } from "formik";
-import Spinner from "../shared/ui/loader/Spinner";
 import { useState } from "react";
 import Select from 'react-select';
 import { useRouter } from "next/navigation";
@@ -162,7 +161,7 @@ const ResumePreview = () => {
                                 <PDFDownloadLink
                                     document={renderDocument(values)}
                                     fileName="resume.pdf"
-                                    className="flex justify-center bg-primary text-white p-5 rounded-md mt-6 hover:opacity-90"
+                                    className="flex justify-center bg-primary text-white p-5 rounded-md mt-6 hover:bg-primary"
                                 >
                                     Download PDF
                                 </PDFDownloadLink>
@@ -170,7 +169,7 @@ const ResumePreview = () => {
                                     <button
                                         type="button"
                                         onClick={() => router.back()}
-                                        className="w-full border border-slate-300 p-5 rounded-md font-medium"
+                                        className="w-full border border-slate-300 bg-slate-200 p-5 rounded-md font-medium hover:border-slate-400"
                                     >
                                         Back to Edit
                                     </button>

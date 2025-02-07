@@ -17,7 +17,7 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (values: SignInForm) => {
+    const handleSubmit = async (values: SignInForm, {resetForm}: {resetForm: () => void}) => {
         console.log('Form submitted with values:', values);
         setLoading(true);
         setError(null);
@@ -26,16 +26,14 @@ const SignIn = () => {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log('User signed in:', userCredential.user);
             console.log("user logged in successfully")
-
-            setLoading(false);
-            setError(null);
-
+            resetForm()
             router.push('/resume/user');
         } catch (error) {
             const errorMessage = handleFirebaseError(error as FirebaseError)
             console.log(errorMessage)
-            setLoading(false);
             setError(errorMessage);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -72,7 +70,7 @@ const SignIn = () => {
                         />
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
                     </div>
-                    <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:opacity-90" disabled={loading}>
+                    <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:bg-primary" disabled={loading}>
                         {loading ? (
                             <>Signing in<Spinner size={18} color="#fff" /></>
                         ) : <>Sign in</>}
@@ -80,7 +78,7 @@ const SignIn = () => {
                 </Form>
             </Formik>
             <div className="mt-4 text-center text-slate-500">Not registered? <Link href="/sign-up">Create an account</Link></div>
-            {error && <div className="p-4 rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
+            {error && <div className="p-4 text-center rounded-md bg-yellow-600/[0.1] text-yellow-700 text-sm mt-4">{error}</div>}
         </div>
     )
 }

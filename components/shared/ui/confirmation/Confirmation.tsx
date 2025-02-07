@@ -18,13 +18,13 @@ const ConfirmationModal: FC<ConfirmationModalProps> = ({ loading, isOpen, onClos
                 <div className="text-gray-700 font-semibold mb-6">{message}</div>
                 <div className="flex flex-wrap justify-end gap-2">
                     <button
-                        className="flex items-center justify-center gap-2 bg-red-500 rounded-md text-white px-8 py-3 font-medium hover:opacity-90 w-full sm:w-auto"
+                        className="flex items-center justify-center gap-2 bg-red-500 rounded-md text-white px-8 py-3 font-medium hover:bg-red-600 w-full sm:w-auto"
                         onClick={onConfirm}
                     >
                         {loading ? <>Deleting data<Spinner size={18} color="#fff" /></> : <>Yes, Delete it</>}
                     </button>
                     <button
-                        className="border border-slate-300 px-8 py-3 rounded-md font-medium w-full sm:w-auto"
+                        className="border border-slate-300 bg-slate-200 px-8 py-3 rounded-md font-medium w-full sm:w-auto hover:border-slate-400"
                         onClick={onClose}
                     >
                         Cancel

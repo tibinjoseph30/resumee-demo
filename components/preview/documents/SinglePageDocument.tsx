@@ -100,7 +100,6 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
         text: {
             fontSize: 11,
             lineHeight: 1.5,
-            color,
         },
         bold: {
             fontWeight: 'bold',
@@ -125,8 +124,8 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
         <Document>
             <Page size="A4" style={styles.page}>
                 <View>
-                    <Text style={{ fontSize: 28, fontWeight: "bold", textTransform: "uppercase", lineHeight: 1.3}}>John Doe</Text>
-                    <Text style={[styles.text, {textTransform: "uppercase", letterSpacing: 4, marginBottom: 10}]}>Frontend Developer</Text>
+                    <Text style={{ fontSize: 28, fontWeight: "bold", textTransform: "uppercase", lineHeight: 1.3, color }}>John Doe</Text>
+                    <Text style={[styles.text, { textTransform: "uppercase", letterSpacing: 4, marginBottom: 10 }]}>Frontend Developer</Text>
                 </View>
                 <View style={{ paddingTop: 10, paddingBottom: 10, display: "flex", flexDirection: "row", justifyContent: "space-between", borderBottom: "1px solid #ddd" }}>
                     <View>
@@ -138,11 +137,11 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                         <Text style={styles.text}>https://linkedin.com/johndoe/profile</Text>
                     </View>
                 </View>
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <View style={{ display: "flex", flexDirection: "row", height: 660 }}>
                     <View style={{ paddingRight: 15, paddingTop: 15, width: 180, display: "flex", gap: 30 }}>
                         <View>
                             <Text style={styles.title}>Skills</Text>
-                            <View style={{ display: "flex", gap: 7 }}>
+                            <View style={{ display: "flex", gap: 10 }}>
                                 <View>
                                     <Text style={styles.text}>Languages:</Text>
                                     <Text style={[styles.text, styles.bold]}>HTML, CSS, Javascript</Text>
@@ -159,7 +158,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                 <Text style={[styles.text, styles.bold]}>Bachelor of Physics</Text>
                                 <Text style={styles.text}>Mahatma Gandhi University</Text>
                                 <Text style={styles.text}>Kerala</Text>
-                                <Text style={[styles.text, {fontSize: 10}]}>Jul 2009 - Apr 2012</Text>
+                                <Text style={[styles.text, { fontSize: 10 }]}>Jul 2009 - Apr 2012</Text>
                             </View>
                         </View>
                         <View>
@@ -168,12 +167,58 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                 <Text style={[styles.text, styles.bold]}>Web Graphics Pro</Text>
                                 <Text style={styles.text}>Faith Infotech</Text>
                                 <Text style={styles.text}>Kerala</Text>
-                                <Text style={[styles.text, {fontSize: 10}]}>Jul 2009 - Apr 2012</Text>
+                                <Text style={[styles.text, { fontSize: 10 }]}>Jul 2009 - Apr 2012</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={{ borderLeft: "1px solid #ddd", paddingLeft: 15, paddingTop: 15 }}>
-                        <Text style={styles.title}>Work Experience</Text>
+                    <View style={{ borderLeft: "1px solid #ddd", paddingLeft: 15, paddingTop: 15, width: 350 }}>
+                        <View>
+                            <Text style={styles.title}>Work Experience</Text>
+                        </View>
+                        <View style={{ display: "flex", gap: 20 }}>
+                            <View>
+                                <View style={{ display: "flex", gap: 7, flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
+                                    <View>
+                                        <Text style={[styles.text, styles.bold]}>Microsoft, Kochi</Text>
+                                        <Text style={styles.text}>UI Developer</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={[styles.text, { fontSize: 10 }]}>Apr 2014 - Apr 2015</Text>
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 10 }}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.disc}>•</Text>
+                                        <Text style={styles.text}>Develop, maintain, and optimize web applications using HTML, CSS, Javascript, Sass, jQuery</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.disc}>•</Text>
+                                        <Text style={styles.text}>Develop, maintain, and optimize web applications using HTML, CSS, Javascript, Sass, jQuery</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View>
+                                <View style={{ display: "flex", gap: 7, flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
+                                    <View>
+                                        <Text style={[styles.text, styles.bold]}>Microsoft, Kochi</Text>
+                                        <Text style={styles.text}>UI Developer</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={[styles.text, { fontSize: 10 }]}>Apr 2014 - Apr 2015</Text>
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 10 }}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.disc}>•</Text>
+                                        <Text style={styles.text}>Develop, maintain, and optimize web applications using HTML, CSS, Javascript, Sass, jQuery</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.disc}>•</Text>
+                                        <Text style={styles.text}>Develop, maintain, and optimize web applications using HTML, CSS, Javascript, Sass, jQuery</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
                     </View>
                 </View>
             </Page>

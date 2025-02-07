@@ -97,7 +97,7 @@ const Projects = () => {
                     </div>
                     <Link href="/resume/project/new">
                         <button
-                            className="bg-primary rounded-md text-white p-3 min-w-44 font-medium hover:opacity-90">
+                            className="bg-primary rounded-md text-white p-3 min-w-44 font-medium hover:bg-primary">
                             <span className="inline-flex items-center gap-1">
                                 <HiMiniPlus size={20} />
                                 Create New
@@ -142,7 +142,7 @@ const Projects = () => {
                 <Link href={userTypeData?.user_type === "experienced" ? '/resume/work-experience' : '/resume/objectives'}>
                     <button
                         type="button"
-                        className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90"
+                        className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"
                         disabled={userTypeData?.user_type === "experienced" ? projectData.length <= 0 : false}
                     >Continue</button>
                 </Link>

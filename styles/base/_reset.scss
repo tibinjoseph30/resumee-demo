@@ -37,13 +37,18 @@ textarea {
     --tw-bg-opacity: 1;
     background-color: rgb($primaryColor / var(--tw-bg-opacity));
 }
+.hover\:bg-primary:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb($primaryHoverColor / var(--tw-bg-opacity));
+}
 .bg-primary\/\[0\.2\] {
     background-color: rgb($primaryColor / 20%);
 }
 .text-primary {
     color: rgb($primaryColor) !important;
 }
-.border-primary {
+.border-primary,
+.hover\:border-primary:hover {
     border-color: rgb($primaryColor) !important;
 }
 .shadow-primary {

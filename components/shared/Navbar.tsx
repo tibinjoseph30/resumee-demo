@@ -64,7 +64,7 @@ const Navbar = () => {
                     {user && (
                         <ul className='nav-right flex items-center gap-4'>
                             <Link href="/resume/preview">
-                                <button className='py-1 border border-gray-300 text-blue-500 rounded-lg px-5 hover:border-blue-500'>Preview</button>
+                                <button className='py-1 border border-gray-300 text-primary rounded-lg px-5 hover:border-primary'>Preview</button>
                             </Link>
                             <div className='relative'>
                                 <button

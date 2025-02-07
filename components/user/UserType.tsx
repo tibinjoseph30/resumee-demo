@@ -98,18 +98,18 @@ const UserType = () => {
                             <div>
                                 {isReadOnly ? (
                                     <div className="flex sm:gap-4 gap-2">
-                                        <button type="button" onClick={handleEdit} className="bg-blue-100 text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90 hidden sm:block">Edit</button>
-                                        <button type="button" onClick={handleEdit} className="bg-blue-100 text-primary p-3 rounded-md sm:hidden">
+                                        <button type="button" onClick={handleEdit} className="bg-slate-200 text-primary p-3 rounded-md min-w-28 font-medium hover:bg-slate-300 hidden sm:block">Edit</button>
+                                        <button type="button" onClick={handleEdit} className="bg-slate-200 text-primary p-3 rounded-md sm:hidden">
                                             <HiOutlinePencil size={22} />
                                         </button>
                                         <Link href="/resume/personal-info">
-                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
+                                            <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary">Continue</button>
                                         </Link>
                                     </div>
                                 ) : (
                                     <button
                                         type="submit"
-                                        className='flex items-center justify-center gap-2 bg-green-600 p-3 rounded-md text-white min-w-48 font-medium hover:opacity-90'
+                                        className='flex items-center justify-center gap-2 bg-emerald-500 p-3 rounded-md text-white min-w-48 font-medium hover:bg-emerald-600'
                                         disabled={loading}
                                     >
                                         {loading ? <>Saving data<Spinner size={18} color="#fff" /></> : <>Save & Continue</>}

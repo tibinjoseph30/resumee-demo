@@ -28,7 +28,7 @@ const StepperControlsLayout: React.FC<LayoutProps> = ({ currentStep, totalSteps,
                             <button
                                 type='button'
                                 onClick={() => router.back()}
-                                className='border border-slate-300 p-3 rounded-md min-w-28 font-medium hidden sm:block'
+                                className='border border-slate-300 bg-slate-100 p-3 rounded-md min-w-28 font-medium hidden sm:block hover:border-slate-400'
                                 disabled={disableBackButton}
                             >
                                 Back

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { AccountsForm, PersonalInfoForm, SkillsForm } from "../../../../interfaces/formInterfaces"
 import { auth, db } from "../../../../services/firebase.config"
 import { FirebaseError, handleFirebaseError } from "../../../../constants/firebaseErrors"
-import { doc, getDoc } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 
 const SinglePageLayout = () => {
     const[pageLoading, setPageLoading] = useState(false)
@@ -24,7 +24,7 @@ const SinglePageLayout = () => {
                 const [personalInfoDoc, accountsDoc, skillsDocs] = await Promise.all([
                     getDoc(doc(db, 'personalInfo', user.uid)),
                     getDoc(doc(db, 'accounts', user.uid)),
-                    getDoc(doc(db, 'skills', user.uid)),
+                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid))),
                 ])
 
                 if (personalInfoDoc.exists()) {

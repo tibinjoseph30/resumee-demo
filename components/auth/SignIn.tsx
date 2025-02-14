@@ -17,7 +17,7 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = async (values: SignInForm, {resetForm}: {resetForm: () => void}) => {
+    const handleSubmit = async (values: SignInForm, { resetForm }: { resetForm: () => void }) => {
         console.log('Form submitted with values:', values);
         setLoading(true);
         setError(null);
@@ -69,6 +69,9 @@ const SignIn = () => {
                             className="control border-2 p-4 rounded-md"
                         />
                         <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+                        <div className="text-end mt-1">
+                            <Link href="/forgot-password" className="text-sm">Forgot password?</Link>
+                        </div>
                     </div>
                     <button type="submit" className="flex items-center justify-center gap-2 bg-primary p-4 text-white font-medium rounded-md hover:bg-primary" disabled={loading}>
                         {loading ? (

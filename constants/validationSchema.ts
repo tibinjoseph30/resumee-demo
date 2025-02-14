@@ -26,6 +26,12 @@ export const signInValidationSchema = Yup.object().shape({
         .required('Password is required'),
 })
 
+export const forgotPasswordValidationSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required')
+})
+
 export const personalInfoValidationSchema = Yup.object().shape({
     firstName: Yup.string()
         .min(2, 'First name must be at least 2 characters')

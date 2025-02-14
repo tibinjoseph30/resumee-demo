@@ -10,6 +10,10 @@ export interface SignInForm {
     password: string;
 }
 
+export interface ForgotPasswordForm {
+    email: string;
+}
+
 export interface UserTypeForm {
     user_type: string;
 }

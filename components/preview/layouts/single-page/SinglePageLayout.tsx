@@ -58,7 +58,7 @@ const SinglePageLayout = () => {
     return (
         <div>
             <div className="text-4xl font-bold uppercase">{personalInfoData?.firstName} {personalInfoData?.lastName}</div>
-            <div className="text-sm text-slate-800">{personalInfoData?.designation}</div>
+            <div className="text-sm text-slate-800 uppercase">{personalInfoData?.designation}</div>
             <div className="grid grid-cols-2 mt-3 border-b pb-4">
                 <div>
                     <div className="text-sm text-slate-800">Mob: +{personalInfoData?.mobileNumber}</div>

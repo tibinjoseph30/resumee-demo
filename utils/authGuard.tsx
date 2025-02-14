@@ -6,17 +6,22 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../services/firebase.config';
 import SessionTimeoutAlert from '../components/shared/ui/sessionTimeoutAlert';
 
-const INACTIVITY_LIMIT = 1000000;
+const INACTIVITY_LIMIT = 500000;
 const WARNING_TIME = 30000;
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const [authenticated, setAuthenticated] = useState(false);
     const [showWarning, setShowWarning] = useState(false);
+    const [remainingTime, setRemainingTime] = useState(WARNING_TIME);
+
     const activityTimerRef = useRef<NodeJS.Timeout | null>(null);
     const warningTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const [remainingTime, setRemainingTime] = useState(WARNING_TIME);
     const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    const updateLastActivity = () => {
+        localStorage.setItem("lastActivity", Date.now().toString())
+    }
 
     const resetTimers = () => {
         if (activityTimerRef.current) {
@@ -25,13 +30,21 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         if (warningTimerRef.current) {
             clearTimeout(warningTimerRef.current);
         }
+        if (countdownIntervalRef.current) {
+            clearInterval(countdownIntervalRef.current)
+        }
+
         setShowWarning(false);
         setRemainingTime(WARNING_TIME);
+
+        updateLastActivity();
+
         activityTimerRef.current = setTimeout(() => {
             setShowWarning(true);
             warningTimerRef.current = setTimeout(() => {
                 handleLogout();
             }, WARNING_TIME);
+
             countdownIntervalRef.current = setInterval(() => {
                 setRemainingTime(prev => {
                     if (prev <= 1000) {
@@ -47,22 +60,32 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            router.push('/sign-in'); // Redirect to sign-in page
+            localStorage.removeItem("lastActivity");
+            router.push('/sign-in');
         } catch (error) {
             console.error('Error logging out: ', error);
         }
     };
 
     useEffect(() => {
-        const events = ['mousemove', 'keydown', 'touchstart'];
+        const checkSessionExpiration = () => {
+            const lastActivity = localStorage.getItem("lastActivity");
+            if (lastActivity && Date.now() - parseInt(lastActivity) > INACTIVITY_LIMIT) {
+                handleLogout();
+            } else {
+                resetTimers();
+            }
+        };
+
         const handleUserActivity = () => resetTimers();
+        const events = ['mousemove', 'keydown', 'touchstart'];
 
         events.forEach(event => window.addEventListener(event, handleUserActivity));
 
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setAuthenticated(true);
-                resetTimers();
+                checkSessionExpiration()
             } else {
                 handleLogout();
             }

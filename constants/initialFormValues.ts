@@ -1,4 +1,4 @@
-import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, PreviewForm, ProjectForm, SignInForm, SignUpForm, SkillsForm, UserTypeForm } from "../interfaces/formInterfaces";
+import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ForgotPasswordForm, ObjectiveForm, PersonalInfoForm, PreviewForm, ProjectForm, SignInForm, SignUpForm, SkillsForm, UserTypeForm } from "../interfaces/formInterfaces";
 
 
 export const signUpInitialValues: SignUpForm = {
@@ -11,6 +11,10 @@ export const signUpInitialValues: SignUpForm = {
 export const signInInitialValues: SignInForm = {
     email: '',
     password: ''
+};
+
+export const forgotPasswordInitialValues: ForgotPasswordForm = {
+    email: ''
 };
 
 export const userTypeInitialValues: UserTypeForm = {

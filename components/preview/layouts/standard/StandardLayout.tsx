@@ -4,7 +4,7 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { FirebaseError, handleFirebaseError } from "../../../../constants/firebaseErrors";
 import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, ProjectForm, SkillsForm, UserTypeForm } from "../../../../interfaces/formInterfaces";
 import { format } from "date-fns";
-import { AnimatedAccountDetails, AnimatedContactDetails, AnimatedDesignation, AnimatedEducation, AnimatedName, AnimatedProjects, AnimatedSkills, AnimatedWorkExperience } from "./ui/StandardLayoutLoader";
+import Spinner from "../../../shared/ui/loader/Spinner";
 
 const StandardLayout = () => {
     const [pageLoading, setPageLoading] = useState(false);
@@ -123,80 +123,58 @@ const StandardLayout = () => {
 
     return (
         <div>
-            <div className="text-3xl font-medium text-center mb-4 capitalize">
-                {pageLoading ? (
-                    <AnimatedName />
-                ) : (
-                    <>{personalInfoData?.firstName} {personalInfoData?.lastName}</>
-                )}
-            </div>
-            <div className="mb-3">
-                <div className="flex items-center justify-center gap-2 text-sm">
-                    {pageLoading ? (
-                        <AnimatedDesignation />
-                    ) : (
-                        <div>{personalInfoData?.designation}</div>
-                    )}
+            {pageLoading ? (
+                <div className="flex items-center justify-center">
+                    <Spinner size={36} />
                 </div>
-                <div className="flex items-center justify-center gap-2 text-sm">
-                    {pageLoading ? (
-                        <AnimatedContactDetails />
-                    ) : (
-                        <div className="flex gap-2">
-                            <div>+{personalInfoData?.mobileNumber}</div>
-                            <div>|</div>
-                            <div>{personalInfoData?.email}</div>
-                        </div>
-                    )}
-                </div>
-                <div className="flex items-center justify-center gap-2 text-sm">
-                    {pageLoading ? (
-                        <AnimatedAccountDetails />
-                    ) : (
-                        <div className="flex flex-wrap sm:flex-row flex-col sm:gap-2">
-                            <div><a href=""><u>{accountsData?.githubUrl}</u></a></div>
-                            {accountsData?.githubAccount === true && accountsData.linkedInAccount === true && (
-                                <div className="hidden sm:block">|</div>
-                            )}
-                            <div><a href=""><u>{accountsData?.linkedinUrl}</u></a></div>
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className="grid gap-5">
-                {pageLoading ? (
-                    <div>
-                        <AnimatedSkills />
+            ) : (
+                <>
+                    <div className="text-3xl font-medium text-center mb-4 capitalize">
+                        {personalInfoData?.firstName} {personalInfoData?.lastName}
                     </div>
-                ) : (
-                    <>{userTypeData?.user_type === "experienced" ?
-                        <>{skillsData.length > 0 && (
-                            <div>
-                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Skills</div>
-                                <div className="grid gap-1">
-                                    {skillsData.map((data, index) => (
-                                        <div key={index} className="text-sm">{data.skillCategory}:<br /><b>{data.skills.join(', ')}</b></div>
-                                    ))}
+                    <div className="mb-3">
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                            {personalInfoData?.designation}
+                        </div>
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                            <div className="flex gap-2">
+                                <div>+{personalInfoData?.mobileNumber}</div>
+                                <div>|</div>
+                                <div>{personalInfoData?.email}</div>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-center gap-2 text-sm">
+                            <div className="flex flex-wrap sm:flex-row flex-col sm:gap-2">
+                                <div><a href=""><u>{accountsData?.githubUrl}</u></a></div>
+                                {accountsData?.githubAccount === true && accountsData.linkedInAccount === true && (
+                                    <div className="hidden sm:block">|</div>
+                                )}
+                                <div><a href=""><u>{accountsData?.linkedinUrl}</u></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="grid gap-5">
+                        <>{userTypeData?.user_type === "experienced" ?
+                            <>{skillsData.length > 0 && (
+                                <div>
+                                    <div className="text-xl font-medium border-b border-slate-500 mb-2">Skills</div>
+                                    <div className="grid gap-1">
+                                        {skillsData.map((data, index) => (
+                                            <div key={index} className="text-sm">{data.skillCategory}:<br /><b>{data.skills.join(', ')}</b></div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        )}</> :
-                        <>{objectiveData && (
-                            <div>
-                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Objective</div>
-                                <div className="grid gap-1">
-                                    <div className="text-sm">{objectiveData?.objectives}</div>
+                            )}</> :
+                            <>{objectiveData && (
+                                <div>
+                                    <div className="text-xl font-medium border-b border-slate-500 mb-2">Objective</div>
+                                    <div className="grid gap-1">
+                                        <div className="text-sm">{objectiveData?.objectives}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        )}</>
-                    }</>
-                )}
-                {userTypeData?.user_type === "experienced" && (
-                    <>
-                        {pageLoading ? (
-                            <div>
-                                <AnimatedWorkExperience />
-                            </div>
-                        ) : (
+                            )}</>
+                        }</>
+                        {userTypeData?.user_type === "experienced" && (
                             <>{experienceData.length > 0 && (
                                 <div>
                                     <div className="text-xl font-medium border-b border-slate-500 mb-2">Work Experience</div>
@@ -219,78 +197,58 @@ const StandardLayout = () => {
                                 </div>
                             )}</>
                         )}
-                    </>
-                )}
-                {pageLoading ? (
-                    <div>
-                        <AnimatedEducation />
-                    </div>
-                ) : (
-                    <>{educationData.length > 0 && (
-                        <div>
-                            <div className="text-xl font-medium border-b border-slate-500 mb-2">Education</div>
-                            <div className="grid gap-3">
-                                {educationData.map((data, index) => (
-                                    <div key={index} className="grid gap-2">
-                                        <div>
-                                            <div className="flex justify-between items-center text-sm">
-                                                <div><b>{data.courseName}</b></div>
-                                                <div>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
-                                            </div>
-                                            <div className="flex justify-between items-center text-sm">
-                                                <div>{data.university}, {data.state}</div>
-                                                <div className="font-semibold">{data.marksIn}: {data.marksIn === "GPA" ? data.marksInGpa + '/4' : data.marksIn === "CGPA" ? data.marksInCgpa + '/10' : data.marksInPer}</div>
-                                            </div>
-                                        </div>
-                                        {(data.coreSubjects.length > 0 || data.complimentarySubjects.length > 0) && (
-                                            <div className="text-sm">
-                                                {data.coreSubjects.length > 0 ? `Core Subjects: ${data.coreSubjects.join(', ')}.` : ''} {data.complimentarySubjects.length > 0 ? `Complimentary Subjects: ${data.complimentarySubjects.join(', ')}.` : ''}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}</>
-                )}
-                {pageLoading ? (
-                    <div>
-                        <AnimatedEducation />
-                    </div>
-                ) : (
-                    <>{certificationData.length > 0 && (
-                        <div>
-                            <div className="text-xl font-medium border-b border-slate-500 mb-2">Certification</div>
-                            <div className="grid gap-3">
-                                {certificationData.map((data, index) => (
-                                    <div key={index} className="grid gap-2">
-                                        <div>
-                                            <div className="flex justify-between items-center text-sm">
-                                                <div><b>{data.courseName}</b></div>
-                                                <div>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
-                                            </div>
-                                            <div className="flex justify-between items-center text-sm">
-                                                <div>{data.institution}, {data.state}</div>
-                                            </div>
-                                        </div>
-                                        {(data.subjects.length > 0) && (
-                                            <div className="text-sm">
-                                                {data.subjects.length > 0 ? `Areas of expertise: ${data.subjects.join(', ')}.` : ''}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}</>
-                )}
-                {userTypeData?.user_type === "fresher" && (
-                    <>
-                        {pageLoading ? (
+                        <>{educationData.length > 0 && (
                             <div>
-                                <AnimatedSkills />
+                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Education</div>
+                                <div className="grid gap-3">
+                                    {educationData.map((data, index) => (
+                                        <div key={index} className="grid gap-2">
+                                            <div>
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <div><b>{data.courseName}</b></div>
+                                                    <div>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
+                                                </div>
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <div>{data.university}, {data.state}</div>
+                                                    <div className="font-semibold">{data.marksIn}: {data.marksIn === "GPA" ? data.marksInGpa + '/4' : data.marksIn === "CGPA" ? data.marksInCgpa + '/10' : data.marksInPer}</div>
+                                                </div>
+                                            </div>
+                                            {(data.coreSubjects.length > 0 || data.complimentarySubjects.length > 0) && (
+                                                <div className="text-sm">
+                                                    {data.coreSubjects.length > 0 ? `Core Subjects: ${data.coreSubjects.join(', ')}.` : ''} {data.complimentarySubjects.length > 0 ? `Complimentary Subjects: ${data.complimentarySubjects.join(', ')}.` : ''}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        ) : (
+                        )}</>
+                        <>{certificationData.length > 0 && (
+                            <div>
+                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Certification</div>
+                                <div className="grid gap-3">
+                                    {certificationData.map((data, index) => (
+                                        <div key={index} className="grid gap-2">
+                                            <div>
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <div><b>{data.courseName}</b></div>
+                                                    <div>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
+                                                </div>
+                                                <div className="flex justify-between items-center text-sm">
+                                                    <div>{data.institution}, {data.state}</div>
+                                                </div>
+                                            </div>
+                                            {(data.subjects.length > 0) && (
+                                                <div className="text-sm">
+                                                    {data.subjects.length > 0 ? `Areas of expertise: ${data.subjects.join(', ')}.` : ''}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}</>
+                        {userTypeData?.user_type === "fresher" && (
                             <>{skillsData.length > 0 && (
                                 <div>
                                     <div className="text-xl font-medium border-b border-slate-500 mb-2">Skills</div>
@@ -302,25 +260,19 @@ const StandardLayout = () => {
                                 </div>
                             )}</>
                         )}
-                    </>
-                )}
-                {pageLoading ? (
-                    <div>
-                        <AnimatedProjects />
+                        <>{projectData.length > 0 && (
+                            <div>
+                                <div className="text-xl font-medium border-b border-slate-500 mb-2">Projects</div>
+                                <ul className="text-sm grid gap-1">
+                                    {projectData.map((data, index) => (
+                                        <li key={index}><b>{data.projectName} ({formatYear(data.projectStartedOn)}):</b><br />{data.description} Used in {data.technology.join(', ')}.</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}</>
                     </div>
-                ) : (
-                    <>{projectData.length > 0 && (
-                        <div>
-                            <div className="text-xl font-medium border-b border-slate-500 mb-2">Projects</div>
-                            <ul className="text-sm grid gap-1">
-                                {projectData.map((data, index) => (
-                                    <li key={index}><b>{data.projectName} ({formatYear(data.projectStartedOn)}):</b><br />{data.description} Used in {data.technology.join(', ')}.</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}</>
-                )}
-            </div>
+                </>
+            )}
         </div>
     )
 }

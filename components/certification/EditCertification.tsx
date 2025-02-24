@@ -61,7 +61,7 @@ const EditCertification = () => {
         setLoading(true);
         try {
             if (user) {
-                const docRef = doc(db, 'certification', id); // Use id to update specific document
+                const docRef = doc(db, 'certification', id);
                 await updateDoc(docRef, {
                     ...values,
                     userId: user.uid,

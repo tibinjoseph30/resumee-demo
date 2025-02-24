@@ -71,7 +71,7 @@ const UserType = () => {
                                     />
                                     <label htmlFor="user_fresher" className="border-2 rounded-lg h-full">
                                         <span className="text-lg font-semibold title">I am a Fresher</span>
-                                        <div className="mt-4 text-slate-500">If you are starting a new career or did'nt work anywhere yet! stay here</div>
+                                        <div className="mt-4 text-slate-500">If you are starting a new career or did&#39;nt work anywhere yet! stay here</div>
                                         <div className="text-sm mt-2">(Recommended for freshers)</div>
                                     </label>
                                 </div>

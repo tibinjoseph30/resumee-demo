@@ -5,6 +5,7 @@ import { FirebaseError, handleFirebaseError } from "../../../../constants/fireba
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 import Spinner from "../../../shared/ui/loader/Spinner"
 import { format } from "date-fns"
+import { HiMiniPhone } from "react-icons/hi2"
 
 const SinglePageLayout = () => {
     const [pageLoading, setPageLoading] = useState(false)
@@ -110,19 +111,37 @@ const SinglePageLayout = () => {
                     <div className="text-sm text-slate-800 uppercase">{personalInfoData?.designation}</div>
                     <div className="grid grid-cols-2 mt-4 border-b pb-4">
                         <div>
-                            <div className="text-sm text-slate-800">Mob: +{personalInfoData?.mobileNumber}</div>
+                            <div className="text-sm text-slate-800"><HiMiniPhone /> +{personalInfoData?.mobileNumber}</div>
                             <div className="text-sm text-slate-800">Email: {personalInfoData?.email}</div>
                         </div>
-                        <div className="text-end">
+                        <div>
                             <div className="text-sm text-slate-800">{accountsData?.githubUrl}</div>
                             <div className="text-sm text-slate-800">{accountsData?.linkedinUrl}</div>
                         </div>
                     </div>
+                    <div className="grid">
+                        <div className="py-4 border-b">
+                            {skillsData.length > 0 && (
+                                <div>
+                                    <div className="text-sm font-semibold uppercase text-gray-400 mb-2">Skills</div>
+                                    <div className="grid gap-2">
+                                        {skillsData.map((data, index) => (
+                                            <div key={index}>
+                                                <div className="text-sm text-slate-800">{data?.skillCategory}:</div>
+                                                <div className="text-sm font-semibold text-slate-800">{data?.skills.join(', ')}</div>
+                                            </div>
+                                        ))}
+
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                     <div className="grid grid-cols-3">
                         <div className="pe-4 pt-4">
-                            <div className="grid gap-8">
-                                {skillsData.length > 0 && (
-                                    <div>
+                            <div className="grid gap-4">
+                                {/* {skillsData.length > 0 && (
+                                    <div className="pb-4 border-b border-dashed">
                                         <div className="text-sm font-semibold uppercase text-gray-400 mb-2">Skills</div>
                                         <div className="grid gap-2">
                                             {skillsData.map((data, index) => (
@@ -131,12 +150,11 @@ const SinglePageLayout = () => {
                                                     <div className="text-sm font-semibold text-slate-800">{data?.skills.join(', ')}</div>
                                                 </div>
                                             ))}
-
                                         </div>
                                     </div>
-                                )}
+                                )} */}
                                 {educationData.length > 0 && (
-                                    <div>
+                                    <div className="pb-4 border-b border-dashed">
                                         <div className="text-sm font-semibold uppercase text-gray-400 mb-2">Education</div>
                                         <div className="grid gap-2">
                                             {educationData.map((data, index) => (

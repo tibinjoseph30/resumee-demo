@@ -1,6 +1,6 @@
 "use client"
 
-import { HiArrowRight, HiMiniPencil, HiOutlineInformationCircle, HiOutlinePencil } from "react-icons/hi2"
+import { HiOutlineInformationCircle, HiOutlinePencil } from "react-icons/hi2"
 import StepperLayout from "../shared/StepperLayout"
 import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useRouter } from "next/navigation"

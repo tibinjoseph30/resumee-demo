@@ -159,7 +159,7 @@ const Accounts = () => {
 
                         </StepperLayout>
 
-                        <StepperControlsLayout currentStep={7} totalSteps={8} showBackButton={true} disableBackButton={false}>
+                        <StepperControlsLayout currentStep={8} totalSteps={9} showBackButton={true} disableBackButton={false}>
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (

@@ -64,6 +64,11 @@ export const personalInfoValidationSchema = Yup.object().shape({
         .required('Pin / Zip is required'),
 })
 
+export const summaryValidationSchema = Yup.object().shape({
+    summary: Yup.string()
+        .required('Summary is required')
+})
+
 export const educationValidationSchema = Yup.object().shape({
     courseName: Yup.string()
         .min(2, 'Course name must be at least 2 characters')

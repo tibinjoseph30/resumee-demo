@@ -93,7 +93,7 @@ const UserType = () => {
                                 </div>
                             </div>)}
                     </StepperLayout>
-                    <StepperControlsLayout currentStep={0} totalSteps={8} showBackButton={false} disableBackButton={false}>
+                    <StepperControlsLayout currentStep={0} totalSteps={9} showBackButton={false} disableBackButton={false}>
                         {pageLoading ? <></> : (
                             <div>
                                 {isReadOnly ? (

@@ -30,6 +30,11 @@ export interface PersonalInfoForm {
     state: string;
     city: string;
     zipCode: string;
+    location: string;
+}
+
+export interface SummaryForm {
+    summary: string;
 }
 
 export interface EducationForm {

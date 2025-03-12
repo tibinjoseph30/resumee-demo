@@ -137,7 +137,7 @@ const Certification = () => {
                 }
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={4} totalSteps={9} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/skills">
                     <button
                         type="button"

@@ -138,7 +138,7 @@ const Projects = () => {
                     }</>)
                 }
             </StepperLayout>
-            <StepperControlsLayout currentStep={5} totalSteps={8} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={6} totalSteps={9} showBackButton={true} disableBackButton={false}>
                 <Link href={userTypeData?.user_type === "experienced" ? '/resume/work-experience' : '/resume/objectives'}>
                     <button
                         type="button"

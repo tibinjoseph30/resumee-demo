@@ -126,7 +126,7 @@ const Skills = () => {
                     }</>)
                 }
             </StepperLayout>
-            <StepperControlsLayout currentStep={4} totalSteps={8} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={5} totalSteps={9} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/project">
                     <button
                         type="button"

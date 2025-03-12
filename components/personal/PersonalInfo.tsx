@@ -86,7 +86,7 @@ const PersonalInfo = () => {
                 const docRef = doc(db, 'personalInfo', user.uid)
                 await setDoc(docRef, values, { merge: true })
                 console.log('Data successfully saved to Firestore');
-                router.push('/resume/education')
+                router.push('/resume/summary')
             } else {
                 console.log('No authenticated user found. Please log in.')
             }
@@ -298,10 +298,27 @@ const PersonalInfo = () => {
                                             <ErrorMessage name="zipCode" component="div" className="text-red-500 text-sm mt-1" />
                                         </div>
                                     </div>
+                                    <div className="mt-10 mb-5">
+                                        <div className="text-xl font-semibold">Job Location</div>
+                                    </div>
+                                    <div className="grid sm:grid-cols-2 gap-7">
+                                        <div className="form-group">
+                                            <label htmlFor="location" className="control-label">Location</label>
+                                            <Field
+                                                type="text"
+                                                name="location"
+                                                id="location"
+                                                placeholder="eg: bengaluru"
+                                                className="control border-2 p-4 rounded-md"
+                                                disabled={isReadOnly}
+                                            />
+                                            <ErrorMessage name="location" component="div" className="text-red-500 text-sm mt-1" />
+                                        </div>
+                                    </div>
                                 </div>)}
 
                         </StepperLayout>
-                        <StepperControlsLayout currentStep={1} totalSteps={8} showBackButton={true} disableBackButton={false}>
+                        <StepperControlsLayout currentStep={1} totalSteps={9} showBackButton={true} disableBackButton={false}>
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (
@@ -310,7 +327,7 @@ const PersonalInfo = () => {
                                             <button type="button" onClick={handleEdit} className="bg-slate-200 text-primary p-3 rounded-md sm:hidden">
                                                 <HiOutlinePencil size={22} />
                                             </button>
-                                            <Link href="/resume/education">
+                                            <Link href="/resume/summary">
                                                 <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary">Continue</button>
                                             </Link>
                                         </div>

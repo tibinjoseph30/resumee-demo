@@ -163,7 +163,7 @@ const Education = () => {
                     )}
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={2} totalSteps={8} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={3} totalSteps={9} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/certification">
                     <button
                         type="button"

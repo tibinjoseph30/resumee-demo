@@ -152,7 +152,7 @@ const Experience = () => {
                     )}
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={6} totalSteps={8} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={7} totalSteps={9} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/accounts">
                     <button
                         type="button"

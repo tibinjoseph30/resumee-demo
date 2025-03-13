@@ -25,9 +25,11 @@ a {
 input,
 textarea {
     background-color: #fff;
+
     &:focus {
         outline: none;
     }
+
     &::placeholder {
         color: #9f9f9f;
     }
@@ -37,39 +39,53 @@ textarea {
     --tw-bg-opacity: 1;
     background-color: rgb($primaryColor / var(--tw-bg-opacity));
 }
+
 .hover\:bg-primary:hover {
     --tw-bg-opacity: 1;
     background-color: rgb($primaryHoverColor / var(--tw-bg-opacity));
 }
+
 .bg-primary\/\[0\.2\] {
     background-color: rgb($primaryColor / 20%);
 }
+
 .text-primary {
     color: rgb($primaryColor) !important;
 }
+
 .border-primary,
 .hover\:border-primary:hover {
     border-color: rgb($primaryColor) !important;
 }
+
 .shadow-primary {
     box-shadow: 0 0 0 1px rgb($primaryColor / 20%) !important;
+}
+
+.font-rubik {
+    font-family: "Rubik", sans-serif;
 }
 
 .font-bitter-serif {
     font-family: "Bitter", serif;
 }
+
 .font-open-sans {
     font-family: "Open Sans", sans-serif;
 }
+
 .font-noto-serif {
     font-family: "Noto Serif", serif;
 }
-.font-roboto  {
+
+.font-roboto {
     font-family: "Roboto", sans-serif;
 }
-.font-cousine  {
-    font-family: "Cousine", monospace;   
+
+.font-cousine {
+    font-family: "Cousine", monospace;
 }
-.font-poppins  {
-    font-family: "Poppins", sans-serif;   
+
+.font-poppins {
+    font-family: "Poppins", sans-serif;
 }

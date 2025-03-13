@@ -129,7 +129,7 @@ const SinglePageLayout = () => {
                                         d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24c1.12.37 2.33.57 3.57.57c.55 0 1 .45 1 1V20c0 .55-.45 1-1 1c-9.39 0-17-7.61-17-17c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1c0 1.25.2 2.45.57 3.57c.11.35.03.74-.25 1.02z"
                                     />
                                 </svg>
-                                <span>+{personalInfoData?.mobileNumber}</span>
+                                <span>{personalInfoData?.mobileNumber}</span>
                             </div>
                             <div className="flex items-center gap-2 text-sm text-slate-800">
                                 <svg
@@ -206,9 +206,10 @@ const SinglePageLayout = () => {
                                         <div className="grid gap-2">
                                             {educationData.map((data, index) => (
                                                 <div key={index}>
-                                                    <div className="text-sm font-bold text-slate-800">{data?.courseName}</div>
-                                                    <div className="text-sm text-slate-800">{data?.university}, {data?.city}</div>
-                                                    <div className="text-xs mt-1 text-slate-800">{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
+                                                    <div className="text-sm font-bold">{data?.courseName}</div>
+                                                    <div className="text-sm font-bold text-slate-800">{data?.university}</div>
+                                                    <div className="text-sm text-slate-800">{data?.city}, {data?.state}</div>
+                                                    <div className="text-xs mt-1 text-slate-500">{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -220,9 +221,10 @@ const SinglePageLayout = () => {
                                         <div className="grid gap-2">
                                             {certificationData.map((data, index) => (
                                                 <div key={index}>
-                                                    <div className="text-sm font-bold text-slate-800">{data?.courseName}</div>
-                                                    <div className="text-sm text-slate-800">{data?.institution}, {data?.city}</div>
-                                                    <div className="text-xs mt-1 text-slate-800">{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
+                                                    <div className="text-sm font-bold">{data?.courseName}</div>
+                                                    <div className="text-sm font-bold text-slate-800">{data?.institution}</div>
+                                                    <div className="text-sm text-slate-800">{data?.city}, {data?.state}</div>
+                                                    <div className="text-xs mt-1 font-semibold text-slate-500">{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -237,12 +239,12 @@ const SinglePageLayout = () => {
                                     <div className="grid gap-8">
                                         {experienceData.map((data, index) => (
                                             <div key={index}>
-                                                <div className="text-sm font-bold text-slate-800">{data?.organization}, {data?.city}</div>
+                                                <div className="text-sm font-bold">{data?.organization}, {data?.city}</div>
                                                 <div className="flex items-baseline">
                                                     <div className="text-sm text-slate-800 font-bold pe-2">{data?.designation}</div>
-                                                    <div className="text-xs mt-1 text-slate-800 ps-2 border-l border-slate-300">{formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'Present' : formatDate(data.relieveDate)}</div>
+                                                    <div className="text-xs mt-1 text-slate-500">/ {formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'Present' : formatDate(data.relieveDate)}</div>
                                                 </div>
-                                                <ul className="text-sm list-disc ps-9 mt-2 text-slate-600">
+                                                <ul className="text-sm list-disc ps-9 mt-2 text-slate-800">
                                                     {data.roles.map((role, roleIndex) => (
                                                         <li key={roleIndex}>{role}</li>
                                                     ))}

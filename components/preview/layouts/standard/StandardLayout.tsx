@@ -138,7 +138,7 @@ const StandardLayout = () => {
                         </div>
                         <div className="flex items-center justify-center gap-2 text-sm">
                             <div className="flex gap-2">
-                                <div>+{personalInfoData?.mobileNumber}</div>
+                                <div>{personalInfoData?.mobileNumber}</div>
                                 <div>|</div>
                                 <div>{personalInfoData?.email}</div>
                             </div>

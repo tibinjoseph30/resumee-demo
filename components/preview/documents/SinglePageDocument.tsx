@@ -33,6 +33,18 @@ Font.register({
 });
 
 Font.register({
+    family: 'Rubik',
+    fonts: [
+        { src: '/fonts/Rubik/Rubik-Regular.ttf' },
+        { src: '/fonts/Rubik/Rubik-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Rubik/Rubik-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Rubik/Rubik-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Rubik/Rubik-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Rubik/Rubik-Bold.ttf', fontWeight: 'bold' },
+    ],
+});
+
+Font.register({
     family: 'Roboto',
     fonts: [
         { src: '/fonts/Roboto/Roboto-Regular.ttf' },
@@ -204,12 +216,13 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
     }, [user])
 
     const fontFamily = font === 'inter' ? 'Inter' :
-        font === 'bitterSerif' ? 'Bitter Serif' :
-            font === 'openSans' ? 'Open Sans' :
-                font === 'notoSerif' ? 'Noto Serif' :
-                    font === 'poppins' ? 'Poppins' :
-                        font === 'cousine' ? 'Cousine' :
-                            font === 'roboto' ? 'Roboto' : 'Inter';
+        font === 'rubik' ? 'Rubik' :
+            font === 'bitterSerif' ? 'Bitter Serif' :
+                font === 'openSans' ? 'Open Sans' :
+                    font === 'notoSerif' ? 'Noto Serif' :
+                        font === 'poppins' ? 'Poppins' :
+                            font === 'cousine' ? 'Cousine' :
+                                font === 'roboto' ? 'Roboto' : 'Inter';
 
     const styles = StyleSheet.create({
         page: {
@@ -223,7 +236,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
             lineHeight: 1.5,
         },
         textMuted: {
-            color: "#444444"
+            color: "#666666"
         },
         link: {
             color: "#000",
@@ -351,10 +364,10 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                     <Text style={styles.title}>Education</Text>
                                     {educationData.map((data, index) => (
                                         <View key={index}>
-                                            <Text style={[styles.text, styles.bold]}>{data.courseName}</Text>
-                                            <Text style={styles.text}>{data.university}</Text>
+                                            <Text style={[styles.text, styles.bold, { color }]}>{data.courseName}</Text>
+                                            <Text style={[styles.text, {fontWeight: 'bold'}]}>{data.university}</Text>
                                             <Text style={[styles.text]}>{data.city}</Text>
-                                            <Text style={[styles.text, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
+                                            <Text style={[styles.text, styles.textMuted, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
                                         </View>
                                     ))}
                                 </View>
@@ -364,10 +377,10 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                     <Text style={styles.title}>Certification</Text>
                                     {certificationData.map((data, index) => (
                                         <View key={index}>
-                                            <Text style={[styles.text, styles.bold]}>{data.courseName}</Text>
-                                            <Text style={styles.text}>{data.institution}</Text>
+                                            <Text style={[styles.text, styles.bold, { color }]}>{data.courseName}</Text>
+                                            <Text style={[styles.text, {fontWeight: 'bold'}]}>{data.institution}</Text>
                                             <Text style={[styles.text]}>{data.city}</Text>
-                                            <Text style={[styles.text, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
+                                            <Text style={[styles.text, styles.textMuted, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
                                         </View>
                                     ))}
                                 </View>
@@ -383,18 +396,18 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                         <View key={index}>
                                             <View style={{ display: "flex", flexDirection: "row" }}>
                                                 <View>
-                                                    <Text style={[styles.text, styles.bold]}>{data.organization}</Text>
+                                                    <Text style={[styles.text, styles.bold, { color }]}>{data.organization}</Text>
                                                     <View style={{ display: "flex", flexDirection: 'row', alignItems: 'baseline' }}>
                                                         <Text style={[styles.text, { paddingRight: 5, lineHeight: 1, fontWeight: 'bold' }]}>{data.designation}</Text>
-                                                        <Text style={[styles.text, { fontSize: 10, borderLeft: '1px solid #000', paddingLeft: 5, lineHeight: 1 }]}>{formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</Text>
+                                                        <Text style={[styles.text, styles.textMuted, { fontSize: 10, lineHeight: 1 }]}>/ {formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</Text>
                                                     </View>
                                                 </View>
                                             </View>
                                             <View style={{ marginTop: 15, paddingLeft: 15 }}>
                                                 {data.roles.map((role, roleIndex) => (
                                                     <View style={{ flexDirection: 'row' }} key={roleIndex}>
-                                                        <Text style={[styles.disc, styles.textMuted]}>•</Text>
-                                                        <Text style={[styles.text, styles.textMuted]}>{role}</Text>
+                                                        <Text style={[styles.disc]}>•</Text>
+                                                        <Text style={[styles.text]}>{role}</Text>
                                                     </View>
                                                 ))}
                                             </View>

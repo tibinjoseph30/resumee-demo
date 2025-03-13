@@ -83,8 +83,24 @@ const PersonalInfo = () => {
 
         try {
             if (user) {
+
+                const formatPhoneNumber = (phone: any) => {
+                    const phoneStr = String(phone); // Ensure it's a string
+                
+                    if (!phoneStr.startsWith('+')) {
+                        return `+${phoneStr.replace(/^(\d{1,2})(\d+)/, '$1 $2')}`;
+                    }
+                    return phoneStr.replace(/^(\+\d{1,3})(\d+)/, '$1 $2'); // Add space after country code
+                };
+                
+                const formattedValues = {
+                    ...values,
+                    mobileNumber: formatPhoneNumber(values.mobileNumber),
+                };
+                
+
                 const docRef = doc(db, 'personalInfo', user.uid)
-                await setDoc(docRef, values, { merge: true })
+                await setDoc(docRef, formattedValues, { merge: true })
                 console.log('Data successfully saved to Firestore');
                 router.push('/resume/summary')
             } else {

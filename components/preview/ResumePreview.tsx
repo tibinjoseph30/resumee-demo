@@ -20,6 +20,8 @@ const getFontClass = (font: string) => {
     switch (font) {
         case 'inter':
             return 'font-inter';
+        case 'rubik':
+            return 'font-rubik';
         case 'bitterSerif':
             return 'font-bitter-serif';
         case 'openSans':
@@ -49,6 +51,7 @@ const ResumePreview = () => {
 
     const fontOptions = [
         { value: 'inter', label: 'Inter' },
+        { value: 'rubik', label: 'Rubik' },
         { value: 'bitterSerif', label: 'Bitter Serif' },
         { value: 'openSans', label: 'Open Sans' },
         { value: 'notoSerif', label: 'Noto Serif' },
@@ -100,10 +103,10 @@ const ResumePreview = () => {
             >
                 {({ setFieldValue, handleBlur, values, resetForm }) => (
                     <div className="grid lg:grid-cols-3 sm:py-6 py-3">
-                        <div onClick={()=> setIsOpen(true)} className={`bg-primary text-white rounded-full flex items-center justify-center fixed ${styles.settingsToggler}`}>
+                        <div onClick={() => setIsOpen(true)} className={`bg-primary text-white rounded-full flex items-center justify-center fixed ${styles.settingsToggler}`}>
                             <HiCog size={24} />
                         </div>
-                        <div onClick={()=> setIsOpen(false)} className={`inset-0 bg-slate-900/50 ${isOpen ? 'fixed' : 'hidden'}`}></div>
+                        <div onClick={() => setIsOpen(false)} className={`inset-0 bg-slate-900/50 ${isOpen ? 'fixed' : 'hidden'}`}></div>
                         <div className="col-span-2 overflow-x-auto">
                             <div className={`bg-white p-6 sm:w-4/5 sm:mx-auto mx-3 shadow-sm ${styles.preview}`}>
                                 {renderLayout(values.layouts, values.fonts, values.selectedColor)}

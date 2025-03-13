@@ -32,6 +32,18 @@ Font.register({
 });
 
 Font.register({
+    family: 'Rubik',
+    fonts: [
+        { src: '/fonts/Rubik/Rubik-Regular.ttf' },
+        { src: '/fonts/Rubik/Rubik-Medium.ttf', fontWeight: 500 },
+        { src: '/fonts/Rubik/Rubik-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+        { src: '/fonts/Rubik/Rubik-SemiBold.ttf', fontWeight: 600 },
+        { src: '/fonts/Rubik/Rubik-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+        { src: '/fonts/Rubik/Rubik-Bold.ttf', fontWeight: 'bold' },
+    ],
+});
+
+Font.register({
     family: 'Roboto',
     fonts: [
         { src: '/fonts/Roboto/Roboto-Regular.ttf' },
@@ -198,12 +210,13 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
     }, [user])
 
     const fontFamily = font === 'inter' ? 'Inter' :
-        font === 'bitterSerif' ? 'Bitter Serif' :
-            font === 'openSans' ? 'Open Sans' :
-                font === 'notoSerif' ? 'Noto Serif' :
-                    font === 'poppins' ? 'Poppins' :
-                        font === 'cousine' ? 'Cousine' :
-                            font === 'roboto' ? 'Roboto' : 'Inter';
+        font === 'rubik' ? 'Rubik' :
+            font === 'bitterSerif' ? 'Bitter Serif' :
+                font === 'openSans' ? 'Open Sans' :
+                    font === 'notoSerif' ? 'Noto Serif' :
+                        font === 'poppins' ? 'Poppins' :
+                            font === 'cousine' ? 'Cousine' :
+                                font === 'roboto' ? 'Roboto' : 'Inter';
 
     const styles = StyleSheet.create({
         page: {
@@ -235,7 +248,7 @@ const StandardDocument = ({ font, color }: { font: string; color: string }) => {
                 </View>
                 <View style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>
                     <Text style={styles.text}>{personalInfoData?.designation}</Text>
-                    <Text style={styles.text}>+{personalInfoData?.mobileNumber}{' '}|{' '}{personalInfoData?.email}</Text>
+                    <Text style={styles.text}>{personalInfoData?.mobileNumber}{' '}|{' '}{personalInfoData?.email}</Text>
                     <Text style={styles.text}>
                         {accountsData?.githubAccount === true && (
                             <Link src={accountsData.githubUrl}>{accountsData?.githubUrl}</Link>

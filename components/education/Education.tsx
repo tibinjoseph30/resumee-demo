@@ -5,7 +5,7 @@ import StepperLayout from '../shared/StepperLayout';
 import StepperControlsLayout from '../shared/StepperControlsLayout';
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from "firebase/firestore";
 import { auth, db } from "../../services/firebase.config";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import { EducationForm } from "../../interfaces/formInterfaces";
@@ -36,7 +36,12 @@ const Education = () => {
             try {
                 setPageLoading(true)
                 const educationCollectionRef = collection(db, 'education');
-                const docSnap = await getDocs(query(educationCollectionRef, where("userId", "==", user.uid)));
+                const docSnap = await getDocs(
+                    query(
+                        educationCollectionRef, 
+                        where("userId", "==", user.uid),
+                        orderBy("createdAt", "desc")
+                    ));
 
                 if (!docSnap.empty) {
                     const data: EducationForm[] = docSnap.docs.map(doc => ({

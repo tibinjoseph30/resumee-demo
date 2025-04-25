@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { ProjectForm } from "../../interfaces/formInterfaces";
 import { auth, db } from "../../services/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import DatePicker from "react-datepicker";
 
@@ -31,7 +31,8 @@ const CreateProject = () => {
                 const projectsCollectionRef = collection(db, 'projects');
                 await addDoc(projectsCollectionRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    createdAt: serverTimestamp()
                 });
                 console.log('Data successfully saved to Firestore');
                 router.back()

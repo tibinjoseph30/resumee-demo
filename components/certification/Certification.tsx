@@ -7,7 +7,7 @@ import StepperControlsLayout from "../shared/StepperControlsLayout"
 import { useEffect, useState } from "react"
 import { CertificationForm } from "../../interfaces/formInterfaces"
 import { auth, db } from "../../services/firebase.config"
-import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from "firebase/firestore"
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
 import Spinner from "../shared/ui/loader/Spinner"
 import { format } from "date-fns"
@@ -36,7 +36,12 @@ const Certification = () => {
             try {
                 setPageLoading(true)
                 const certificationCollectionRef = collection(db, 'certification');
-                const docSnap = await getDocs(query(certificationCollectionRef, where("userId", "==", user.uid)));
+                const docSnap = await getDocs(
+                    query(
+                        certificationCollectionRef, 
+                        where("userId", "==", user.uid),
+                        orderBy("createdAt", "desc")
+                    ));
 
                 if (!docSnap.empty) {
                     const data: CertificationForm[] = docSnap.docs.map(doc => ({

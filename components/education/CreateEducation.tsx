@@ -12,7 +12,7 @@ import { educationValidationSchema } from "../../constants/validationSchema";
 import { useCountrySelect } from "../../context/useCountrySelect";
 import { EducationForm } from "../../interfaces/formInterfaces";
 import { auth, db } from "../../services/firebase.config";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import Spinner from "../shared/ui/loader/Spinner";
 import { useUniversitySelect } from "../../context/useUniversitySelect";
@@ -46,7 +46,8 @@ const CreateEducation = () => {
                 const educationCollectionRef = collection(db, 'education');
                 await addDoc(educationCollectionRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    createdAt: serverTimestamp()
                 });
                 console.log('Data successfully saved to Firestore');
                 router.back()

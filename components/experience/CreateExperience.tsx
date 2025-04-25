@@ -14,7 +14,7 @@ import Spinner from "../shared/ui/loader/Spinner";
 import StepperControlsLayout from "../shared/StepperControlsLayout";
 import { useRouter } from "next/navigation";
 import { auth, db } from "../../services/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
 const CreateExperience = () => {
@@ -36,7 +36,8 @@ const CreateExperience = () => {
                 const experienceCollectionRef = collection(db, 'experience');
                 await addDoc(experienceCollectionRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    createdAt: serverTimestamp()
                 });
                 console.log('Data successfully saved to Firestore');
                 router.back()

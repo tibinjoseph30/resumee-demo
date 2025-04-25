@@ -8,7 +8,7 @@ import { auth, db } from '../../services/firebase.config';
 import { useEffect, useState } from 'react';
 import { SkillsForm } from '../../interfaces/formInterfaces';
 import Spinner from '../shared/ui/loader/Spinner';
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { FirebaseError, handleFirebaseError } from '../../constants/firebaseErrors';
 import ConfirmationModal from '../shared/ui/confirmation/Confirmation';
 
@@ -31,7 +31,12 @@ const Skills = () => {
             try {
                 setPageLoading(true)
                 const skillsCollectionRef = collection(db, 'skills');
-                const docSnap = await getDocs(query(skillsCollectionRef, where("userId", "==", user.uid)));
+                const docSnap = await getDocs(
+                    query(
+                        skillsCollectionRef, 
+                        where("userId", "==", user.uid),
+                        orderBy("createdAt", "asc")
+                    ));
 
                 if (!docSnap.empty) {
                     const data: SkillsForm[] = docSnap.docs.map(doc => ({

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "../shared/ui/loader/Spinner";
 import { SkillsForm } from "../../interfaces/formInterfaces";
 import { auth, db } from "../../services/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
 const CreateSkill = () => {
@@ -29,7 +29,8 @@ const CreateSkill = () => {
                 const skillsCollectionRef = collection(db, 'skills');
                 await addDoc(skillsCollectionRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    createdAt: serverTimestamp()
                 });
                 console.log('Data successfully saved to Firestore');
                 router.back()

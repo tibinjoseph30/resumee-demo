@@ -14,7 +14,7 @@ import TagsInput from "react-tagsinput";
 import { useRouter } from "next/navigation";
 import { CertificationForm } from "../../interfaces/formInterfaces";
 import { auth, db } from "../../services/firebase.config";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 
 const CreateCertification = () => {
@@ -36,7 +36,8 @@ const CreateCertification = () => {
                 const certificationCollectionRef = collection(db, 'certification');
                 await addDoc(certificationCollectionRef, {
                     ...values,
-                    userId: user.uid
+                    userId: user.uid,
+                    createdAt: serverTimestamp() 
                 });
                 console.log('Data successfully saved to Firestore');
                 router.back()

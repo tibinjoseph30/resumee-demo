@@ -18,6 +18,7 @@ import { useParams, useRouter } from "next/navigation";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../services/firebase.config";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const EditEducation = () => {
     const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ const EditEducation = () => {
     const router = useRouter();
     const { id } = useParams<{ id: string }>()
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         if (id) {
@@ -407,7 +409,7 @@ const EditEducation = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={2} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={3} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

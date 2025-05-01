@@ -136,13 +136,13 @@ const Objectives = () => {
                                 </div>)}
 
                         </StepperLayout>
-                        <StepperControlsLayout currentStep={7} totalSteps={9} showBackButton={true} disableBackButton={false}>
+                        <StepperControlsLayout currentStep={2} totalSteps={8} showBackButton={true} disableBackButton={false}>
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (
                                         <div className="flex gap-4">
                                             <button type="button" onClick={handleEdit} className="bg-primary/[0.2] text-primary p-3 rounded-md min-w-28 font-medium hover:opacity-90">Edit</button>
-                                            <Link href="/resume/accounts">
+                                            <Link href="/resume/education">
                                                 <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:opacity-90">Continue</button>
                                             </Link>
                                         </div>

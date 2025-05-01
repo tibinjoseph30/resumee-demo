@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import { skillsValidationSchema } from "../../constants/validationSchema";
 import { skillsInitialValues } from "../../constants/initialFormValues";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const EditSkills = () => {
     const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ const EditSkills = () => {
     const user = auth.currentUser
     const router = useRouter();
     const { id } = useParams<{ id: string }>()
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         if (id) {
@@ -131,7 +133,7 @@ const EditSkills = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={5} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

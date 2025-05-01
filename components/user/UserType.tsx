@@ -14,11 +14,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store/store"
 import { setIsAuthenticated, setPageLoading, setReadOnly } from "../../store/user-type/userTypeSlice"
 import { fetchUserData, submitUserData } from "../../store/user-type/userTypeThunk"
+import { useUserTypes } from "../hooks/useUserTypes"
 
 const UserType = () => {
 
     const dispatch = useDispatch<AppDispatch>()
     const router = useRouter()
+    const {isExperienced} = useUserTypes();
 
     const { initialValues, isReadOnly, loading, error, pageLoading } = useSelector((state: RootState) => state.userType);
 
@@ -93,7 +95,7 @@ const UserType = () => {
                                 </div>
                             </div>)}
                     </StepperLayout>
-                    <StepperControlsLayout currentStep={0} totalSteps={9} showBackButton={false} disableBackButton={false}>
+                    <StepperControlsLayout currentStep={0} totalSteps={isExperienced ? 9 : 8} showBackButton={false} disableBackButton={false}>
                         {pageLoading ? <></> : (
                             <div>
                                 {isReadOnly ? (

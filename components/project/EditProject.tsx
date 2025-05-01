@@ -14,6 +14,7 @@ import { auth, db } from "../../services/firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import DatePicker from "react-datepicker";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const EditProject = () => {
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ const EditProject = () => {
     const user = auth.currentUser
     const router = useRouter();
     const { id } = useParams<{ id: string }>()
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         if (id) {
@@ -162,10 +164,10 @@ const EditProject = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={5} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={6}  totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
-                    className="bg-bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-bg-primary"
+                    className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-bg-primary"
                     disabled
                 >Continue</button>
             </StepperControlsLayout>

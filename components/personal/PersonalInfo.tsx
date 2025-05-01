@@ -7,7 +7,7 @@ import StepperControlsLayout from '../shared/StepperControlsLayout';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { personalInfoInitialValues } from '../../constants/initialFormValues';
 import { personalInfoValidationSchema } from '../../constants/validationSchema';
-import { PersonalInfoForm } from '../../interfaces/formInterfaces';
+import { PersonalInfoForm, UserTypeForm } from '../../interfaces/formInterfaces';
 import { useCountrySelect } from '../../context/useCountrySelect';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../services/firebase.config';
@@ -17,6 +17,7 @@ import Spinner from '../shared/ui/loader/Spinner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { HiOutlinePencil } from 'react-icons/hi2';
+import { useUserTypes } from '../hooks/useUserTypes';
 
 const PersonalInfo = () => {
 
@@ -25,11 +26,13 @@ const PersonalInfo = () => {
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(false);
     const [personalInfoData, setpersonalInfoData] = useState<PersonalInfoForm | null>(null)
+    const [userTypeData, setUserTypeData] = useState<UserTypeForm | null>(null)
     const [initialValues, setInitialValues] = useState<PersonalInfoForm>(personalInfoInitialValues)
     const [isReadOnly, setIsReadOnly] = useState<boolean>(false);
 
     const router = useRouter()
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -334,7 +337,7 @@ const PersonalInfo = () => {
                                 </div>)}
 
                         </StepperLayout>
-                        <StepperControlsLayout currentStep={1} totalSteps={9} showBackButton={true} disableBackButton={false}>
+                        <StepperControlsLayout currentStep={1} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (
@@ -343,7 +346,7 @@ const PersonalInfo = () => {
                                             <button type="button" onClick={handleEdit} className="bg-slate-200 text-primary p-3 rounded-md sm:hidden">
                                                 <HiOutlinePencil size={22} />
                                             </button>
-                                            <Link href="/resume/summary">
+                                            <Link href={isExperienced ? '/resume/summary' : '/resume/objectives'}>
                                                 <button type="button" className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary">Continue</button>
                                             </Link>
                                         </div>

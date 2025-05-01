@@ -12,16 +12,17 @@ import { auth, db } from "../../services/firebase.config"
 import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore"
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors"
 import { format } from "date-fns"
+import { useUserTypes } from "../hooks/useUserTypes"
 
 const Projects = () => {
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(false);
     const [projectData, setProjectData] = useState<ProjectForm[]>([])
-    const [userTypeData, setUserTypeData] = useState<UserTypeForm | null>(null)
     const [modalOpen, setModalOpen] = useState(false);
     const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     const formatDate = (timestamp: { seconds: number } | null | undefined) => {
         return timestamp ? format(new Date(timestamp.seconds * 1000), 'yyy') : 'N/A';
@@ -37,15 +38,13 @@ const Projects = () => {
             try {
                 setPageLoading(true)
 
-                const [projectDocs, userTypeDocs] = await Promise.all([
-                    getDocs(
-                        query(
-                            collection(db, 'projects'), 
-                            where("userId", "==", user.uid),
-                            orderBy("createdAt", "desc")
-                        )),
-                    getDoc(doc(db, 'userType', user.uid)),
-                ]);
+                const projectDocs = await getDocs(
+                    query(
+                        collection(db, 'projects'), 
+                        where("userId", "==", user.uid),
+                        orderBy("createdAt", "desc")
+                    )
+                );
 
                 if (!projectDocs.empty) {
                     const data = projectDocs.docs.map(doc => ({
@@ -53,11 +52,6 @@ const Projects = () => {
                         id: doc.id
                     }))
                     setProjectData(data);
-                }
-                if (userTypeDocs.exists()) {
-                    const data = userTypeDocs.data() as UserTypeForm
-                    setUserTypeData(data);
-                    console.log(data.user_type)
                 }
 
             } catch (error) {
@@ -136,19 +130,19 @@ const Projects = () => {
                             ))}
                         </div> :
                         <>
-                            {userTypeData?.user_type === "experienced" && (
+                            {isExperienced && (
                                 <div className="mt-12 text-slate-500">Add at least one project details and continue.</div>
                             )}
                         </>
                     }</>)
                 }
             </StepperLayout>
-            <StepperControlsLayout currentStep={6} totalSteps={9} showBackButton={true} disableBackButton={false}>
-                <Link href={userTypeData?.user_type === "experienced" ? '/resume/work-experience' : '/resume/objectives'}>
+            <StepperControlsLayout currentStep={6} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
+                <Link href={isExperienced ? '/resume/work-experience' : '/resume/accounts'}>
                     <button
                         type="button"
                         className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"
-                        disabled={userTypeData?.user_type === "experienced" ? projectData.length <= 0 : false}
+                        disabled={isExperienced ? projectData.length <= 0 : false}
                     >Continue</button>
                 </Link>
             </StepperControlsLayout>

@@ -3,9 +3,11 @@ import { Document, Page, Text, View, StyleSheet, Font, Svg, Path, Link } from '@
 import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, ObjectiveForm, PersonalInfoForm, ProjectForm, SkillsForm, SummaryForm, UserTypeForm } from '../../../interfaces/formInterfaces';
 import { auth, db } from '../../../services/firebase.config';
 import { FirebaseError, handleFirebaseError } from '../../../constants/firebaseErrors';
-import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { parseText } from '../../../utils/parseText';
 import { format } from 'date-fns';
+
+Font.registerHyphenationCallback(word => [word]);
 
 Font.register({
     family: 'Bitter Serif',
@@ -107,7 +109,6 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
     const [experienceData, setExperienceData] = useState<ExperienceForm[]>([])
     const [educationData, setEducationData] = useState<EducationForm[]>([])
     const [certificationData, setCertificationData] = useState<CertificationForm[]>([])
-    const [projectData, setProjectData] = useState<ProjectForm[]>([])
     const [accountsData, setAccountsData] = useState<AccountsForm | null>(null)
     const [userTypeData, setUserTypeData] = useState<UserTypeForm | null>(null)
     const [objectiveData, setObjectiveData] = useState<ObjectiveForm | null>(null)
@@ -127,22 +128,42 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
 
         const fetchData = async () => {
             try {
-                const [personalInfoDoc, skillsDocs, experienceDocs, educationDocs, certificationDocs, projectDocs, accountsDoc, userTypeDocs, objectiveDocs, summaryDocs] = await Promise.all([
+                const [personalInfoDoc, accountsDoc, userTypeDocs, objectiveDocs, summaryDocs, skillsDocs, experienceDocs, educationDocs, certificationDocs] = await Promise.all([
                     getDoc(doc(db, 'personalInfo', user.uid)),
-                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'projects'), where("userId", "==", user.uid))),
                     getDoc(doc(db, 'accounts', user.uid)),
                     getDoc(doc(db, 'userType', user.uid)),
                     getDoc(doc(db, 'objectives', user.uid)),
                     getDoc(doc(db, 'summary', user.uid)),
+                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid), orderBy("createdAt", "asc"))),
+                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
+                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
+                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
                 ])
 
                 if (personalInfoDoc.exists()) {
                     const data = personalInfoDoc.data() as PersonalInfoForm
                     setPersonalInfoData(data);
+                }
+
+                if (accountsDoc.exists()) {
+                    const data = accountsDoc.data() as AccountsForm
+                    setAccountsData(data);
+                }
+
+                if (userTypeDocs.exists()) {
+                    const data = userTypeDocs.data() as UserTypeForm
+                    setUserTypeData(data);
+                    console.log(data.user_type)
+                }
+
+                if (objectiveDocs.exists()) {
+                    const data = objectiveDocs.data() as ObjectiveForm
+                    setObjectiveData(data);
+                }
+
+                if (summaryDocs.exists()) {
+                    const data = summaryDocs.data() as SummaryForm
+                    setSummaryData(data);
                 }
 
                 if (!skillsDocs.empty) {
@@ -175,35 +196,6 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                         id: doc.id
                     }))
                     setCertificationData(data);
-                }
-
-                if (!projectDocs.empty) {
-                    const data = projectDocs.docs.map(doc => ({
-                        ...(doc.data() as ProjectForm),
-                        id: doc.id
-                    }))
-                    setProjectData(data);
-                }
-
-                if (accountsDoc.exists()) {
-                    const data = accountsDoc.data() as AccountsForm
-                    setAccountsData(data);
-                }
-
-                if (userTypeDocs.exists()) {
-                    const data = userTypeDocs.data() as UserTypeForm
-                    setUserTypeData(data);
-                    console.log(data.user_type)
-                }
-
-                if (objectiveDocs.exists()) {
-                    const data = objectiveDocs.data() as ObjectiveForm
-                    setObjectiveData(data);
-                }
-
-                if (summaryDocs.exists()) {
-                    const data = summaryDocs.data() as SummaryForm
-                    setSummaryData(data);
                 }
 
             } catch (error) {

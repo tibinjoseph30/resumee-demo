@@ -248,7 +248,7 @@ const CreateExperience = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={6} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={7} totalSteps={9} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

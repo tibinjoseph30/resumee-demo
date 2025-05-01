@@ -14,6 +14,7 @@ import { accountsInitialValues } from '../../constants/initialFormValues';
 import { accountsValidationSchema } from '../../constants/validationSchema';
 import { useRouter } from 'next/navigation';
 import { HiOutlinePencil } from 'react-icons/hi2';
+import { useUserTypes } from '../hooks/useUserTypes';
 
 const Accounts = () => {
     const [loading, setLoading] = useState(false);
@@ -23,6 +24,7 @@ const Accounts = () => {
 
     const user = auth.currentUser
     const router = useRouter()
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -159,7 +161,7 @@ const Accounts = () => {
 
                         </StepperLayout>
 
-                        <StepperControlsLayout currentStep={8} totalSteps={9} showBackButton={true} disableBackButton={false}>
+                        <StepperControlsLayout currentStep={isExperienced ? 8 : 7} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
                             {pageLoading ? <></> : (
                                 <div>
                                     {isReadOnly ? (

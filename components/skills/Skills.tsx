@@ -11,6 +11,7 @@ import Spinner from '../shared/ui/loader/Spinner';
 import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { FirebaseError, handleFirebaseError } from '../../constants/firebaseErrors';
 import ConfirmationModal from '../shared/ui/confirmation/Confirmation';
+import { useUserTypes } from '../hooks/useUserTypes';
 
 const Skills = () => {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ const Skills = () => {
     const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -131,7 +133,7 @@ const Skills = () => {
                     }</>)
                 }
             </StepperLayout>
-            <StepperControlsLayout currentStep={5} totalSteps={9} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={5} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/project">
                     <button
                         type="button"

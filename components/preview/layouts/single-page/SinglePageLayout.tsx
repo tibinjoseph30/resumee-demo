@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, PersonalInfoForm, SkillsForm, SummaryForm, UserTypeForm } from "../../../../interfaces/formInterfaces"
+import { AccountsForm, CertificationForm, EducationForm, ExperienceForm, PersonalInfoForm, ProjectForm, SkillsForm, SummaryForm, UserTypeForm } from "../../../../interfaces/formInterfaces"
 import { auth, db } from "../../../../services/firebase.config"
 import { FirebaseError, handleFirebaseError } from "../../../../constants/firebaseErrors"
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, orderBy, query, where } from "firebase/firestore"
 import Spinner from "../../../shared/ui/loader/Spinner"
 import { format } from "date-fns"
 import { HiMiniPhone } from "react-icons/hi2"
@@ -38,10 +38,10 @@ const SinglePageLayout = () => {
                     getDoc(doc(db, 'accounts', user.uid)),
                     getDoc(doc(db, 'userType', user.uid)),
                     getDoc(doc(db, 'summary', user.uid)),
-                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid))),
-                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid))),
+                    getDocs(query(collection(db, 'skills'), where("userId", "==", user.uid), orderBy("createdAt", "asc"))),
+                    getDocs(query(collection(db, 'education'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
+                    getDocs(query(collection(db, 'certification'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
+                    getDocs(query(collection(db, 'experience'), where("userId", "==", user.uid), orderBy("createdAt", "desc"))),
                 ])
 
                 if (personalInfoDoc.exists()) {

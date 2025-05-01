@@ -18,6 +18,7 @@ import Spinner from "../shared/ui/loader/Spinner";
 import { useUniversitySelect } from "../../context/useUniversitySelect";
 import TagsInput from "react-tagsinput";
 import { InputMask } from "@react-input/mask";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const CreateEducation = () => {
     const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ const CreateEducation = () => {
 
     const router = useRouter()
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     const markOptions = [
         { value: 'percentage', label: 'Percentage' },
@@ -371,7 +373,7 @@ const CreateEducation = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={2} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={3} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

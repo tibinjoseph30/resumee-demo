@@ -12,6 +12,7 @@ import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErro
 import Spinner from "../shared/ui/loader/Spinner"
 import { format } from "date-fns"
 import ConfirmationModal from "../shared/ui/confirmation/Confirmation"
+import { useUserTypes } from "../hooks/useUserTypes"
 
 const Certification = () => {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,7 @@ const Certification = () => {
     const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     const formatDate = (timestamp: any) => {
         return timestamp ? format(new Date(timestamp.seconds * 1000), 'dd/MM/yyyy') : 'N/A';
@@ -142,7 +144,7 @@ const Certification = () => {
                 }
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={4} totalSteps={9} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={4} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/skills">
                     <button
                         type="button"

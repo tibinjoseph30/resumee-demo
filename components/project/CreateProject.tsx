@@ -14,6 +14,7 @@ import { auth, db } from "../../services/firebase.config";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErrors";
 import DatePicker from "react-datepicker";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const CreateProject = () => {
     const [loading, setLoading] = useState(false)
@@ -21,6 +22,7 @@ const CreateProject = () => {
 
     const router = useRouter()
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     const handleSubmit = async (values: ProjectForm) => {
         console.log('submited data', values)
@@ -134,7 +136,7 @@ const CreateProject = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={5} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={6}  totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

@@ -12,6 +12,7 @@ import { EducationForm } from "../../interfaces/formInterfaces";
 import Spinner from "../shared/ui/loader/Spinner";
 import { format } from 'date-fns';
 import ConfirmationModal from "../shared/ui/confirmation/Confirmation";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const Education = () => {
     const [loading, setLoading] = useState(false);
@@ -21,6 +22,7 @@ const Education = () => {
     const [deletingId, setDeletingId] = useState<string>();
 
     const user = auth.currentUser
+    const {isExperienced} = useUserTypes();
 
     const formatDate = (timestamp: any) => {
         return timestamp ? format(new Date(timestamp.seconds * 1000), 'dd/MM/yyyy') : 'N/A';
@@ -168,7 +170,7 @@ const Education = () => {
                     )}
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={3} totalSteps={9} showBackButton={true} disableBackButton={false}>
+            <StepperControlsLayout currentStep={3} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={false}>
                 <Link href="/resume/certification">
                     <button
                         type="button"

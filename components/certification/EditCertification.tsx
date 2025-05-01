@@ -16,6 +16,7 @@ import { FirebaseError, handleFirebaseError } from "../../constants/firebaseErro
 import { useCountrySelect } from "../../context/useCountrySelect";
 import { certificationValidationSchema } from "../../constants/validationSchema";
 import { certificationInitialValues } from "../../constants/initialFormValues";
+import { useUserTypes } from "../hooks/useUserTypes";
 
 const EditCertification = () => {
     const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const EditCertification = () => {
     const user = auth.currentUser
     const router = useRouter();
     const { id } = useParams<{ id: string }>()
+    const {isExperienced} = useUserTypes();
 
     useEffect(() => {
         if (id) {
@@ -266,7 +268,7 @@ const EditCertification = () => {
                 </Formik>
 
             </StepperLayout>
-            <StepperControlsLayout currentStep={3} totalSteps={8} showBackButton={true} disableBackButton={true}>
+            <StepperControlsLayout currentStep={4} totalSteps={isExperienced ? 9 : 8} showBackButton={true} disableBackButton={true}>
                 <button
                     type="button"
                     className="bg-primary p-3 rounded-md text-white min-w-36 font-medium hover:bg-primary"

@@ -126,6 +126,7 @@ const Accounts = () => {
                                             id="github_url"
                                             placeholder="eg: https://github.com/johndoe"
                                             className="control border-2 p-4 rounded-md"
+                                            disabled={isReadOnly}
                                         />
                                         <ErrorMessage name="githubUrl" component="div" className="text-red-500 text-sm mt-1" />
                                     </div>
@@ -153,6 +154,7 @@ const Accounts = () => {
                                             id="linkedin_url"
                                             placeholder="eg: https://linkedin.com/johndoe"
                                             className="control border-2 p-4 rounded-md"
+                                            disabled={isReadOnly}
                                         />
                                         <ErrorMessage name="linkedinUrl" component="div" className="text-red-500 text-sm mt-1" />
                                     </div>

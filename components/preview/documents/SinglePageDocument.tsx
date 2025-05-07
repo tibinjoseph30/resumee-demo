@@ -116,6 +116,9 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
 
     const user = auth.currentUser
 
+    const formattedGithubUrl = accountsData?.githubUrl.replace(/^https?:\/\//, '');
+    const formattedLinkedinUrl = accountsData?.linkedinUrl.replace(/^https?:\/\//, '');
+
     const formatDate = (timestamp: { seconds: number } | null | undefined) => {
         return timestamp ? format(new Date(timestamp.seconds * 1000), 'MMM yyyy') : 'N/A';
     };
@@ -305,7 +308,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                         />
                                     </Svg>
                                     <Text style={styles.text}>
-                                        <Link style={styles.link} src={accountsData.githubUrl}>{accountsData?.githubUrl}</Link>
+                                        <Link style={styles.link} src={accountsData.githubUrl}>{formattedGithubUrl}</Link>
                                     </Text>
                                 </View>
                             )}
@@ -322,7 +325,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                         />
                                     </Svg>
                                     <Text style={styles.text}>
-                                        <Link style={styles.link} src={accountsData.linkedinUrl}>{accountsData?.linkedinUrl}</Link>
+                                        <Link style={styles.link} src={accountsData.linkedinUrl}>{formattedLinkedinUrl}</Link>
                                     </Text>
                                 </View>
                             )}
@@ -356,7 +359,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                     <Text style={styles.title}>Education</Text>
                                     {educationData.map((data, index) => (
                                         <View key={index}>
-                                            <Text style={[styles.text, styles.bold, { color }]}>{data.courseName}</Text>
+                                            <Text style={[styles.text, styles.bold]}>{data.courseName}</Text>
                                             <Text style={[styles.text, {fontWeight: 'bold'}]}>{data.university}</Text>
                                             <Text style={[styles.text]}>{data.city}</Text>
                                             <Text style={[styles.text, styles.textMuted, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
@@ -369,7 +372,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                     <Text style={styles.title}>Certification</Text>
                                     {certificationData.map((data, index) => (
                                         <View key={index}>
-                                            <Text style={[styles.text, styles.bold, { color }]}>{data.courseName}</Text>
+                                            <Text style={[styles.text, styles.bold]}>{data.courseName}</Text>
                                             <Text style={[styles.text, {fontWeight: 'bold'}]}>{data.institution}</Text>
                                             <Text style={[styles.text]}>{data.city}</Text>
                                             <Text style={[styles.text, styles.textMuted, { fontSize: 10 }]}>{formatDate(data.joinDate)} - {formatDate(data.relieveDate)}</Text>
@@ -388,7 +391,7 @@ const SinglePageDocument = ({ font, color }: { font: string; color: string }) =>
                                         <View key={index}>
                                             <View style={{ display: "flex", flexDirection: "row" }}>
                                                 <View>
-                                                    <Text style={[styles.text, styles.bold, { color }]}>{data.organization}</Text>
+                                                    <Text style={[styles.text, styles.bold]}>{data.organization}</Text>
                                                     <View style={{ display: "flex", flexDirection: 'row', alignItems: 'baseline' }}>
                                                         <Text style={[styles.text, { paddingRight: 5, lineHeight: 1, fontWeight: 'bold' }]}>{data.designation}</Text>
                                                         <Text style={[styles.text, styles.textMuted, { fontSize: 10, lineHeight: 1 }]}>/ {formatDate(data.joinDate)} - {data.currentlyWorking === true ? 'present' : formatDate(data.relieveDate)}</Text>

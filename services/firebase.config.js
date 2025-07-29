@@ -14,13 +14,13 @@ const firebaseConfig = {
   storageBucket: "resumee-363ae.appspot.com",
   messagingSenderId: "901002296662",
   appId: "1:901002296662:web:83d28dfa8292161d322af7",
-  measurementId: "G-WJ55HZZC6L"
+  measurementId: "G-WJ55HZZC6L",
 };
 
-console.log('All Environment Variables:', process.env);
+console.log("All Environment Variables:", process.env);
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-export { auth, db }
+export { auth, db };

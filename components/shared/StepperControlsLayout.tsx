@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 import ProgressBar from './ui/ProgressBar';
 import StepperCount from './ui/StepperCount';
 import { useRouter } from 'next/navigation';
-import { HiArrowPath, HiOutlineArrowLeft, HiXMark } from 'react-icons/hi2';
+import {HiOutlineArrowLeft } from 'react-icons/hi2';
 
 interface LayoutProps {
     children: ReactNode;
